@@ -64,7 +64,7 @@ export function RightPanel({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search my generation"
-            className="w-full h-8 pl-8 pr-3 bg-[#141414] border border-[#2a2a2a] rounded-md text-xs text-white placeholder-[#555555] focus:outline-none focus:border-[#a3e635] transition-colors"
+            className="w-full h-8 pl-8 pr-3 bg-[#141414] border border-[#2a2a2a] rounded-md text-xs text-white placeholder-[#555555] focus:outline-none focus:border-[ffffff] transition-colors"
           />
         </div>
 
@@ -95,15 +95,15 @@ export function RightPanel({
       <div className="grid grid-cols-2 gap-2 flex-1">
         {/* In-progress card with spinner overlay and progress % text */}
         {isGenerating && (
-          <div className="bg-[#141414] rounded-xl overflow-hidden border border-[#a3e635]/50 shadow-md ring-2 ring-[#a3e635]/40 relative flex flex-col animate-pulse">
+          <div className="bg-[#141414] rounded-xl overflow-hidden border border-[ffffff]/50 shadow-md ring-2 ring-[ffffff]/40 relative flex flex-col animate-pulse">
             <div className="aspect-square w-full bg-[#1b1b22] flex flex-col items-center justify-center p-3 relative">
-              <Loader2 className="w-6 h-6 animate-spin text-[#a3e635] mb-1" />
+              <Loader2 className="w-6 h-6 animate-spin text-[ffffff] mb-1" />
               <span className="text-white text-xs font-semibold">{generatingProgress}%</span>
               <span className="text-[10px] text-[#888888] mt-0.5">Generating...</span>
             </div>
             <div className="p-2 bg-[#141414]">
               <span className="text-xs text-white truncate block">New Creation</span>
-              <span className="text-[10px] text-[#a3e635]">Processing</span>
+              <span className="text-[10px] text-[ffffff]">Processing</span>
             </div>
           </div>
         )}
@@ -128,7 +128,7 @@ export function RightPanel({
               onClick={() => onSelectGeneration(card)}
               className={`bg-[#141414] rounded-xl overflow-hidden cursor-pointer flex flex-col group transition-all duration-150 ${
                 isSelected
-                  ? "ring-2 ring-[#a3e635]"
+                  ? "ring-2 ring-[ffffff]"
                   : "hover:ring-1 hover:ring-[#3a3a3a]"
               }`}
             >

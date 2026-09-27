@@ -185,7 +185,7 @@ export function ImageGenerator() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800/80 pb-6">
         <div>
           <div className="flex items-center gap-2.5 mb-1.5">
-            <div className="w-8 h-8 rounded-lg bg-violet-600/20 text-violet-400 border border-violet-500/30 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-white/20 text-white border border-white/20 flex items-center justify-center">
               <Sparkles className="w-4 h-4" />
             </div>
             <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white">
@@ -222,7 +222,7 @@ export function ImageGenerator() {
                 placeholder="A hooded warrior with teal hair and a skull..."
                 rows={4}
                 disabled={isGenerating}
-                className="w-full px-4 py-3 rounded-xl bg-[#18181c] border border-zinc-800 text-zinc-100 placeholder:text-zinc-400 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500 transition-all resize-none disabled:opacity-50"
+                className="w-full px-4 py-3 rounded-xl bg-[#18181c] border border-zinc-800 text-zinc-100 placeholder:text-zinc-400 text-sm focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white transition-all resize-none disabled:opacity-50"
               />
 
               {/* Prompt Suggestions */}
@@ -247,7 +247,7 @@ export function ImageGenerator() {
             {/* Art Style Dropdown */}
             <div className="space-y-2">
               <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
-                <Palette className="w-3.5 h-3.5 text-violet-400" />
+                <Palette className="w-3.5 h-3.5 text-white" />
                 Art Style
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -261,7 +261,7 @@ export function ImageGenerator() {
                       onClick={() => setStyle(item.id)}
                       className={`p-3 rounded-xl text-left border transition-all ${
                         selected
-                          ? "bg-violet-600/15 border-violet-500 text-white shadow-sm shadow-violet-500/10"
+                          ? "bg-white/15 border-white text-white shadow-sm shadow-violet-500/10"
                           : "bg-[#18181c] border-zinc-800/80 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40"
                       }`}
                     >
@@ -278,7 +278,7 @@ export function ImageGenerator() {
               type="button"
               disabled={isGenerating || !prompt.trim()}
               onClick={handleStartGeneration}
-              className="w-full py-3.5 px-5 rounded-xl bg-violet-600 hover:bg-violet-500 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-white font-semibold text-sm shadow-lg shadow-violet-600/25 flex items-center justify-center gap-2.5 transition-all active:scale-[0.99]"
+              className="w-full py-3.5 px-5 rounded-xl bg-white hover:bg-violet-500 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-white font-semibold text-sm shadow-lg shadow-white/10 flex items-center justify-center gap-2.5 transition-all active:scale-[0.99]"
             >
               {isGenerating ? (
                 <>
@@ -298,7 +298,7 @@ export function ImageGenerator() {
           <div className="p-5 rounded-2xl bg-[#111115] border border-zinc-800/80 shadow-lg space-y-3.5">
             <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-zinc-400">
               <span className="flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-violet-400" />
+                <Clock className="w-3.5 h-3.5 text-white" />
                 Recent Generations (Last 3)
               </span>
               <span className="text-[10px] font-normal text-zinc-400">Session</span>
@@ -318,7 +318,7 @@ export function ImageGenerator() {
                       setStyle(item.style);
                       setCurrentResults(item.imageUrls);
                     }}
-                    className="flex items-center gap-3 p-2.5 rounded-xl bg-[#18181c] border border-zinc-800/80 hover:border-violet-500/40 cursor-pointer transition-all group"
+                    className="flex items-center gap-3 p-2.5 rounded-xl bg-[#18181c] border border-zinc-800/80 hover:border-white/30 cursor-pointer transition-all group"
                   >
                     {item.imageUrls[0] ? (
                       <img
@@ -332,11 +332,11 @@ export function ImageGenerator() {
                       </div>
                     )}
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs text-zinc-200 font-medium truncate group-hover:text-violet-300">
+                      <p className="text-xs text-zinc-200 font-medium truncate group-hover:text-zinc-200">
                         {item.prompt}
                       </p>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[10px] uppercase font-semibold text-violet-400 bg-violet-500/10 px-1.5 py-0.2 rounded">
+                        <span className="text-[10px] uppercase font-semibold text-white bg-white/10 px-1.5 py-0.2 rounded">
                           {item.style}
                         </span>
                         <span className="text-[10px] text-zinc-400">
@@ -366,18 +366,18 @@ export function ImageGenerator() {
 
           {/* Loading Skeleton Grid while polling */}
           {isGenerating && (
-            <div className="p-8 rounded-2xl bg-[#111115] border border-violet-500/30 shadow-2xl space-y-6">
+            <div className="p-8 rounded-2xl bg-[#111115] border border-white/20 shadow-2xl space-y-6">
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-zinc-300 font-medium flex items-center gap-2">
-                    <Loader2 className="w-3.5 h-3.5 animate-spin text-violet-400" />
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
                     Rendering variations with Meshy AI...
                   </span>
-                  <span className="font-mono text-violet-400 font-bold">{progress}%</span>
+                  <span className="font-mono text-white font-bold">{progress}%</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-zinc-800 overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-violet-600 to-indigo-500 transition-all duration-500"
+                    className="h-full bg-gradient-to-r from-white to-zinc-400 transition-all duration-500"
                     style={{ width: `${Math.max(5, progress)}%` }}
                   />
                 </div>
@@ -405,7 +405,7 @@ export function ImageGenerator() {
               {currentResults.map((url, index) => (
                 <div
                   key={index}
-                  className="group rounded-2xl bg-[#111115] border border-zinc-800/80 hover:border-violet-500/50 shadow-xl overflow-hidden transition-all duration-300 flex flex-col"
+                  className="group rounded-2xl bg-[#111115] border border-zinc-800/80 hover:border-white/30 shadow-xl overflow-hidden transition-all duration-300 flex flex-col"
                 >
                   {/* Image container */}
                   <div className="relative aspect-square bg-zinc-950 overflow-hidden">
@@ -425,7 +425,7 @@ export function ImageGenerator() {
                     <button
                       type="button"
                       onClick={() => handleUseFor3D(url)}
-                      className="w-full py-2.5 px-4 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-medium text-xs shadow-md shadow-violet-600/20 flex items-center justify-center gap-1.5 transition-all group/btn"
+                      className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-neutral-200 text-black font-medium text-xs shadow-md shadow-white/10 flex items-center justify-center gap-1.5 transition-all group/btn"
                     >
                       <span>Use for 3D</span>
                       <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5" />
@@ -458,10 +458,10 @@ export function ImageGenerator() {
               </p>
               <div className="flex items-center gap-4 text-xs text-zinc-400">
                 <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-violet-400" /> 2 Variations per run
+                  <CheckCircle2 className="w-3.5 h-3.5 text-white" /> 2 Variations per run
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-violet-400" /> Direct 3D pipeline link
+                  <CheckCircle2 className="w-3.5 h-3.5 text-white" /> Direct 3D pipeline link
                 </span>
               </div>
             </div>

@@ -5,8 +5,11 @@ import path from "path";
 import { v4 as uuidv4 } from "uuid";
 
 export async function POST(req: NextRequest) {
-  const { userId } = auth();
-  if (!userId) return new Response("Unauthorized", { status: 401 });
+  try {
+    auth();
+  } catch {
+    // Guest or demo session allowed
+  }
 
   try {
     const formData = await req.formData();

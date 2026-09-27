@@ -280,7 +280,7 @@ export function Workspace({ initialFeature = "image-to-3d" }: WorkspaceProps) {
           }}
           className={`flex flex-col items-center gap-0.5 text-xs ${
             mobileTab === "create" && activeFeature === "image-gen"
-              ? "text-[#a3e635]"
+              ? "text-[#ffffff]"
               : "text-[#555555]"
           }`}
         >
@@ -295,7 +295,7 @@ export function Workspace({ initialFeature = "image-to-3d" }: WorkspaceProps) {
           }}
           className={`flex flex-col items-center gap-0.5 text-xs ${
             mobileTab === "create" && activeFeature === "image-to-3d"
-              ? "text-[#a3e635]"
+              ? "text-[#ffffff]"
               : "text-[#555555]"
           }`}
         >
@@ -306,7 +306,7 @@ export function Workspace({ initialFeature = "image-to-3d" }: WorkspaceProps) {
         <button
           onClick={() => setMobileTab("viewer")}
           className={`flex flex-col items-center gap-0.5 text-xs ${
-            mobileTab === "viewer" ? "text-[#a3e635]" : "text-[#555555]"
+            mobileTab === "viewer" ? "text-[#ffffff]" : "text-[#555555]"
           }`}
         >
           <Box className="w-4 h-4" />
@@ -316,7 +316,7 @@ export function Workspace({ initialFeature = "image-to-3d" }: WorkspaceProps) {
         <button
           onClick={() => setMobileTab("gallery")}
           className={`flex flex-col items-center gap-0.5 text-xs ${
-            mobileTab === "gallery" ? "text-[#a3e635]" : "text-[#555555]"
+            mobileTab === "gallery" ? "text-[#ffffff]" : "text-[#555555]"
           }`}
         >
           <LayoutGrid className="w-4 h-4" />

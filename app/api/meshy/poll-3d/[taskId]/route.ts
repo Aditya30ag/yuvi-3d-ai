@@ -5,8 +5,11 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { taskId: string } }
 ) {
-  const { userId } = auth();
-  if (!userId) return new Response("Unauthorized", { status: 401 });
+  try {
+    auth();
+  } catch {
+    // Guest or demo session allowed
+  }
 
   const { taskId } = params;
   if (!taskId) {

@@ -22,11 +22,11 @@ export function TopNavbar({ onBgColorChange }: TopNavbarProps) {
   ];
 
   return (
-    <header className="h-[40px] w-full bg-[#080808] border-b border-[#1f1f1f] flex items-center justify-between px-3 z-30 select-none flex-shrink-0">
+    <header className="h-[40px] w-full bg-[#000000] border-b border-white/10 flex items-center justify-between px-3 z-30 select-none flex-shrink-0">
       {/* Left: app logo + "Studio3D" text-sm font-semibold text-white */}
       <div className="flex items-center gap-2">
-        <div className="w-5 h-5 rounded-md bg-[#a3e635] flex items-center justify-center">
-          <Sparkles className="w-3 h-3 text-black" />
+        <div className="w-5 h-5 rounded-md bg-white flex items-center justify-center shadow-sm">
+          <Sparkles className="w-3 h-3 text-black stroke-[2.5]" />
         </div>
         <span className="text-sm font-semibold text-white tracking-tight">Studio3D</span>
       </div>

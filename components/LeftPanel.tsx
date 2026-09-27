@@ -131,7 +131,7 @@ export function LeftPanel({
               value={imagePrompt}
               onChange={(e) => setImagePrompt(e.target.value)}
               placeholder="Describe what you want to generate..."
-              className="w-full min-h-[100px] p-3 bg-[#141414] border border-[#2a2a2a] rounded-lg text-white text-[13px] placeholder-[#555555] resize-none focus:outline-none focus:border-[#a3e635] transition-colors"
+              className="w-full min-h-[100px] p-3 bg-[#141414] border border-[#2a2a2a] rounded-lg text-white text-[13px] placeholder-[#555555] resize-none focus:outline-none focus:border-[#ffffff] transition-colors"
             />
           </div>
 
@@ -148,7 +148,7 @@ export function LeftPanel({
                   onClick={() => setSelectedStyle(style)}
                   className={`capitalize px-3 py-1 rounded-full text-xs transition-colors whitespace-nowrap ${
                     selectedStyle === style
-                      ? "bg-[#a3e635] border border-[#a3e635] text-black font-semibold shadow-sm"
+                      ? "bg-[#ffffff] border border-[#ffffff] text-black font-semibold shadow-sm"
                       : "bg-[#1f1f1f] border border-[#2a2a2a] text-[#cccccc] hover:border-[#3a3a3a]"
                   }`}
                 >
@@ -171,7 +171,7 @@ export function LeftPanel({
                   onClick={() => setSelectedAspectRatio(ratio)}
                   className={`px-3 py-1 rounded-full text-xs transition-colors ${
                     selectedAspectRatio === ratio
-                      ? "bg-[#a3e635] border border-[#a3e635] text-black font-semibold shadow-sm"
+                      ? "bg-[#ffffff] border border-[#ffffff] text-black font-semibold shadow-sm"
                       : "bg-[#1f1f1f] border border-[#2a2a2a] text-[#cccccc] hover:border-[#3a3a3a]"
                   }`}
                 >
@@ -186,7 +186,7 @@ export function LeftPanel({
             type="button"
             disabled={!imagePrompt.trim() || isGeneratingImage}
             onClick={() => onGenerateImage(imagePrompt, selectedStyle, selectedAspectRatio)}
-            className="w-full h-10 rounded-lg bg-[#a3e635] hover:bg-[#8ece26] disabled:opacity-50 disabled:cursor-not-allowed text-black font-semibold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-[#a3e635]/20 active:scale-[0.99]"
+            className="w-full h-10 rounded-lg bg-[#ffffff] hover:bg-[#e5e5e5] disabled:opacity-50 disabled:cursor-not-allowed text-black font-semibold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-[#ffffff]/20 active:scale-[0.99]"
           >
             {isGeneratingImage ? (
               <>
@@ -206,7 +206,7 @@ export function LeftPanel({
             <div className="flex flex-col gap-1.5 mt-1">
               <div className="w-full bg-[#1f1f1f] rounded-full h-1.5 overflow-hidden">
                 <div
-                  className="bg-[#a3e635] h-full rounded-full transition-all duration-300"
+                  className="bg-[#ffffff] h-full rounded-full transition-all duration-300"
                   style={{ width: `${Math.max(5, imageProgress)}%` }}
                 />
               </div>
@@ -238,7 +238,7 @@ export function LeftPanel({
                       key={gen.id}
                       onClick={() => onSelectGeneration(gen)}
                       className={`relative aspect-square rounded-md overflow-hidden bg-[#141414] group cursor-pointer border border-[#1f1f1f] transition-all ${
-                        isSelected ? "ring-2 ring-[#a3e635] border-transparent" : "hover:border-[#3a3a3a]"
+                        isSelected ? "ring-2 ring-[#ffffff] border-transparent" : "hover:border-[#3a3a3a]"
                       }`}
                     >
                       {imgUrl ? (
@@ -262,7 +262,7 @@ export function LeftPanel({
                             e.stopPropagation();
                             if (imgUrl) onUseFor3D(imgUrl);
                           }}
-                          className="px-2 py-1 rounded bg-[#a3e635] hover:bg-[#8ece26] text-black text-[10px] font-semibold flex items-center gap-1 shadow-sm"
+                          className="px-2 py-1 rounded bg-[#ffffff] hover:bg-[#e5e5e5] text-black text-[10px] font-semibold flex items-center gap-1 shadow-sm"
                         >
                           <span>Use for 3D</span>
                           <ArrowRight className="w-2.5 h-2.5 text-black" />
@@ -307,13 +307,13 @@ export function LeftPanel({
               uploadedImage
                 ? "border-[#2a2a2a] bg-[#0f0f0f]"
                 : isDragOver
-                ? "border-[#a3e635] bg-[#a3e635]/5 cursor-pointer"
+                ? "border-[#ffffff] bg-[#ffffff]/5 cursor-pointer"
                 : "border-[#2a2a2a] bg-[#0f0f0f] hover:border-[#3a3a3a] cursor-pointer"
             }`}
           >
             {isUploading ? (
               <div className="flex flex-col items-center gap-2">
-                <Loader2 className="w-6 h-6 animate-spin text-[#a3e635]" />
+                <Loader2 className="w-6 h-6 animate-spin text-[#ffffff]" />
                 <span className="text-[12px] text-[#888888]">Uploading image...</span>
               </div>
             ) : uploadedImage ? (
@@ -347,7 +347,7 @@ export function LeftPanel({
                     e.stopPropagation();
                     fileInputRef.current?.click();
                   }}
-                  className="text-[10px] text-[#a3e635] hover:underline"
+                  className="text-[10px] text-[#ffffff] hover:underline"
                 >
                   Change image
                 </button>
@@ -363,7 +363,7 @@ export function LeftPanel({
                     e.stopPropagation();
                     setShowUrlInput(!showUrlInput);
                   }}
-                  className="text-[12px] text-[#a3e635] underline cursor-pointer"
+                  className="text-[12px] text-[#ffffff] underline cursor-pointer"
                 >
                   or paste URL
                 </button>
@@ -382,7 +382,7 @@ export function LeftPanel({
                   if (e.key === "Enter") handleUrlSubmit();
                 }}
                 placeholder="https://..."
-                className="flex-1 px-3 py-1.5 bg-[#141414] border border-[#2a2a2a] rounded-lg text-white text-xs placeholder-[#555555] focus:outline-none focus:border-[#a3e635]"
+                className="flex-1 px-3 py-1.5 bg-[#141414] border border-[#2a2a2a] rounded-lg text-white text-xs placeholder-[#555555] focus:outline-none focus:border-[#ffffff]"
               />
               <button
                 type="button"
@@ -409,7 +409,7 @@ export function LeftPanel({
                   onClick={() => setAiModel("Meshy 7")}
                   className={`flex-1 py-1 rounded-full text-xs font-semibold transition-colors ${
                     aiModel === "Meshy 7"
-                      ? "bg-[#a3e635] border border-[#a3e635] text-black"
+                      ? "bg-[#ffffff] border border-[#ffffff] text-black"
                       : "bg-[#1f1f1f] border border-[#2a2a2a] text-[#888888] hover:text-[#cccccc]"
                   }`}
                 >
@@ -420,7 +420,7 @@ export function LeftPanel({
                   onClick={() => setAiModel("Meshy 6")}
                   className={`flex-1 py-1 rounded-full text-xs font-semibold transition-colors ${
                     aiModel === "Meshy 6"
-                      ? "bg-[#a3e635] border border-[#a3e635] text-black"
+                      ? "bg-[#ffffff] border border-[#ffffff] text-black"
                       : "bg-[#1f1f1f] border border-[#2a2a2a] text-[#888888] hover:text-[#cccccc]"
                   }`}
                 >
@@ -438,7 +438,7 @@ export function LeftPanel({
                 aria-checked={imageEnhancement}
                 onClick={() => setImageEnhancement(!imageEnhancement)}
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
-                  imageEnhancement ? "bg-[#a3e635]" : "bg-[#2a2a2a]"
+                  imageEnhancement ? "bg-[#ffffff]" : "bg-[#2a2a2a]"
                 }`}
               >
                 <span
@@ -458,7 +458,7 @@ export function LeftPanel({
                   onClick={() => setTopology("Triangle")}
                   className={`flex-1 py-1 rounded-full text-xs font-semibold transition-colors ${
                     topology === "Triangle"
-                      ? "bg-[#a3e635] border border-[#a3e635] text-black"
+                      ? "bg-[#ffffff] border border-[#ffffff] text-black"
                       : "bg-[#1f1f1f] border border-[#2a2a2a] text-[#888888] hover:text-[#cccccc]"
                   }`}
                 >
@@ -469,7 +469,7 @@ export function LeftPanel({
                   onClick={() => setTopology("Quad")}
                   className={`flex-1 py-1 rounded-full text-xs font-semibold transition-colors ${
                     topology === "Quad"
-                      ? "bg-[#a3e635] border border-[#a3e635] text-black"
+                      ? "bg-[#ffffff] border border-[#ffffff] text-black"
                       : "bg-[#1f1f1f] border border-[#2a2a2a] text-[#888888] hover:text-[#cccccc]"
                   }`}
                 >
@@ -488,7 +488,7 @@ export function LeftPanel({
                 onGenerate3D(uploadedImage, aiModel, imageEnhancement, topology);
               }
             }}
-            className="w-full h-10 rounded-lg bg-[#a3e635] hover:bg-[#8ece26] disabled:opacity-50 disabled:cursor-not-allowed text-black font-semibold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-[#a3e635]/20 active:scale-[0.99] mt-2"
+            className="w-full h-10 rounded-lg bg-[#ffffff] hover:bg-[#e5e5e5] disabled:opacity-50 disabled:cursor-not-allowed text-black font-semibold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-[#ffffff]/20 active:scale-[0.99] mt-2"
           >
             {isGenerating3D ? (
               <>
@@ -508,7 +508,7 @@ export function LeftPanel({
             <div className="flex flex-col gap-1.5 mt-1">
               <div className="w-full bg-[#1f1f1f] rounded-full h-1.5 overflow-hidden">
                 <div
-                  className="bg-[#a3e635] h-full rounded-full transition-all duration-300"
+                  className="bg-[#ffffff] h-full rounded-full transition-all duration-300"
                   style={{ width: `${Math.max(5, threeDProgress)}%` }}
                 />
               </div>
@@ -540,7 +540,7 @@ export function LeftPanel({
                       key={gen.id}
                       onClick={() => onSelectGeneration(gen)}
                       className={`bg-[#141414] rounded-lg overflow-hidden cursor-pointer border border-[#1f1f1f] transition-all flex flex-col ${
-                        isSelected ? "ring-2 ring-[#a3e635] border-transparent" : "hover:border-[#3a3a3a]"
+                        isSelected ? "ring-2 ring-[#ffffff] border-transparent" : "hover:border-[#3a3a3a]"
                       }`}
                     >
                       <div className="aspect-square w-full bg-[#0e0e0e] overflow-hidden">

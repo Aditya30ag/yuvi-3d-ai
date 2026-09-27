@@ -249,8 +249,8 @@ export function CenterViewer({
         {/* State 1: Generation In Progress */}
         {isGenerating ? (
           <div className="flex flex-col items-center justify-center gap-4 z-10">
-            <div className="relative w-24 h-24 rounded-full flex items-center justify-center animate-pulse bg-gradient-to-tr from-[#a3e635]/20 via-[#a3e635]/5 to-transparent border border-[#a3e635]/30">
-              <Loader2 className="w-10 h-10 animate-spin text-[#a3e635]" />
+            <div className="relative w-24 h-24 rounded-full flex items-center justify-center animate-pulse bg-gradient-to-tr from-[ffffff]/20 via-[ffffff]/5 to-transparent border border-[ffffff]/30">
+              <Loader2 className="w-10 h-10 animate-spin text-[ffffff]" />
             </div>
             <div className="flex flex-col items-center gap-1 text-center">
               <span className="text-white text-sm font-medium">
@@ -363,9 +363,9 @@ export function CenterViewer({
               <button
                 onClick={() => imageUrl && onUseFor3D(imageUrl)}
                 title="Use for 3D"
-                className="p-2 rounded-lg text-[#a3e635] hover:text-[#b4f346] hover:bg-[#a3e635]/10 transition-colors flex items-center gap-1.5 text-xs font-semibold"
+                className="p-2 rounded-lg text-[ffffff] hover:text-[#e5e5e5] hover:bg-[ffffff]/10 transition-colors flex items-center gap-1.5 text-xs font-semibold"
               >
-                <Wand2 className="w-4 h-4 text-[#a3e635]" />
+                <Wand2 className="w-4 h-4 text-[ffffff]" />
                 <span>Use for 3D</span>
               </button>
 
@@ -383,9 +383,9 @@ export function CenterViewer({
               {/* Green pill button: "NEW" badge + download icon */}
               <button
                 onClick={() => imageUrl && handleDownloadFile(imageUrl, "hd-concept.png")}
-                className="bg-[#a3e635] hover:bg-[#92d327] text-black font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1.5 transition-colors shadow-sm"
+                className="bg-[ffffff] hover:bg-[#e5e5e5] text-black font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1.5 transition-colors shadow-sm"
               >
-                <span className="bg-black text-[#a3e635] text-[9px] px-1 py-0.2 rounded font-bold uppercase">
+                <span className="bg-black text-[ffffff] text-[9px] px-1 py-0.2 rounded font-bold uppercase">
                   NEW
                 </span>
                 <Download className="w-3.5 h-3.5" />
@@ -427,7 +427,7 @@ export function CenterViewer({
               <div className="relative">
                 <button
                   onClick={() => setShowDownloadPopover(!showDownloadPopover)}
-                  className="bg-[#a3e635] hover:bg-[#92d327] text-black font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1.5 transition-colors shadow-sm"
+                  className="bg-[ffffff] hover:bg-[#e5e5e5] text-black font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1.5 transition-colors shadow-sm"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>Download</span>

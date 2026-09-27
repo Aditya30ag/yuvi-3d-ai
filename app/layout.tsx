@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { Toaster } from "sonner";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Studio3D - AI Image & 3D Generator",
@@ -22,24 +29,27 @@ export default function RootLayout({
       appearance={{
         baseTheme: dark,
         variables: {
-          colorPrimary: "#7c3aed",
-          colorBackground: "#111111",
-          colorInputBackground: "#1a1a1a",
+          colorPrimary: "#ffffff",
+          colorBackground: "#0a0a0a",
+          colorInputBackground: "#141414",
           colorText: "#ffffff",
+        },
+        elements: {
+          formButtonPrimary: "bg-white text-black hover:bg-neutral-200 font-semibold",
         },
       }}
     >
       <html lang="en" className="dark">
-        <body className="min-h-screen bg-[#0d0d0d] text-zinc-100 antialiased selection:bg-violet-600/40 selection:text-white">
+        <body className={`${inter.variable} font-sans min-h-screen bg-black text-white antialiased selection:bg-white selection:text-black`}>
           {children}
           <Toaster
             position="bottom-right"
             theme="dark"
             toastOptions={{
               style: {
-                background: "#18181b",
-                border: "1px solid #27272a",
-                color: "#f4f4f5",
+                background: "#0a0a0a",
+                border: "1px solid rgba(255,255,255,0.15)",
+                color: "#ffffff",
               },
             }}
           />

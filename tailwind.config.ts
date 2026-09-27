@@ -10,9 +10,23 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-inter)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        meshy: {
+          bg: "#000000",
+          card: "#0d0d0d",
+          elevated: "#141414",
+          border: "#1f1f1f",
+          muted: "#888888",
+          faint: "#444444",
+          violet: "#7c3aed",
+          lime: "#a3e635",
+          blue: "#3b82f6",
+        },
         studio: {
           dark: "#0d0d0d",
           card: "#111111",
@@ -25,6 +39,9 @@ const config: Config = {
         },
       },
       borderRadius: {
+        card: "12px",
+        btn: "8px",
+        pill: "9999px",
         lg: "0.75rem",
         md: "0.5rem",
         sm: "0.25rem",
@@ -39,10 +56,21 @@ const config: Config = {
             transform: "translateX(100%)",
           },
         },
+        marqueeLeft: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        marqueeRight: {
+          "0%": { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(0%)" },
+        },
       },
       animation: {
         "pulse-glow": "pulseGlow 2.5s ease-in-out infinite",
         shimmer: "shimmer 2s infinite",
+        "marquee-left": "marqueeLeft 35s linear infinite",
+        "marquee-right": "marqueeRight 35s linear infinite",
+        "marquee-testimonials": "marqueeLeft 50s linear infinite",
       },
     },
   },

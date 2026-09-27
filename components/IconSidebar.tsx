@@ -20,7 +20,7 @@ export function IconSidebar({
       <div className="flex flex-col items-center gap-3 w-full">
         {/* App Logo */}
         <div
-          className="w-8 h-8 rounded-lg bg-[#a3e635] flex items-center justify-center shadow-sm cursor-pointer hover:opacity-90 transition-opacity"
+          className="w-8 h-8 rounded-lg bg-[#ffffff] flex items-center justify-center shadow-sm cursor-pointer hover:opacity-90 transition-opacity"
           title="Studio3D"
         >
           <Box className="w-4 h-4 text-black" />
@@ -116,11 +116,11 @@ export function IconSidebar({
           />
         </div>
 
-        {/* Upgrade button (small, lime green #a3e635 background, rounded, text-xs) */}
+        {/* Upgrade button (small, lime green #ffffff background, rounded, text-xs) */}
         <button
           onClick={onUpgradeClick}
           title="Upgrade Plan"
-          className="bg-[#a3e635] hover:bg-[#8ece26] text-black font-semibold text-[10px] px-2 py-1 rounded-full transition-colors leading-tight"
+          className="bg-[#ffffff] hover:bg-[#e5e5e5] text-black font-semibold text-[10px] px-2 py-1 rounded-full transition-colors leading-tight"
         >
           Upgrade
         </button>

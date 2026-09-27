@@ -109,8 +109,8 @@ export function ModelViewer({
     return (
       <div className={`w-full h-full min-h-[400px] flex items-center justify-center bg-zinc-950 rounded-2xl border border-zinc-800 ${className}`}>
         <div className="flex flex-col items-center gap-3 text-zinc-500">
-          <Loader2 className="w-8 h-8 animate-spin text-violet-500" />
-          <p className="text-sm">Preparing 3D engine...</p>
+          <Loader2 className="w-8 h-8 animate-spin text-white" />
+          <p className="text-sm text-zinc-400">Preparing 3D engine...</p>
         </div>
       </div>
     );
@@ -119,7 +119,7 @@ export function ModelViewer({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full h-full min-h-[460px] rounded-2xl overflow-hidden border border-zinc-800/80 shadow-2xl flex flex-col group ${bgClasses[bgStyle]} ${className}`}
+      className={`relative w-full h-full min-h-[460px] rounded-2xl overflow-hidden border border-white/10 shadow-2xl flex flex-col group ${bgClasses[bgStyle]} ${className}`}
     >
       {/* 3D Canvas */}
       <div className="relative w-full flex-1 min-h-[380px] flex items-center justify-center">
@@ -142,12 +142,12 @@ export function ModelViewer({
 
         {/* Loading Spinner Overlay */}
         {isLoading && !hasError && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0d0d0d]/80 backdrop-blur-sm z-20 pointer-events-none">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#000000]/80 backdrop-blur-sm z-20 pointer-events-none">
             <div className="relative flex items-center justify-center mb-3">
-              <div className="w-16 h-16 rounded-full border-2 border-violet-500/20 border-t-violet-500 animate-spin" />
-              <Box className="w-6 h-6 text-violet-400 absolute" />
+              <div className="w-16 h-16 rounded-full border-2 border-white/20 border-t-white animate-spin" />
+              <Box className="w-6 h-6 text-white absolute" />
             </div>
-            <p className="text-sm font-medium text-zinc-200">Streaming 3D GLB Asset...</p>
+            <p className="text-sm font-medium text-white">Streaming 3D GLB Asset...</p>
             <p className="text-xs text-zinc-400 mt-1">Interpreting meshes and textures</p>
           </div>
         )}
@@ -167,24 +167,24 @@ export function ModelViewer({
 
         {/* Interactive Helper Overlay (fades out) */}
         {!isLoading && !hasError && (
-          <div className="absolute bottom-4 left-4 pointer-events-none z-10 hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-[11px] text-zinc-400 transition-opacity opacity-75 group-hover:opacity-100">
-            <Eye className="w-3.5 h-3.5 text-violet-400" />
+          <div className="absolute bottom-4 left-4 pointer-events-none z-10 hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[11px] text-zinc-300 transition-opacity opacity-75 group-hover:opacity-100">
+            <Eye className="w-3.5 h-3.5 text-white" />
             <span>Drag to rotate • Scroll to zoom • Right-click to pan</span>
           </div>
         )}
       </div>
 
       {/* Floating Toolbar */}
-      <div className="px-4 py-3 bg-[#111115]/90 backdrop-blur-md border-t border-zinc-800/80 flex items-center justify-between gap-2 z-20">
+      <div className="px-4 py-3 bg-[#0a0a0a]/90 backdrop-blur-md border-t border-white/10 flex items-center justify-between gap-2 z-20">
         <div className="flex items-center gap-1 sm:gap-2">
           {/* Play/Pause Auto-rotate */}
           <button
             type="button"
             onClick={() => setAutoRotate(!autoRotate)}
-            className={`p-2 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors ${
+            className={`p-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors ${
               autoRotate
-                ? "bg-violet-600/20 text-violet-300 border border-violet-500/30"
-                : "bg-zinc-800/70 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800"
+                ? "bg-white text-black shadow-sm"
+                : "bg-zinc-900 text-zinc-400 hover:text-white hover:bg-zinc-800"
             }`}
             title={autoRotate ? "Pause auto-rotation" : "Enable auto-rotation"}
           >
@@ -217,12 +217,12 @@ export function ModelViewer({
 
         <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Background tone selector */}
-          <div className="flex items-center p-0.5 rounded-lg bg-zinc-900 border border-zinc-800">
+          <div className="flex items-center p-0.5 rounded-lg bg-zinc-900 border border-white/10">
             <button
               type="button"
               onClick={() => setBgStyle("gradient")}
               className={`px-2 py-1 text-[11px] rounded transition-colors ${
-                bgStyle === "gradient" ? "bg-violet-600 text-white font-medium" : "text-zinc-400 hover:text-zinc-200"
+                bgStyle === "gradient" ? "bg-white text-black font-semibold shadow-sm" : "text-zinc-400 hover:text-white"
               }`}
             >
               Studio
@@ -231,7 +231,7 @@ export function ModelViewer({
               type="button"
               onClick={() => setBgStyle("dark")}
               className={`px-2 py-1 text-[11px] rounded transition-colors ${
-                bgStyle === "dark" ? "bg-violet-600 text-white font-medium" : "text-zinc-400 hover:text-zinc-200"
+                bgStyle === "dark" ? "bg-white text-black font-semibold shadow-sm" : "text-zinc-400 hover:text-white"
               }`}
             >
               Dark

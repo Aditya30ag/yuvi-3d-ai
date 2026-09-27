@@ -217,7 +217,7 @@ export function ImageTo3D() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800/80 pb-6">
         <div>
           <div className="flex items-center gap-2.5 mb-1.5">
-            <div className="w-8 h-8 rounded-lg bg-violet-600/20 text-violet-400 border border-violet-500/30 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-white/20 text-white border border-white/20 flex items-center justify-center">
               <Box className="w-4 h-4" />
             </div>
             <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white">
@@ -244,12 +244,12 @@ export function ImageTo3D() {
           <div className="p-6 rounded-2xl bg-[#111115] border border-zinc-800/80 shadow-xl space-y-5">
             {/* Transferred Badge if loaded from image generator */}
             {transferredFromGenerator && (
-              <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-violet-950/40 border border-violet-500/30 text-xs text-violet-300">
+              <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/10 border border-white/20 text-xs text-zinc-200">
                 <span className="flex items-center gap-1.5 font-medium">
-                  <Sparkles className="w-3.5 h-3.5 text-violet-400" />
+                  <Sparkles className="w-3.5 h-3.5 text-white" />
                   Transferred from AI Image Generator
                 </span>
-                <span className="text-[10px] uppercase font-bold text-violet-400">Ready</span>
+                <span className="text-[10px] uppercase font-bold text-white">Ready</span>
               </div>
             )}
 
@@ -301,7 +301,7 @@ export function ImageTo3D() {
                       handleFileUpload(e.dataTransfer.files[0]);
                     }
                   }}
-                  className="aspect-video rounded-xl bg-[#18181c] border-2 border-dashed border-zinc-800 hover:border-violet-500/50 cursor-pointer flex flex-col items-center justify-center p-6 text-center transition-all group"
+                  className="aspect-video rounded-xl bg-[#18181c] border-2 border-dashed border-zinc-800 hover:border-white/30 cursor-pointer flex flex-col items-center justify-center p-6 text-center transition-all group"
                 >
                   <input
                     ref={fileInputRef}
@@ -314,9 +314,9 @@ export function ImageTo3D() {
                       }
                     }}
                   />
-                  <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-700/50 group-hover:border-violet-500/50 flex items-center justify-center text-zinc-400 group-hover:text-violet-400 transition-colors mb-2.5">
+                  <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-700/50 group-hover:border-white/30 flex items-center justify-center text-zinc-400 group-hover:text-white transition-colors mb-2.5">
                     {isUploading ? (
-                      <Loader2 className="w-5 h-5 animate-spin text-violet-400" />
+                      <Loader2 className="w-5 h-5 animate-spin text-white" />
                     ) : (
                       <Upload className="w-5 h-5" />
                     )}
@@ -337,7 +337,7 @@ export function ImageTo3D() {
                     value={urlInput}
                     onChange={(e) => setUrlInput(e.target.value)}
                     placeholder="Or paste public image URL..."
-                    className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#18181c] border border-zinc-800 text-zinc-200 placeholder:text-zinc-400 text-xs focus:outline-none focus:ring-1 focus:ring-violet-500"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#18181c] border border-zinc-800 text-zinc-200 placeholder:text-zinc-400 text-xs focus:outline-none focus:ring-1 focus:ring-white/30"
                   />
                 </div>
                 <button
@@ -354,7 +354,7 @@ export function ImageTo3D() {
             {/* Conversion Options */}
             <div className="space-y-4 pt-2 border-t border-zinc-800/80">
               <span className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
-                <Layers className="w-3.5 h-3.5 text-violet-400" />
+                <Layers className="w-3.5 h-3.5 text-white" />
                 Generation Settings
               </span>
 
@@ -368,7 +368,7 @@ export function ImageTo3D() {
                   type="button"
                   onClick={() => setEnablePbr(!enablePbr)}
                   className={`w-11 h-6 rounded-full transition-colors relative p-1 ${
-                    enablePbr ? "bg-violet-600" : "bg-zinc-800"
+                    enablePbr ? "bg-white" : "bg-zinc-800"
                   }`}
                 >
                   <div
@@ -402,7 +402,7 @@ export function ImageTo3D() {
                         }}
                         className={`p-2 rounded-xl text-center border text-xs font-semibold uppercase transition-all ${
                           isSelected
-                            ? "bg-violet-600/20 border-violet-500 text-violet-300"
+                            ? "bg-white/20 border-white text-zinc-200"
                             : "bg-[#18181c] border-zinc-800 text-zinc-400 hover:text-zinc-200"
                         }`}
                       >
@@ -421,7 +421,7 @@ export function ImageTo3D() {
                 <select
                   value={poseMode}
                   onChange={(e) => setPoseMode(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-[#18181c] border border-zinc-800 text-zinc-200 text-xs focus:outline-none focus:ring-1 focus:ring-violet-500"
+                  className="w-full px-3 py-2 rounded-xl bg-[#18181c] border border-zinc-800 text-zinc-200 text-xs focus:outline-none focus:ring-1 focus:ring-white/30"
                 >
                   <option value="default">Default / Automatic</option>
                   <option value="a-pose">A-Pose (Best for humanoid rigging)</option>
@@ -435,7 +435,7 @@ export function ImageTo3D() {
               type="button"
               disabled={isConverting || !imageUrl}
               onClick={handleStartConversion}
-              className="w-full py-3.5 px-5 rounded-xl bg-violet-600 hover:bg-violet-500 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-white font-semibold text-sm shadow-lg shadow-violet-600/25 flex items-center justify-center gap-2.5 transition-all active:scale-[0.99]"
+              className="w-full py-3.5 px-5 rounded-xl bg-white hover:bg-violet-500 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-white font-semibold text-sm shadow-lg shadow-white/10 flex items-center justify-center gap-2.5 transition-all active:scale-[0.99]"
             >
               {isConverting ? (
                 <>
@@ -455,7 +455,7 @@ export function ImageTo3D() {
           <div className="p-5 rounded-2xl bg-[#111115] border border-zinc-800/80 shadow-lg space-y-3.5">
             <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-zinc-400">
               <span className="flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-violet-400" />
+                <Clock className="w-3.5 h-3.5 text-white" />
                 Recent 3D Models (Last 3)
               </span>
               <span className="text-[10px] font-normal text-zinc-400">Session</span>
@@ -476,7 +476,7 @@ export function ImageTo3D() {
                         setPreviewUrl(item.sourceImageUrl);
                       }
                     }}
-                    className="flex items-center gap-3 p-2.5 rounded-xl bg-[#18181c] border border-zinc-800/80 hover:border-violet-500/40 cursor-pointer transition-all group"
+                    className="flex items-center gap-3 p-2.5 rounded-xl bg-[#18181c] border border-zinc-800/80 hover:border-white/30 cursor-pointer transition-all group"
                   >
                     {item.sourceImageUrl ? (
                       <img
@@ -486,11 +486,11 @@ export function ImageTo3D() {
                       />
                     ) : (
                       <div className="w-12 h-12 rounded-lg bg-zinc-800 flex items-center justify-center flex-shrink-0">
-                        <Box className="w-5 h-5 text-violet-400" />
+                        <Box className="w-5 h-5 text-white" />
                       </div>
                     )}
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs text-zinc-200 font-medium truncate group-hover:text-violet-300">
+                      <p className="text-xs text-zinc-200 font-medium truncate group-hover:text-zinc-200">
                         Model {item.id.slice(0, 10)}...
                       </p>
                       <div className="flex items-center gap-2 mt-1">
@@ -499,7 +499,7 @@ export function ImageTo3D() {
                         </span>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-zinc-400 group-hover:text-violet-400 transition-colors" />
+                    <ChevronRight className="w-4 h-4 text-zinc-400 group-hover:text-white transition-colors" />
                   </div>
                 ))}
               </div>
@@ -523,17 +523,17 @@ export function ImageTo3D() {
 
           {/* Active Generation Progress Indicator */}
           {isConverting && (
-            <div className="p-6 rounded-2xl bg-[#111115] border border-violet-500/30 shadow-2xl space-y-4">
+            <div className="p-6 rounded-2xl bg-[#111115] border border-white/20 shadow-2xl space-y-4">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-zinc-200 font-medium flex items-center gap-2">
-                  <Loader2 className="w-4 h-4 animate-spin text-violet-400" />
+                  <Loader2 className="w-4 h-4 animate-spin text-white" />
                   {getProgressStage(progress)}
                 </span>
-                <span className="font-mono text-violet-400 font-bold">{progress}%</span>
+                <span className="font-mono text-white font-bold">{progress}%</span>
               </div>
               <div className="w-full h-2 rounded-full bg-zinc-800 overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-violet-600 via-purple-500 to-indigo-500 transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-white via-zinc-200 to-zinc-400 transition-all duration-500"
                   style={{ width: `${Math.max(5, progress)}%` }}
                 />
               </div>
@@ -561,7 +561,7 @@ export function ImageTo3D() {
                   Select an image or send one over from the AI Image Generator, adjust your settings, and click &quot;Convert to 3D&quot;.
                 </p>
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/80 border border-zinc-800 text-[11px] text-zinc-400">
-                  <Layers className="w-3.5 h-3.5 text-violet-400" />
+                  <Layers className="w-3.5 h-3.5 text-white" />
                   Supports GLB, OBJ, FBX with PBR maps
                 </div>
               </div>
@@ -588,7 +588,7 @@ export function ImageTo3D() {
                     download="model.glb"
                     target="_blank"
                     rel="noreferrer"
-                    className="p-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-medium text-xs shadow-md shadow-violet-600/20 flex items-center justify-center gap-2 transition-all"
+                    className="p-3 rounded-xl bg-white hover:bg-neutral-200 text-black font-medium text-xs shadow-md shadow-white/10 flex items-center justify-center gap-2 transition-all"
                   >
                     <Download className="w-4 h-4" />
                     <span>Download GLB</span>
