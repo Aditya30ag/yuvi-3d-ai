@@ -2,13 +2,14 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export function FinalCTASection() {
   return (
-    <section id="final-cta" className="relative bg-black py-28 lg:py-36 overflow-hidden">
-      {/* Radial soft white glow behind content */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-white/5 blur-[130px] rounded-full pointer-events-none" />
+    <section id="final-cta" className="relative bg-[#050508] py-28 lg:py-36 overflow-hidden">
+      {/* Radial green and blue ambient glows behind content */}
+      <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[#00ffa3]/10 blur-[160px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 right-1/3 translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[#00c3ff]/10 blur-[160px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         <motion.div
@@ -17,18 +18,19 @@ export function FinalCTASection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-flex items-center gap-2 border border-white/10 bg-[#0d0d0d] px-3.5 py-1.5 rounded-full mb-6">
-            <Sparkles className="w-3.5 h-3.5 text-white" />
-            <span className="text-xs text-zinc-400 font-medium">
+          {/* Animated live pill */}
+          <div className="live-pill mb-6">
+            <span className="dot" />
+            <span className="text-xs font-semibold">
               Start Free · No Credit Card Required
             </span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white tracking-tight leading-tight">
-            Start Converting Images to 3D — Free
+            Start Converting Images to <span className="accent">3D — Free</span>
           </h2>
 
-          <p className="text-base sm:text-lg text-zinc-400 mt-5 max-w-xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-white/70 mt-5 max-w-xl mx-auto leading-relaxed">
             No credit card required. No software to download. Generate your first
             3D model in under a minute.
           </p>
@@ -40,24 +42,24 @@ export function FinalCTASection() {
           >
             <Link
               href="/workspace"
-              className="group inline-flex items-center gap-3 bg-white hover:bg-neutral-200 text-black font-semibold px-10 py-4 rounded-xl text-lg transition-colors shadow-2xl shadow-white/10"
+              className="btn-primary group inline-flex items-center gap-3 font-bold px-10 py-4 text-lg shadow-2xl"
             >
               <span>Start Converting to 3D</span>
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 text-black" />
+              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 text-[#050508]" />
             </Link>
           </motion.div>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-zinc-500">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-white" />
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-white/60">
+            <span className="flex items-center gap-2">
+              <span className="status-dot" />
               Free monthly credits
             </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-white" />
+            <span className="flex items-center gap-2">
+              <span className="neon-bullet !mt-0" />
               Commercial license available
             </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-white" />
+            <span className="flex items-center gap-2">
+              <span className="status-dot" />
               Direct GLB / FBX / OBJ export
             </span>
           </div>

@@ -7,7 +7,7 @@ export function TestimonialsSection() {
   const testimonials = [
     {
       avatar: "B",
-      avatarBg: "bg-violet-700",
+      avatarBg: "bg-gradient-to-tr from-[#00ffa3] to-[#00c3ff] text-[#050508]",
       name: "bernie b.",
       role: "Arts & Crafts · United States",
       review:
@@ -15,7 +15,7 @@ export function TestimonialsSection() {
     },
     {
       avatar: "D",
-      avatarBg: "bg-blue-700",
+      avatarBg: "bg-gradient-to-tr from-[#00c3ff] to-[#6300ff] text-white",
       name: "Darlene C.",
       role: "Animation Industry · United States",
       review:
@@ -23,7 +23,7 @@ export function TestimonialsSection() {
     },
     {
       avatar: "A",
-      avatarBg: "bg-emerald-700",
+      avatarBg: "bg-gradient-to-tr from-[#6300ff] to-[#00ffa3] text-white",
       name: "Aaron P.",
       role: "3D Printing Enthusiast",
       review:
@@ -31,7 +31,7 @@ export function TestimonialsSection() {
     },
     {
       avatar: "S",
-      avatarBg: "bg-orange-700",
+      avatarBg: "bg-gradient-to-tr from-[#00ffa3] to-[#6300ff] text-[#050508]",
       name: "Sarah M.",
       role: "Game Developer · Canada",
       review:
@@ -40,15 +40,21 @@ export function TestimonialsSection() {
   ];
 
   return (
-    <section id="testimonials" className="bg-[#050505] py-24 lg:py-32 border-y border-[#111111] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 text-center">
+    <section id="testimonials" className="relative bg-[#050508] py-24 lg:py-32 overflow-hidden border-y border-white/[0.06]">
+      {/* Ambient radial glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-r from-[#00ffa3]/10 to-[#00c3ff]/10 blur-[130px] rounded-full pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+          <div className="section-label mb-3">
+            Community Reviews
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mt-2">
             Loved by 12,000,000+ Creators Worldwide
           </h2>
         </motion.div>
@@ -56,47 +62,51 @@ export function TestimonialsSection() {
 
       {/* Infinite scrolling marquee track */}
       <div className="mt-16 relative w-full overflow-hidden flex items-center py-4">
+        {/* Subtle gradient edges mask */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#050508] to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#050508] to-transparent z-10" />
+
         <div className="flex w-max animate-marquee-testimonials gap-6">
           {[...testimonials, ...testimonials, ...testimonials].map((t, idx) => (
             <div
               key={idx}
-              className="bg-[#0d0d0d] border border-[#1f1f1f] rounded-2xl p-6 w-80 flex-shrink-0 flex flex-col justify-between hover:border-[#2a2a2a] transition-colors"
+              className="testimonial-card-gradient-top p-6 w-80 flex-shrink-0 flex flex-col justify-between"
             >
               <div>
                 {/* Author Info */}
                 <div className="flex items-center gap-3 mb-4">
                   <div
-                    className={`w-9 h-9 rounded-full ${t.avatarBg} text-white font-semibold flex items-center justify-center text-sm shadow-inner`}
+                    className={`w-9 h-9 rounded-full ${t.avatarBg} font-bold flex items-center justify-center text-sm shadow-md`}
                   >
                     {t.avatar}
                   </div>
                   <div>
-                    <h4 className="text-sm font-medium text-white leading-tight">
+                    <h4 className="card-title text-sm font-semibold leading-tight">
                       {t.name}
                     </h4>
-                    <p className="text-xs text-[#888888]">{t.role}</p>
+                    <p className="text-xs text-white/50">{t.role}</p>
                   </div>
                 </div>
 
-                {/* Stars */}
+                {/* Stars in neon green */}
                 <div className="flex items-center gap-1 mb-3">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className="w-3.5 h-3.5 fill-amber-400 text-amber-400"
+                      className="w-3.5 h-3.5 fill-[#00ffa3] text-[#00ffa3]"
                     />
                   ))}
                 </div>
 
                 {/* Review Text */}
-                <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+                <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
                   &ldquo;{t.review}&rdquo;
                 </p>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-[#181818] flex items-center justify-between text-[10px] text-[#555555]">
+              <div className="mt-5 pt-3 border-t border-white/[0.07] flex items-center justify-between text-[10px] text-white/40">
                 <span>Verified Studio3D Creator</span>
-                <span>5/5 Rating</span>
+                <span className="text-[#00ffa3] font-medium">5/5 Rating</span>
               </div>
             </div>
           ))}
@@ -104,16 +114,16 @@ export function TestimonialsSection() {
       </div>
 
       {/* Badges footer */}
-      <div className="mt-12 flex items-center justify-center gap-4">
-        <div className="inline-flex items-center gap-1.5 border border-[#2a2a2a] rounded-full px-4 py-2 text-xs text-white bg-[#0d0d0d]">
-          <span className="font-semibold">G2</span>
-          <span className="text-amber-400">★</span>
-          <span className="text-zinc-300">4.8</span>
+      <div className="mt-12 flex items-center justify-center gap-4 relative z-10">
+        <div className="meta-pill">
+          <span className="font-semibold text-white">G2</span>
+          <span className="text-[#00ffa3] font-bold">★</span>
+          <span>4.8</span>
         </div>
-        <div className="inline-flex items-center gap-1.5 border border-[#2a2a2a] rounded-full px-4 py-2 text-xs text-white bg-[#0d0d0d]">
-          <span className="font-semibold">Trustpilot</span>
-          <span className="text-emerald-400">★</span>
-          <span className="text-zinc-300">4.8</span>
+        <div className="meta-pill">
+          <span className="font-semibold text-white">Trustpilot</span>
+          <span className="text-[#00ffa3] font-bold">★</span>
+          <span>4.8</span>
         </div>
       </div>
     </section>

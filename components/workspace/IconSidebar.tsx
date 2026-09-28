@@ -22,22 +22,22 @@ export function IconSidebar({
   onSelectFeature,
 }: IconSidebarProps) {
   return (
-    <aside className="fixed left-0 top-[48px] w-[56px] h-[calc(100vh-48px)] bg-[#050505] border-r border-white/10 flex flex-col items-center py-2.5 z-40 select-none overflow-y-auto no-scrollbar scrollbar-none">
+    <aside className="fixed left-0 top-[48px] w-[56px] h-[calc(100vh-48px)] bg-[#050508] border-r border-white/[0.08] flex flex-col items-center py-2.5 z-40 select-none overflow-y-auto no-scrollbar scrollbar-none">
       {/* 1. Assets */}
       <button
         onClick={() => onSelectFeature("assets")}
         className={`w-[56px] h-[54px] flex flex-col items-center justify-center gap-1 cursor-pointer transition-colors group relative ${
           activeFeature === "assets"
             ? "text-white"
-            : "text-zinc-500 hover:text-zinc-300"
+            : "text-white/40 hover:text-white"
         }`}
         title="Assets"
       >
         <div
           className={`w-[42px] h-[42px] rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
             activeFeature === "assets"
-              ? "bg-white text-black shadow-lg shadow-white/10 font-bold"
-              : "group-hover:bg-neutral-900 text-zinc-400 group-hover:text-white"
+              ? "bg-gradient-to-br from-[#00ffa3] to-[#00c3ff] text-[#050508] shadow-[0_0_15px_rgba(0,255,163,0.35)] font-bold"
+              : "group-hover:bg-white/[0.04] text-white/40 group-hover:text-white"
           }`}
         >
           <LayoutGrid className="w-4 h-4" />
@@ -48,28 +48,28 @@ export function IconSidebar({
       </button>
 
       {/* Divider */}
-      <div className="w-7 my-1 border-t border-white/10" />
+      <div className="w-7 my-1 border-t border-white/[0.08]" />
 
-      {/* 3. Agent (with red dot) */}
+      {/* 3. Agent (with neon green dot) */}
       <button
         onClick={() => onSelectFeature("agent")}
         className={`w-[56px] h-[54px] flex flex-col items-center justify-center gap-1 cursor-pointer transition-colors group relative ${
           activeFeature === "agent"
             ? "text-white"
-            : "text-zinc-500 hover:text-zinc-300"
+            : "text-white/40 hover:text-white"
         }`}
         title="Agent"
       >
         <div
           className={`w-[42px] h-[42px] rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all relative ${
             activeFeature === "agent"
-              ? "bg-white text-black shadow-lg shadow-white/10 font-bold"
-              : "group-hover:bg-neutral-900 text-zinc-400 group-hover:text-white"
+              ? "bg-gradient-to-br from-[#00ffa3] to-[#00c3ff] text-[#050508] shadow-[0_0_15px_rgba(0,255,163,0.35)] font-bold"
+              : "group-hover:bg-white/[0.04] text-white/40 group-hover:text-white"
           }`}
         >
           <div className="relative">
             <Bot className="w-4 h-4" />
-            <span className="w-1.5 h-1.5 bg-red-500 rounded-full absolute -top-0.5 -right-0.5 ring-1 ring-black" />
+            <span className="w-1.5 h-1.5 bg-[#00ffa3] rounded-full absolute -top-0.5 -right-0.5 shadow-[0_0_6px_#00ffa3]" />
           </div>
           <span className="text-[9px] leading-none tracking-tight">
             Agent
@@ -83,15 +83,15 @@ export function IconSidebar({
         className={`w-[56px] h-[54px] flex flex-col items-center justify-center gap-1 cursor-pointer transition-colors group relative ${
           activeFeature === "image"
             ? "text-white"
-            : "text-zinc-500 hover:text-zinc-300"
+            : "text-white/40 hover:text-white"
         }`}
         title="Image to 3D"
       >
         <div
           className={`w-[42px] h-[42px] rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
             activeFeature === "image"
-              ? "bg-white text-black shadow-lg shadow-white/10 font-bold"
-              : "group-hover:bg-neutral-900 text-zinc-400 group-hover:text-white"
+              ? "bg-gradient-to-br from-[#00ffa3] to-[#00c3ff] text-[#050508] shadow-[0_0_15px_rgba(0,255,163,0.35)] font-bold"
+              : "group-hover:bg-white/[0.04] text-white/40 group-hover:text-white"
           }`}
         >
           <ImageIcon className="w-4 h-4" />
@@ -107,15 +107,15 @@ export function IconSidebar({
         className={`w-[56px] h-[54px] flex flex-col items-center justify-center gap-1 cursor-pointer transition-colors group relative ${
           activeFeature === "model"
             ? "text-white"
-            : "text-zinc-500 hover:text-zinc-300"
+            : "text-white/40 hover:text-white"
         }`}
         title="Model"
       >
         <div
           className={`w-[42px] h-[42px] rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
             activeFeature === "model"
-              ? "bg-white text-black shadow-lg shadow-white/10 font-bold"
-              : "group-hover:bg-neutral-900 text-zinc-400 group-hover:text-white"
+              ? "bg-gradient-to-br from-[#00ffa3] to-[#00c3ff] text-[#050508] shadow-[0_0_15px_rgba(0,255,163,0.35)] font-bold"
+              : "group-hover:bg-white/[0.04] text-white/40 group-hover:text-white"
           }`}
         >
           <Box className="w-4 h-4" />
@@ -131,15 +131,15 @@ export function IconSidebar({
         className={`w-[56px] h-[54px] flex flex-col items-center justify-center gap-1 cursor-pointer transition-colors group relative ${
           activeFeature === "print"
             ? "text-white"
-            : "text-zinc-500 hover:text-zinc-300"
+            : "text-white/40 hover:text-white"
         }`}
         title="3D Print"
       >
         <div
           className={`w-[42px] h-[42px] rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
             activeFeature === "print"
-              ? "bg-white text-black shadow-lg shadow-white/10 font-bold"
-              : "group-hover:bg-neutral-900 text-zinc-400 group-hover:text-white"
+              ? "bg-gradient-to-br from-[#00ffa3] to-[#00c3ff] text-[#050508] shadow-[0_0_15px_rgba(0,255,163,0.35)] font-bold"
+              : "group-hover:bg-white/[0.04] text-white/40 group-hover:text-white"
           }`}
         >
           <Printer className="w-4 h-4" />
@@ -155,15 +155,15 @@ export function IconSidebar({
         className={`w-[56px] h-[54px] flex flex-col items-center justify-center gap-1 cursor-pointer transition-colors group relative ${
           activeFeature === "animate"
             ? "text-white"
-            : "text-zinc-500 hover:text-zinc-300"
+            : "text-white/40 hover:text-white"
         }`}
         title="Animate"
       >
         <div
           className={`w-[42px] h-[42px] rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
             activeFeature === "animate"
-              ? "bg-white text-black shadow-lg shadow-white/10 font-bold"
-              : "group-hover:bg-neutral-900 text-zinc-400 group-hover:text-white"
+              ? "bg-gradient-to-br from-[#00ffa3] to-[#00c3ff] text-[#050508] shadow-[0_0_15px_rgba(0,255,163,0.35)] font-bold"
+              : "group-hover:bg-white/[0.04] text-white/40 group-hover:text-white"
           }`}
         >
           <PersonStanding className="w-4 h-4" />
@@ -174,7 +174,7 @@ export function IconSidebar({
       </button>
 
       {/* Divider */}
-      <div className="w-7 my-1 border-t border-white/10" />
+      <div className="w-7 my-1 border-t border-white/[0.08]" />
 
       {/* 9. Inspiration */}
       <button
@@ -182,15 +182,15 @@ export function IconSidebar({
         className={`w-[56px] h-[54px] flex flex-col items-center justify-center gap-1 cursor-pointer transition-colors group relative ${
           activeFeature === "inspiration"
             ? "text-white"
-            : "text-zinc-500 hover:text-zinc-300"
+            : "text-white/40 hover:text-white"
         }`}
         title="Inspiration"
       >
         <div
           className={`w-[42px] h-[42px] rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all ${
             activeFeature === "inspiration"
-              ? "bg-white text-black shadow-lg shadow-white/10 font-bold"
-              : "group-hover:bg-neutral-900 text-zinc-400 group-hover:text-white"
+              ? "bg-gradient-to-br from-[#00ffa3] to-[#00c3ff] text-[#050508] shadow-[0_0_15px_rgba(0,255,163,0.35)] font-bold"
+              : "group-hover:bg-white/[0.04] text-white/40 group-hover:text-white"
           }`}
         >
           <Zap className="w-4 h-4" />

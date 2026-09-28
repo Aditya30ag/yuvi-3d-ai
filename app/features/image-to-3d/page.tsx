@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function ImageTo3DLandingPage() {
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black">
+    <div className="min-h-screen bg-[#050508] text-white selection:bg-[#00ffa3] selection:text-[#050508] relative overflow-x-hidden">
       <Navbar />
       <main>
         <HeroSection />

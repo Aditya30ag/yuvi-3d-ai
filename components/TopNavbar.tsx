@@ -22,17 +22,17 @@ export function TopNavbar({ onBgColorChange }: TopNavbarProps) {
   ];
 
   return (
-    <header className="h-[40px] w-full bg-[#000000] border-b border-white/10 flex items-center justify-between px-3 z-30 select-none flex-shrink-0">
-      {/* Left: app logo + "Studio3D" text-sm font-semibold text-white */}
+    <header className="h-[40px] w-full bg-[#050508]/85 border-b border-white/[0.08] flex items-center justify-between px-3 z-30 select-none flex-shrink-0 backdrop-blur-2xl">
+      {/* Left: app logo + "Studio3D" */}
       <div className="flex items-center gap-2">
-        <div className="w-5 h-5 rounded-md bg-white flex items-center justify-center shadow-sm">
-          <Sparkles className="w-3 h-3 text-black stroke-[2.5]" />
+        <div className="w-5 h-5 rounded-md bg-gradient-to-tr from-[#00ffa3] to-[#00c3ff] flex items-center justify-center shadow-[0_0_10px_rgba(0,255,163,0.3)]">
+          <Sparkles className="w-3 h-3 text-[#050508] stroke-[2.5]" />
         </div>
-        <span className="text-sm font-semibold text-white tracking-tight">Studio3D</span>
+        <span className="text-sm font-semibold nav-logo tracking-tight">Studio3D</span>
       </div>
 
       {/* Center: mode toggle tabs: 6 small circular icon buttons */}
-      <div className="hidden sm:flex items-center gap-1 bg-[#111111] px-1.5 py-0.5 rounded-full border border-[#1f1f1f]">
+      <div className="hidden sm:flex items-center gap-1 bg-white/[0.04] px-1.5 py-0.5 rounded-full border border-white/[0.08]">
         {modeIcons.map((item) => {
           const Icon = item.icon;
           const isActive = activeModeTab === item.id;
@@ -42,7 +42,7 @@ export function TopNavbar({ onBgColorChange }: TopNavbarProps) {
               onClick={() => setActiveModeTab(item.id)}
               title={item.label}
               className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors ${
-                isActive ? "text-white bg-[#222222]" : "text-[#555555] hover:text-[#888888]"
+                isActive ? "text-[#00ffa3] bg-[rgba(0,255,163,0.15)] shadow-[0_0_8px_rgba(0,255,163,0.2)]" : "text-white/40 hover:text-white"
               }`}
             >
               <Icon className="w-3 h-3" />
@@ -54,16 +54,16 @@ export function TopNavbar({ onBgColorChange }: TopNavbarProps) {
       {/* Right: Color swatches, sun/moon, Clerk UserButton */}
       <div className="flex items-center gap-2.5">
         {/* Color swatches */}
-        <div className="flex items-center gap-1 bg-[#141414] p-0.5 rounded border border-[#1f1f1f]">
+        <div className="flex items-center gap-1 bg-white/[0.04] p-0.5 rounded-md border border-white/[0.08]">
           <button
             onClick={() => onBgColorChange?.("#ffffff")}
             title="White background"
             className="w-3.5 h-3.5 rounded-[2px] bg-white border border-neutral-400 hover:scale-110 transition-transform"
           />
           <button
-            onClick={() => onBgColorChange?.("#0d0d0d")}
+            onClick={() => onBgColorChange?.("#050508")}
             title="Dark background"
-            className="w-3.5 h-3.5 rounded-[2px] bg-[#0d0d0d] border border-[#2a2a2a] hover:scale-110 transition-transform"
+            className="w-3.5 h-3.5 rounded-[2px] bg-[#050508] border border-white/20 hover:scale-110 transition-transform"
           />
           <button
             onClick={() => onBgColorChange?.("#1e293b")}
@@ -76,7 +76,7 @@ export function TopNavbar({ onBgColorChange }: TopNavbarProps) {
         <button
           onClick={() => setIsDarkMode(!isDarkMode)}
           title={isDarkMode ? "Light theme" : "Dark theme"}
-          className="text-[#555555] hover:text-[#888888] transition-colors p-1"
+          className="text-white/40 hover:text-white transition-colors p-1"
         >
           {isDarkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
         </button>
@@ -87,7 +87,7 @@ export function TopNavbar({ onBgColorChange }: TopNavbarProps) {
             afterSignOutUrl="/sign-in"
             appearance={{
               elements: {
-                avatarBox: "w-6 h-6 border border-[#2a2a2a]",
+                avatarBox: "w-6 h-6 border border-white/20",
               },
             }}
           />

@@ -189,7 +189,7 @@ export function Workspace({ initialFeature = "image-to-3d" }: WorkspaceProps) {
   );
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden bg-[#080808]">
+    <div className="flex flex-col h-screen w-screen overflow-hidden bg-[#050508]">
       {/* Top Navigation Bar (full width, 40px, above all panels) */}
       <TopNavbar onBgColorChange={(color) => setViewerBgColor(color)} />
 
@@ -272,16 +272,16 @@ export function Workspace({ initialFeature = "image-to-3d" }: WorkspaceProps) {
       </div>
 
       {/* Mobile Tab Bar (below 640px) replacing IconSidebar */}
-      <div className="sm:hidden h-12 w-full bg-[#0a0a0a] border-t border-[#1f1f1f] flex items-center justify-around px-2 z-40 flex-shrink-0">
+      <div className="sm:hidden h-12 w-full bg-[#050508]/90 backdrop-blur-2xl border-t border-white/[0.08] flex items-center justify-around px-2 z-40 flex-shrink-0">
         <button
           onClick={() => {
             setActiveFeature("image-gen");
             setMobileTab("create");
           }}
-          className={`flex flex-col items-center gap-0.5 text-xs ${
+          className={`flex flex-col items-center gap-0.5 text-xs transition-colors ${
             mobileTab === "create" && activeFeature === "image-gen"
-              ? "text-[#ffffff]"
-              : "text-[#555555]"
+              ? "text-[#00ffa3]"
+              : "text-white/40"
           }`}
         >
           <Sparkles className="w-4 h-4" />
@@ -293,10 +293,10 @@ export function Workspace({ initialFeature = "image-to-3d" }: WorkspaceProps) {
             setActiveFeature("image-to-3d");
             setMobileTab("create");
           }}
-          className={`flex flex-col items-center gap-0.5 text-xs ${
+          className={`flex flex-col items-center gap-0.5 text-xs transition-colors ${
             mobileTab === "create" && activeFeature === "image-to-3d"
-              ? "text-[#ffffff]"
-              : "text-[#555555]"
+              ? "text-[#00ffa3]"
+              : "text-white/40"
           }`}
         >
           <Box className="w-4 h-4" />
@@ -305,8 +305,8 @@ export function Workspace({ initialFeature = "image-to-3d" }: WorkspaceProps) {
 
         <button
           onClick={() => setMobileTab("viewer")}
-          className={`flex flex-col items-center gap-0.5 text-xs ${
-            mobileTab === "viewer" ? "text-[#ffffff]" : "text-[#555555]"
+          className={`flex flex-col items-center gap-0.5 text-xs transition-colors ${
+            mobileTab === "viewer" ? "text-[#00ffa3]" : "text-white/40"
           }`}
         >
           <Box className="w-4 h-4" />
@@ -315,8 +315,8 @@ export function Workspace({ initialFeature = "image-to-3d" }: WorkspaceProps) {
 
         <button
           onClick={() => setMobileTab("gallery")}
-          className={`flex flex-col items-center gap-0.5 text-xs ${
-            mobileTab === "gallery" ? "text-[#ffffff]" : "text-[#555555]"
+          className={`flex flex-col items-center gap-0.5 text-xs transition-colors ${
+            mobileTab === "gallery" ? "text-[#00ffa3]" : "text-white/40"
           }`}
         >
           <LayoutGrid className="w-4 h-4" />

@@ -37,9 +37,15 @@ export function WhyChooseSection() {
     },
   ];
 
+  const chipTypes = ["green", "blue", "purple", "blue", "green", "purple"];
+
   return (
-    <section id="features" className="bg-black py-24 lg:py-32">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="features" className="relative bg-[#050508] py-24 lg:py-32 overflow-hidden">
+      {/* Subtle ambient radial glows behind feature section */}
+      <div className="absolute top-1/3 left-10 w-[500px] h-[500px] bg-[#00ffa3]/10 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-[#00c3ff]/10 blur-[150px] rounded-full pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -47,14 +53,19 @@ export function WhyChooseSection() {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+          <div className="section-label mb-3">
+            Core Capabilities
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mt-2">
             Why Creators Choose Studio3D&apos;s Image to 3D
           </h2>
         </motion.div>
 
+        {/* 3-Column Glassmorphism Grid with Gradient Border Glow & Lift on Hover */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
           {features.map((item, idx) => {
             const Icon = item.icon;
+            const chipClass = chipTypes[idx % chipTypes.length];
             return (
               <motion.div
                 key={item.title}
@@ -62,26 +73,27 @@ export function WhyChooseSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="bg-[#0d0d0d] border border-[#1f1f1f] rounded-2xl p-8 hover:border-[#2a2a2a] transition-all flex flex-col justify-between group"
+                className="glass-card p-8 flex flex-col justify-between group cursor-default"
               >
                 <div>
-                  <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white group-hover:scale-105 transition-transform shadow-sm">
-                    <Icon className="w-6 h-6" />
+                  <div className={`icon-chip ${chipClass} group-hover:scale-105 transition-transform`}>
+                    <Icon className="w-4 h-4" />
                   </div>
 
-                  <h3 className="text-xl font-semibold text-white mt-6">
+                  <h3 className="card-title text-xl font-semibold mt-4">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-[#888888] mt-3 leading-relaxed">
+                  <p className="text-sm text-white/60 mt-3 leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-[#181818] flex items-center justify-between text-xs text-[#555555]">
+                <div className="mt-6 pt-4 border-t border-white/[0.07] flex items-center justify-between text-xs text-white/40">
                   <span>Studio3D AI Engine</span>
-                  <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity font-medium">
-                    Active
-                  </span>
+                  <div className="flex items-center gap-1.5 text-[#00ffa3] opacity-0 group-hover:opacity-100 transition-opacity font-medium">
+                    <span className="status-dot" />
+                    <span>Active</span>
+                  </div>
                 </div>
               </motion.div>
             );

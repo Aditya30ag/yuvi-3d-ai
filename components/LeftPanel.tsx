@@ -117,7 +117,7 @@ export function LeftPanel({
   return (
     <div
       ref={panelRef}
-      className="w-[280px] h-full bg-[#0a0a0a] border-r border-[#1f1f1f] flex flex-col p-4 overflow-y-auto no-scrollbar scrollbar-none flex-shrink-0 select-none z-10"
+      className="w-[280px] h-full bg-[#050508] border-r border-white/[0.08] flex flex-col p-4 overflow-y-auto no-scrollbar scrollbar-none flex-shrink-0 select-none z-10"
     >
       {activeFeature === "image-gen" ? (
         /* ================= IMAGE GENERATION FORM ================= */
@@ -131,13 +131,13 @@ export function LeftPanel({
               value={imagePrompt}
               onChange={(e) => setImagePrompt(e.target.value)}
               placeholder="Describe what you want to generate..."
-              className="w-full min-h-[100px] p-3 bg-[#141414] border border-[#2a2a2a] rounded-lg text-white text-[13px] placeholder-[#555555] resize-none focus:outline-none focus:border-[#ffffff] transition-colors"
+              className="w-full min-h-[100px] p-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white text-[13px] placeholder-white/30 resize-none focus:outline-none focus:border-[#00ffa3]/40 transition-colors"
             />
           </div>
 
           {/* 2. Style selector */}
           <div className="flex flex-col gap-2">
-            <label className="text-[11px] uppercase tracking-wider text-[#888888] font-medium">
+            <label className="text-[11px] uppercase tracking-wider text-white/50 font-medium">
               Style
             </label>
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar scrollbar-none">
@@ -148,8 +148,8 @@ export function LeftPanel({
                   onClick={() => setSelectedStyle(style)}
                   className={`capitalize px-3 py-1 rounded-full text-xs transition-colors whitespace-nowrap ${
                     selectedStyle === style
-                      ? "bg-[#ffffff] border border-[#ffffff] text-black font-semibold shadow-sm"
-                      : "bg-[#1f1f1f] border border-[#2a2a2a] text-[#cccccc] hover:border-[#3a3a3a]"
+                      ? "bg-[rgba(0,255,163,0.12)] border border-[rgba(0,255,163,0.3)] text-[#00ffa3] font-semibold shadow-[0_0_8px_rgba(0,255,163,0.15)]"
+                      : "bg-white/[0.03] border border-white/[0.08] text-white/50 hover:text-white"
                   }`}
                 >
                   {style}
@@ -160,7 +160,7 @@ export function LeftPanel({
 
           {/* 3. Aspect Ratio */}
           <div className="flex flex-col gap-2">
-            <label className="text-[11px] uppercase tracking-wider text-[#888888] font-medium">
+            <label className="text-[11px] uppercase tracking-wider text-white/50 font-medium">
               Aspect Ratio
             </label>
             <div className="flex items-center gap-2">
@@ -171,8 +171,8 @@ export function LeftPanel({
                   onClick={() => setSelectedAspectRatio(ratio)}
                   className={`px-3 py-1 rounded-full text-xs transition-colors ${
                     selectedAspectRatio === ratio
-                      ? "bg-[#ffffff] border border-[#ffffff] text-black font-semibold shadow-sm"
-                      : "bg-[#1f1f1f] border border-[#2a2a2a] text-[#cccccc] hover:border-[#3a3a3a]"
+                      ? "bg-[rgba(0,255,163,0.12)] border border-[rgba(0,255,163,0.3)] text-[#00ffa3] font-semibold shadow-[0_0_8px_rgba(0,255,163,0.15)]"
+                      : "bg-white/[0.03] border border-white/[0.08] text-white/50 hover:text-white"
                   }`}
                 >
                   {ratio}
@@ -186,16 +186,16 @@ export function LeftPanel({
             type="button"
             disabled={!imagePrompt.trim() || isGeneratingImage}
             onClick={() => onGenerateImage(imagePrompt, selectedStyle, selectedAspectRatio)}
-            className="w-full h-10 rounded-lg bg-[#ffffff] hover:bg-[#e5e5e5] disabled:opacity-50 disabled:cursor-not-allowed text-black font-semibold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-[#ffffff]/20 active:scale-[0.99]"
+            className="btn-primary w-full h-10 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed text-[#050508] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(0,255,163,0.3)] active:scale-[0.99]"
           >
             {isGeneratingImage ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin text-black" />
+                <Loader2 className="w-4 h-4 animate-spin text-[#050508]" />
                 <span>Generating...</span>
               </>
             ) : (
               <>
-                <Sparkles className="w-4 h-4 text-black" />
+                <Sparkles className="w-4 h-4 text-[#050508] stroke-[2.5]" />
                 <span>Generate</span>
               </>
             )}
@@ -204,28 +204,28 @@ export function LeftPanel({
           {/* 5. Progress bar if generating */}
           {isGeneratingImage && (
             <div className="flex flex-col gap-1.5 mt-1">
-              <div className="w-full bg-[#1f1f1f] rounded-full h-1.5 overflow-hidden">
+              <div className="w-full bg-white/[0.06] rounded-full h-1.5 overflow-hidden border border-white/[0.08]">
                 <div
-                  className="bg-[#ffffff] h-full rounded-full transition-all duration-300"
+                  className="bg-gradient-to-r from-[#00ffa3] to-[#00c3ff] h-full rounded-full transition-all duration-300"
                   style={{ width: `${Math.max(5, imageProgress)}%` }}
                 />
               </div>
-              <span className="text-[11px] text-[#888888]">
+              <span className="text-[11px] text-white/50">
                 {imageProgress}% · Synthesizing image...
               </span>
             </div>
           )}
 
           {/* Divider */}
-          <div className="w-full h-[1px] bg-[#1f1f1f] my-2" />
+          <div className="w-full h-[1px] bg-white/[0.08] my-2" />
 
           {/* 6. My Generations (2-col grid) */}
           <div className="flex flex-col gap-2">
-            <label className="text-[11px] uppercase tracking-wider text-[#888888] font-medium">
+            <label className="text-[11px] uppercase tracking-wider text-white/50 font-medium">
               My Generations
             </label>
             {imageGenerations.length === 0 ? (
-              <p className="text-[11px] text-[#555555] italic py-2">
+              <p className="text-[11px] text-white/40 italic py-2">
                 No image generations yet.
               </p>
             ) : (
@@ -237,8 +237,8 @@ export function LeftPanel({
                     <div
                       key={gen.id}
                       onClick={() => onSelectGeneration(gen)}
-                      className={`relative aspect-square rounded-md overflow-hidden bg-[#141414] group cursor-pointer border border-[#1f1f1f] transition-all ${
-                        isSelected ? "ring-2 ring-[#ffffff] border-transparent" : "hover:border-[#3a3a3a]"
+                      className={`relative aspect-square rounded-xl overflow-hidden bg-white/[0.03] group cursor-pointer border transition-all ${
+                        isSelected ? "border-[#00ffa3] ring-1 ring-[#00ffa3] shadow-[0_0_12px_rgba(0,255,163,0.25)]" : "border-white/[0.06] hover:border-[#00ffa3]/30"
                       }`}
                     >
                       {imgUrl ? (
@@ -249,23 +249,23 @@ export function LeftPanel({
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-xs text-[#555]">
+                        <div className="w-full h-full flex items-center justify-center text-xs text-white/40">
                           Loading...
                         </div>
                       )}
 
                       {/* Hover Overlay with "Use for 3D ->" */}
-                      <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center p-1 transition-opacity">
+                      <div className="absolute inset-0 bg-[#050508]/80 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center p-1 transition-opacity">
                         <button
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
                             if (imgUrl) onUseFor3D(imgUrl);
                           }}
-                          className="px-2 py-1 rounded bg-[#ffffff] hover:bg-[#e5e5e5] text-black text-[10px] font-semibold flex items-center gap-1 shadow-sm"
+                          className="btn-primary px-2.5 py-1 rounded-lg text-[#050508] text-[10px] font-bold flex items-center gap-1 shadow-sm"
                         >
                           <span>Use for 3D</span>
-                          <ArrowRight className="w-2.5 h-2.5 text-black" />
+                          <ArrowRight className="w-2.5 h-2.5 text-[#050508]" />
                         </button>
                       </div>
                     </div>
@@ -382,12 +382,12 @@ export function LeftPanel({
                   if (e.key === "Enter") handleUrlSubmit();
                 }}
                 placeholder="https://..."
-                className="flex-1 px-3 py-1.5 bg-[#141414] border border-[#2a2a2a] rounded-lg text-white text-xs placeholder-[#555555] focus:outline-none focus:border-[#ffffff]"
+                className="flex-1 px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white text-xs placeholder-white/30 focus:outline-none focus:border-[#00ffa3]/40 transition-colors"
               />
               <button
                 type="button"
                 onClick={handleUrlSubmit}
-                className="px-2.5 py-1.5 rounded-lg bg-[#1f1f1f] hover:bg-[#2a2a2a] text-xs text-white border border-[#2a2a2a]"
+                className="btn-secondary px-3 py-1.5 rounded-xl text-xs text-white"
               >
                 Use
               </button>
@@ -396,21 +396,21 @@ export function LeftPanel({
 
           {/* 3. Settings section */}
           <div className="flex flex-col gap-3 mt-1">
-            <label className="text-[11px] uppercase tracking-wider text-[#888888] font-medium">
+            <label className="text-[11px] uppercase tracking-wider text-white/50 font-medium">
               Settings
             </label>
 
             {/* AI Model */}
             <div className="flex flex-col gap-1.5">
-              <span className="text-sm text-[#cccccc]">AI Model</span>
+              <span className="text-sm text-white/70">AI Model</span>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setAiModel("Meshy 7")}
-                  className={`flex-1 py-1 rounded-full text-xs font-semibold transition-colors ${
+                  className={`flex-1 py-1 rounded-full text-xs font-semibold transition-all ${
                     aiModel === "Meshy 7"
-                      ? "bg-[#ffffff] border border-[#ffffff] text-black"
-                      : "bg-[#1f1f1f] border border-[#2a2a2a] text-[#888888] hover:text-[#cccccc]"
+                      ? "bg-[rgba(0,255,163,0.12)] border border-[rgba(0,255,163,0.3)] text-[#00ffa3] shadow-[0_0_8px_rgba(0,255,163,0.15)]"
+                      : "bg-white/[0.03] border border-white/[0.08] text-white/50 hover:text-white"
                   }`}
                 >
                   Meshy 7
@@ -418,10 +418,10 @@ export function LeftPanel({
                 <button
                   type="button"
                   onClick={() => setAiModel("Meshy 6")}
-                  className={`flex-1 py-1 rounded-full text-xs font-semibold transition-colors ${
+                  className={`flex-1 py-1 rounded-full text-xs font-semibold transition-all ${
                     aiModel === "Meshy 6"
-                      ? "bg-[#ffffff] border border-[#ffffff] text-black"
-                      : "bg-[#1f1f1f] border border-[#2a2a2a] text-[#888888] hover:text-[#cccccc]"
+                      ? "bg-[rgba(0,255,163,0.12)] border border-[rgba(0,255,163,0.3)] text-[#00ffa3] shadow-[0_0_8px_rgba(0,255,163,0.15)]"
+                      : "bg-white/[0.03] border border-white/[0.08] text-white/50 hover:text-white"
                   }`}
                 >
                   Meshy 6
@@ -431,19 +431,19 @@ export function LeftPanel({
 
             {/* Image Enhancement switch */}
             <div className="flex items-center justify-between py-1">
-              <span className="text-sm text-[#cccccc]">Image Enhancement</span>
+              <span className="text-sm text-white/70">Image Enhancement</span>
               <button
                 type="button"
                 role="switch"
                 aria-checked={imageEnhancement}
                 onClick={() => setImageEnhancement(!imageEnhancement)}
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
-                  imageEnhancement ? "bg-[#ffffff]" : "bg-[#2a2a2a]"
+                  imageEnhancement ? "bg-[#00ffa3]" : "bg-white/[0.08] border border-white/10"
                 }`}
               >
                 <span
-                  className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-black shadow-lg ring-0 transition duration-200 ease-in-out ${
-                    imageEnhancement ? "translate-x-4" : "translate-x-0"
+                  className={`pointer-events-none inline-block h-4 w-4 transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out ${
+                    imageEnhancement ? "translate-x-4 bg-[#050508]" : "translate-x-0 bg-white/70"
                   }`}
                 />
               </button>
@@ -451,15 +451,15 @@ export function LeftPanel({
 
             {/* Topology */}
             <div className="flex flex-col gap-1.5">
-              <span className="text-sm text-[#cccccc]">Topology</span>
+              <span className="text-sm text-white/70">Topology</span>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setTopology("Triangle")}
-                  className={`flex-1 py-1 rounded-full text-xs font-semibold transition-colors ${
+                  className={`flex-1 py-1 rounded-full text-xs font-semibold transition-all ${
                     topology === "Triangle"
-                      ? "bg-[#ffffff] border border-[#ffffff] text-black"
-                      : "bg-[#1f1f1f] border border-[#2a2a2a] text-[#888888] hover:text-[#cccccc]"
+                      ? "bg-[rgba(0,255,163,0.12)] border border-[rgba(0,255,163,0.3)] text-[#00ffa3] shadow-[0_0_8px_rgba(0,255,163,0.15)]"
+                      : "bg-white/[0.03] border border-white/[0.08] text-white/50 hover:text-white"
                   }`}
                 >
                   Triangle
@@ -467,10 +467,10 @@ export function LeftPanel({
                 <button
                   type="button"
                   onClick={() => setTopology("Quad")}
-                  className={`flex-1 py-1 rounded-full text-xs font-semibold transition-colors ${
+                  className={`flex-1 py-1 rounded-full text-xs font-semibold transition-all ${
                     topology === "Quad"
-                      ? "bg-[#ffffff] border border-[#ffffff] text-black"
-                      : "bg-[#1f1f1f] border border-[#2a2a2a] text-[#888888] hover:text-[#cccccc]"
+                      ? "bg-[rgba(0,255,163,0.12)] border border-[rgba(0,255,163,0.3)] text-[#00ffa3] shadow-[0_0_8px_rgba(0,255,163,0.15)]"
+                      : "bg-white/[0.03] border border-white/[0.08] text-white/50 hover:text-white"
                   }`}
                 >
                   Quad
@@ -488,16 +488,16 @@ export function LeftPanel({
                 onGenerate3D(uploadedImage, aiModel, imageEnhancement, topology);
               }
             }}
-            className="w-full h-10 rounded-lg bg-[#ffffff] hover:bg-[#e5e5e5] disabled:opacity-50 disabled:cursor-not-allowed text-black font-semibold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-[#ffffff]/20 active:scale-[0.99] mt-2"
+            className="btn-primary w-full h-10 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed text-[#050508] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(0,255,163,0.3)] active:scale-[0.99] mt-2"
           >
             {isGenerating3D ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin text-black" />
+                <Loader2 className="w-4 h-4 animate-spin text-[#050508]" />
                 <span>Generating 3D...</span>
               </>
             ) : (
               <>
-                <Box className="w-4 h-4 text-black" />
+                <Box className="w-4 h-4 text-[#050508]" />
                 <span>Generate 3D</span>
               </>
             )}
@@ -506,28 +506,28 @@ export function LeftPanel({
           {/* 5. Progress bar (shown while generating) */}
           {isGenerating3D && (
             <div className="flex flex-col gap-1.5 mt-1">
-              <div className="w-full bg-[#1f1f1f] rounded-full h-1.5 overflow-hidden">
+              <div className="w-full bg-white/[0.06] rounded-full h-1.5 overflow-hidden border border-white/[0.08]">
                 <div
-                  className="bg-[#ffffff] h-full rounded-full transition-all duration-300"
+                  className="bg-gradient-to-r from-[#00ffa3] to-[#00c3ff] h-full rounded-full transition-all duration-300"
                   style={{ width: `${Math.max(5, threeDProgress)}%` }}
                 />
               </div>
-              <span className="text-[11px] text-[#888888]">
+              <span className="text-[11px] text-white/50">
                 {threeDProgress}% · Generating mesh...
               </span>
             </div>
           )}
 
-          {/* Thin divider */}
-          <div className="w-full h-[1px] bg-[#1f1f1f] my-2" />
+          {/* Divider */}
+          <div className="w-full h-[1px] bg-white/[0.08] my-2" />
 
           {/* 6. "My Generations" thumbnails (2-col grid below) */}
           <div className="flex flex-col gap-2">
-            <label className="text-[11px] uppercase tracking-wider text-[#888888] font-medium">
+            <label className="text-[11px] uppercase tracking-wider text-white/50 font-medium">
               My Generations
             </label>
             {threeDGenerations.length === 0 ? (
-              <p className="text-[11px] text-[#555555] italic py-2">
+              <p className="text-[11px] text-white/40 italic py-2">
                 No 3D generations yet.
               </p>
             ) : (
@@ -539,11 +539,11 @@ export function LeftPanel({
                     <div
                       key={gen.id}
                       onClick={() => onSelectGeneration(gen)}
-                      className={`bg-[#141414] rounded-lg overflow-hidden cursor-pointer border border-[#1f1f1f] transition-all flex flex-col ${
-                        isSelected ? "ring-2 ring-[#ffffff] border-transparent" : "hover:border-[#3a3a3a]"
+                      className={`bg-white/[0.03] rounded-xl overflow-hidden cursor-pointer border transition-all flex flex-col ${
+                        isSelected ? "border-[#00ffa3] ring-1 ring-[#00ffa3] shadow-[0_0_12px_rgba(0,255,163,0.25)]" : "border-white/[0.06] hover:border-[#00ffa3]/30"
                       }`}
                     >
-                      <div className="aspect-square w-full bg-[#0e0e0e] overflow-hidden">
+                      <div className="aspect-square w-full bg-[#050508] overflow-hidden">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={thumb}
@@ -551,11 +551,11 @@ export function LeftPanel({
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <div className="p-1.5 flex flex-col">
-                        <span className="text-white text-xs truncate">
+                      <div className="p-2 flex flex-col">
+                        <span className="text-white text-xs truncate font-medium">
                           {gen.name || "3D Mesh"}
                         </span>
-                        <span className="text-[10px] text-[#555555]">
+                        <span className="text-[10px] text-white/40 mt-0.5">
                           {gen.created_at ? "Just now" : "Recent"}
                         </span>
                       </div>

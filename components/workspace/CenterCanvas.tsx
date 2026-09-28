@@ -48,37 +48,37 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
 
   return (
     <main
-      className="flex-1 h-[calc(100vh-48px)] bg-[#000000] overflow-hidden relative select-none flex flex-col"
+      className="flex-1 h-[calc(100vh-48px)] bg-[#050508] overflow-hidden relative select-none flex flex-col"
       style={{
         marginLeft: "401px", // 56px icon sidebar + 345px left panel
         marginRight: "420px", // 420px right panel
       }}
     >
       {/* 1. UPGRADE BANNER (top of center panel) */}
-      <div className="w-full bg-[#080808] border-b border-white/10 px-6 py-2.5 flex items-center justify-between z-20 flex-shrink-0">
-        <p className="text-sm text-zinc-300 truncate pr-4">
+      <div className="w-full bg-white/[0.02] border-b border-white/[0.08] px-6 py-2.5 flex items-center justify-between z-20 flex-shrink-0">
+        <p className="text-sm text-white/70 truncate pr-4">
           More assets, faster workflows, and private, commercial-safe exports – just ₹849.5 for your first month.
         </p>
-        <button className="bg-white hover:bg-neutral-200 text-black text-xs font-semibold px-4 py-1.5 rounded-lg flex items-center gap-1.5 transition-all shadow-sm flex-shrink-0 cursor-pointer">
-          <ArrowUp className="w-3.5 h-3.5 stroke-[2.5]" />
+        <button className="btn-primary text-xs font-bold px-4 py-1.5 rounded-lg flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(0,255,163,0.25)] flex-shrink-0 cursor-pointer">
+          <ArrowUp className="w-3.5 h-3.5 stroke-[2.5] text-[#050508]" />
           <span>Upgrade</span>
         </button>
       </div>
 
       {/* 2. MAIN STAGE */}
-      <div className="relative flex-1 w-full h-full overflow-hidden bg-[#000000]">
+      <div className="relative flex-1 w-full h-full overflow-hidden bg-[#050508]">
 
         {/* 3. GENERATION IN-PROGRESS STATE */}
         {isGenerating ? (
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-full max-w-md px-4">
-            <div className="bg-[#0c0c0e] border border-white/15 rounded-2xl p-6 shadow-2xl text-center backdrop-blur-md relative overflow-hidden animate-pulse-glow">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white to-transparent animate-shimmer" />
+            <div className="glass-card border border-white/[0.08] rounded-2xl p-6 shadow-2xl text-center backdrop-blur-2xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#00ffa3]/50 to-transparent animate-shimmer" />
 
-              <div className="w-16 h-16 rounded-full bg-[#141416] border border-white/10 flex items-center justify-center mx-auto mb-4 relative shadow-inner">
+              <div className="w-16 h-16 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center mx-auto mb-4 relative shadow-inner">
                 {generationType === "image" ? (
-                  <Wand2 className="w-8 h-8 text-white animate-pulse" />
+                  <Wand2 className="w-8 h-8 text-[#00ffa3] animate-pulse" />
                 ) : (
-                  <Loader2 className="w-8 h-8 text-white animate-spin" />
+                  <Loader2 className="w-8 h-8 text-[#00ffa3] animate-spin" />
                 )}
               </div>
 
@@ -87,24 +87,24 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
                   ? "Synthesizing 2D Artwork"
                   : "Generating 3D Asset"}
               </h3>
-              <p className="text-xl font-extrabold text-white mb-2 tracking-wide">
+              <p className="text-xl font-extrabold text-[#00ffa3] mb-2 tracking-wide">
                 Generating... {generationProgress}%
               </p>
-              <p className="text-xs text-zinc-400 mb-5">
+              <p className="text-xs text-white/50 mb-5">
                 {generationStage}
               </p>
 
               {/* Progress bar */}
-              <div className="w-full bg-[#18181b] h-2.5 rounded-full overflow-hidden mb-6 border border-white/10">
+              <div className="w-full bg-white/[0.06] h-2.5 rounded-full overflow-hidden mb-6 border border-white/[0.08]">
                 <div
-                  className="bg-white h-full transition-all duration-300 rounded-full shadow-[0_0_12px_rgba(255,255,255,0.4)]"
+                  className="bg-gradient-to-r from-[#00ffa3] to-[#00c3ff] h-full transition-all duration-300 rounded-full shadow-[0_0_12px_rgba(0,255,163,0.5)]"
                   style={{ width: `${generationProgress}%` }}
                 />
               </div>
 
               <button
                 onClick={cancelGeneration}
-                className="text-xs text-zinc-300 hover:text-white bg-[#161618] hover:bg-[#202022] px-4 py-2 rounded-lg transition-colors border border-white/10"
+                className="btn-secondary text-xs text-white/70 hover:text-white px-4 py-2 rounded-lg transition-colors"
               >
                 Cancel Generation
               </button>
@@ -117,10 +117,10 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
           <div className="absolute inset-4 z-20 flex flex-col items-center justify-center">
             {currentItem.type === "image" ? (
               /* 4A. 2D GENERATED IMAGE PREVIEW WITH DIRECT CONVERT-TO-3D */
-              <div className="w-full max-w-2xl h-[72vh] bg-[#0c0c0e]/95 border border-white/15 rounded-2xl p-5 flex flex-col relative backdrop-blur-md shadow-2xl overflow-hidden">
+              <div className="w-full max-w-2xl h-[72vh] glass-card border border-white/[0.08] rounded-2xl p-5 flex flex-col relative backdrop-blur-2xl shadow-2xl overflow-hidden">
                 <div className="flex items-center justify-between mb-3 z-10">
                   <div className="flex items-center gap-2">
-                    <span className="bg-white/15 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full border border-white/20">
+                    <span className="badge-cyan text-xs">
                       2D IMAGE SOURCE
                     </span>
                     <h3 className="text-base font-bold text-white truncate max-w-sm">
@@ -130,14 +130,14 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
 
                   <button
                     onClick={() => setSelectedCard(null)}
-                    className="p-1.5 rounded-lg bg-[#161618] text-zinc-400 hover:text-white hover:bg-[#222] transition-colors border border-white/10"
+                    className="p-1.5 rounded-lg btn-secondary text-white/60 hover:text-white transition-colors"
                   >
                     <X className="w-4 h-4" />
                   </button>
                 </div>
 
                 {/* Image canvas display */}
-                <div className="flex-1 rounded-xl relative overflow-hidden flex items-center justify-center bg-[#050505] border border-white/10">
+                <div className="flex-1 rounded-xl relative overflow-hidden flex items-center justify-center bg-[#050508]/80 border border-white/[0.08]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={currentItem.imageUrl || generatedImageUrl || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"}
@@ -147,8 +147,8 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
                 </div>
 
                 {/* Synchronization Bridge Actions */}
-                <div className="mt-4 flex items-center justify-between pt-2 border-t border-white/10">
-                  <div className="text-xs text-zinc-400 truncate max-w-xs">
+                <div className="mt-4 flex items-center justify-between pt-2 border-t border-white/[0.08]">
+                  <div className="text-xs text-white/50 truncate max-w-xs">
                     Style: <span className="text-white font-medium">{currentItem.category}</span>
                   </div>
 
@@ -156,21 +156,21 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
                     {/* The Sync Bridge: Convert 2D image to 3D */}
                     <button
                       onClick={() => convertImageTo3D(currentItem.imageUrl)}
-                      className="bg-white hover:bg-neutral-200 hover:scale-105 active:scale-95 text-black text-xs font-bold px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all shadow-md shadow-white/10"
+                      className="btn-primary text-xs font-bold px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all shadow-[0_0_20px_rgba(0,255,163,0.3)] hover:scale-105 active:scale-95"
                     >
-                      <Sparkles className="w-3.5 h-3.5 stroke-[2.5]" />
+                      <Sparkles className="w-3.5 h-3.5 stroke-[2.5] text-[#050508]" />
                       <span>Convert to 3D Model</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <ArrowRight className="w-3.5 h-3.5 text-[#050508]" />
                     </button>
                   </div>
                 </div>
               </div>
             ) : (
               /* 4B. 3D MODEL PREVIEW WITH MODEL-VIEWER */
-              <div className="w-full max-w-3xl h-[75vh] bg-[#0c0c0e]/95 border border-white/15 rounded-2xl p-4 flex flex-col relative backdrop-blur-md shadow-2xl overflow-hidden">
+              <div className="w-full max-w-3xl h-[75vh] glass-card border border-white/[0.08] rounded-2xl p-4 flex flex-col relative backdrop-blur-2xl shadow-2xl overflow-hidden">
                 <div className="flex items-center justify-between mb-3 z-10 flex-shrink-0">
                   <div className="flex items-center gap-2">
-                    <span className="bg-white/15 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full border border-white/20">
+                    <span className="badge-cyan text-xs">
                       3D MODEL ASSET
                     </span>
                     <h3 className="text-base font-bold text-white">
@@ -180,14 +180,14 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
 
                   <button
                     onClick={() => setSelectedCard(null)}
-                    className="p-1.5 rounded-lg bg-[#161618] text-zinc-400 hover:text-white hover:bg-[#222] transition-colors border border-white/10"
+                    className="p-1.5 rounded-lg btn-secondary text-white/60 hover:text-white transition-colors"
                   >
                     <X className="w-4 h-4" />
                   </button>
                 </div>
 
                 {/* Interactive 3D Model Viewer */}
-                <div className="flex-1 rounded-xl overflow-hidden relative border border-white/10">
+                <div className="flex-1 rounded-xl overflow-hidden relative border border-white/[0.08] bg-[#050508]/80">
                   <ModelViewer
                     src={currentItem.modelUrl || "https://modelviewer.dev/shared-assets/models/Astronaut.glb"}
                     alt={currentItem.title}
@@ -196,8 +196,8 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
                 </div>
 
                 {/* 3D Action Footer */}
-                <div className="mt-3 flex items-center justify-between pt-2 border-t border-white/10 flex-shrink-0">
-                  <div className="text-xs text-zinc-400">
+                <div className="mt-3 flex items-center justify-between pt-2 border-t border-white/[0.08] flex-shrink-0">
+                  <div className="text-xs text-white/50">
                     Faces:{" "}
                     <span className="text-white font-medium">
                       {currentItem.statistics?.faces ? `${(currentItem.statistics.faces / 1000).toFixed(1)}k` : "35.2k"}
@@ -209,17 +209,17 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <button className="bg-[#161618] hover:bg-[#222] text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors border border-white/10">
+                    <button className="btn-secondary text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors">
                       <Share2 className="w-3.5 h-3.5" />
                       Share
                     </button>
                     <a
                       href={currentItem.modelUrl || "https://modelviewer.dev/shared-assets/models/Astronaut.glb"}
                       download="model.glb"
-                      className="bg-white hover:bg-neutral-200 text-black text-xs font-bold px-4 py-1.5 rounded-lg flex items-center gap-1.5 transition-all shadow-md"
+                      className="btn-primary text-xs font-bold px-4 py-1.5 rounded-lg flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(0,255,163,0.3)]"
                     >
-                      <Download className="w-3.5 h-3.5 stroke-[2.5]" />
-                      Download GLB
+                      <Download className="w-3.5 h-3.5 stroke-[2.5] text-[#050508]" />
+                      <span>Download GLB</span>
                     </a>
                   </div>
                 </div>
@@ -228,10 +228,10 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
           </div>
         ) : (
           /* ======================================================== */
-          /* 5. EMPTY STATE WITH MINIMALIST MONOCHROME SHAPES         */
+          /* 5. EMPTY STATE WITH NEON SHAPES                          */
           /* ======================================================== */
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10 select-none max-w-lg w-full px-4">
-            {/* Minimalist Monochrome Shapes */}
+            {/* Minimalist Monochrome Neon Shapes */}
             <div className="relative w-16 h-16 mx-auto mb-6 flex items-center justify-center">
               <div
                 style={{
@@ -239,60 +239,64 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
                   height: 0,
                   borderLeft: "14px solid transparent",
                   borderRight: "14px solid transparent",
-                  borderBottom: "28px solid #ffffff",
+                  borderBottom: "28px solid #00ffa3",
                   position: "absolute",
                   top: "0px",
                   left: "0px",
                   zIndex: 4,
                   transform: "rotate(-10deg)",
-                  filter: "drop-shadow(0 0 10px rgba(255,255,255,0.4))",
+                  filter: "drop-shadow(0 0 12px rgba(0,255,163,0.5))",
                 }}
               />
               <div
                 style={{
                   width: "28px",
                   height: "28px",
-                  backgroundColor: "#e2e8f0",
+                  backgroundColor: "#00c3ff",
                   borderRadius: "50%",
                   position: "absolute",
                   top: "2px",
                   right: "0px",
                   zIndex: 3,
-                  boxShadow: "0 0 10px rgba(255,255,255,0.3)",
+                  boxShadow: "0 0 12px rgba(0,195,255,0.45)",
                 }}
               />
               <div
                 style={{
                   width: "26px",
                   height: "26px",
-                  backgroundColor: "#94a3b8",
-                  borderRadius: "4px",
+                  backgroundColor: "#6300ff",
+                  borderRadius: "6px",
                   position: "absolute",
                   bottom: "0px",
                   left: "2px",
                   zIndex: 2,
+                  boxShadow: "0 0 12px rgba(99,0,255,0.35)",
                 }}
               />
               <div
                 style={{
                   width: "24px",
                   height: "24px",
-                  backgroundColor: "#64748b",
-                  borderRadius: "3px",
+                  backgroundColor: "rgba(255,255,255,0.15)",
+                  backdropFilter: "blur(4px)",
+                  borderRadius: "4px",
                   position: "absolute",
                   bottom: "2px",
                   right: "4px",
                   zIndex: 1,
                   transform: "rotate(45deg)",
+                  border: "1px solid rgba(255,255,255,0.2)",
                 }}
               />
             </div>
 
-            <h2 className="text-2xl font-bold text-white tracking-tight">
-              What will you create today?
+            <h2 className="text-2xl font-bold tracking-tight hero-title mb-2">
+              <span className="text-white">What will you </span>
+              <span className="accent">create today?</span>
             </h2>
 
-            <p className="mt-3 text-sm text-zinc-400 max-w-md mx-auto leading-relaxed">
+            <p className="mt-3 text-sm text-white/50 max-w-md mx-auto leading-relaxed">
               Generate a new model from image or text, or edit one from your asset library. Your next masterpiece awaits.
             </p>
 
@@ -302,17 +306,17 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
                 onClick={() => {
                   setSubMode("image-gen");
                 }}
-                className="bg-[#121212] hover:bg-[#1a1a1a] text-white font-semibold text-sm px-6 py-3 rounded-full flex items-center gap-2 border border-white/15 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-md"
+                className="btn-secondary text-white font-semibold text-sm px-6 py-3 rounded-full flex items-center gap-2 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-md"
               >
-                <Wand2 className="w-4 h-4 text-zinc-300" />
+                <Wand2 className="w-4 h-4 text-[#00c3ff]" />
                 <span>Generate 2D Image</span>
               </button>
 
               <button
                 onClick={start3DGeneration}
-                className="bg-white hover:bg-neutral-200 text-black font-bold text-sm px-7 py-3 rounded-full flex items-center gap-2 shadow-xl shadow-white/10 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                className="btn-primary text-sm px-7 py-3 rounded-full flex items-center gap-2 shadow-[0_0_20px_rgba(0,255,163,0.35)] transition-all hover:scale-105 active:scale-95 cursor-pointer font-bold"
               >
-                <Sparkles className="w-4 h-4 text-black stroke-[2.5]" />
+                <Sparkles className="w-4 h-4 text-[#050508] stroke-[2.5]" />
                 <span>✦ Generate 3D Model</span>
               </button>
             </div>

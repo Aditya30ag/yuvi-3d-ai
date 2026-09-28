@@ -235,10 +235,10 @@ export function GenerationCard({ item, isSelected, onSelect }: GenerationCardPro
   return (
     <div
       onClick={() => onSelect(item.id)}
-      className={`aspect-square bg-[#0e0e0e] rounded-xl overflow-hidden relative cursor-pointer group transition-all duration-150 select-none border ${
+      className={`aspect-square bg-white/[0.03] rounded-xl overflow-hidden relative cursor-pointer group transition-all duration-150 select-none border ${
         isSelected
-          ? "border-white ring-2 ring-white shadow-xl shadow-white/10 scale-[1.02]"
-          : "border-white/5 hover:border-white/25 hover:scale-[1.02]"
+          ? "border-[#00ffa3] ring-1 ring-[#00ffa3] shadow-[0_0_15px_rgba(0,255,163,0.25)] scale-[1.02]"
+          : "border-white/[0.06] hover:border-[#00ffa3]/30 hover:scale-[1.02]"
       }`}
       style={{
         background: `radial-gradient(circle at 50% 40%, ${item.gradientFrom} 0%, ${item.gradientTo} 100%)`,
@@ -247,15 +247,15 @@ export function GenerationCard({ item, isSelected, onSelect }: GenerationCardPro
       {/* Badge Top-Left */}
       <div className="absolute top-2 left-2 z-10 flex items-center gap-1">
         {item.badge === "GENERATED" ? (
-          <span className="bg-white text-black text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm">
+          <span className="badge-cyan text-[9px] py-0 px-1.5 leading-tight">
             {item.type === "image" ? "IMAGE" : "3D MESH"}
           </span>
         ) : isTemplate ? (
-          <span className="bg-neutral-900/90 text-zinc-200 text-[9px] font-medium px-1.5 py-0.5 rounded backdrop-blur border border-white/20">
+          <span className="meta-pill text-[9px] py-0.5 px-1.5 leading-tight bg-[#050508]/80 backdrop-blur">
             TEMPLATE
           </span>
         ) : (
-          <span className="bg-black/85 text-zinc-400 text-[9px] font-medium px-1.5 py-0.5 rounded backdrop-blur border border-white/10">
+          <span className="meta-pill text-[9px] py-0.5 px-1.5 leading-tight bg-[#050508]/80 backdrop-blur">
             EXAMPLE
           </span>
         )}

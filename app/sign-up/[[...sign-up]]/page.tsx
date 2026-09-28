@@ -1,50 +1,30 @@
 import { SignUp } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
-import { Sparkles } from "lucide-react";
 
 export default function SignUpPage() {
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#000000] px-4 py-8">
-      <div className="bg-[#0a0a0a] rounded-2xl border border-white/10 p-8 w-full max-w-[400px] flex flex-col items-center shadow-2xl">
-        {/* Top: small cube/sparkle logo (white) + "Studio3D" */}
-        <div className="flex items-center gap-2.5 mb-2">
-          <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shadow-sm">
-            <Sparkles className="w-4 h-4 text-black stroke-[2.5]" />
-          </div>
-          <span className="text-xl font-bold text-white tracking-tight">Studio3D</span>
-        </div>
-
-        <p className="text-sm text-zinc-400 mb-6 text-center">
-          Create stunning 3D from images
-        </p>
-
-        {/* <SignUp /> with dark Clerk theme + white accent */}
-        <div className="w-full flex justify-center">
-          <SignUp
-            appearance={{
-              baseTheme: dark,
-              variables: {
-                colorPrimary: "#ffffff",
-                colorBackground: "#0a0a0a",
-                colorInputBackground: "#141414",
-                colorText: "#ffffff",
-                colorTextSecondary: "#a1a1aa",
-                borderRadius: "0.5rem",
-              },
-              elements: {
-                card: "shadow-none border-0 bg-transparent p-0 w-full",
-                rootBox: "w-full",
-                formButtonPrimary: "bg-white hover:bg-neutral-200 text-black font-semibold shadow-md",
-                footerActionLink: "text-white hover:underline font-medium",
-              },
-            }}
-          />
-        </div>
-
-        <p className="mt-6 text-xs text-zinc-600 text-center">
-          Powered by Meshy AI
-        </p>
-      </div>
+    <div className="min-h-screen w-full flex items-center justify-center bg-[#050508] px-4 py-8 relative z-10">
+      <SignUp
+        appearance={{
+          baseTheme: dark,
+          variables: {
+            colorPrimary: "#00ffa3",
+            colorBackground: "#0b0c10",
+            colorInputBackground: "rgba(255, 255, 255, 0.05)",
+            colorInputText: "#ffffff",
+            colorText: "#ffffff",
+            colorTextSecondary: "rgba(255, 255, 255, 0.6)",
+            borderRadius: "1rem",
+          },
+          elements: {
+            card: "border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.8)] backdrop-blur-xl",
+            formButtonPrimary: "bg-gradient-to-r from-[#00ffa3] to-[#00c3ff] text-[#050508] font-bold hover:shadow-[0_0_20px_rgba(0,255,163,0.4)] transition-all",
+            footerActionLink: "text-[#00ffa3] hover:text-[#00c3ff] hover:underline",
+            headerTitle: "text-white font-bold",
+            headerSubtitle: "text-white/60",
+          },
+        }}
+      />
     </div>
   );
 }

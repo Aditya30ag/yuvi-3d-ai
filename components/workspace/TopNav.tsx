@@ -26,14 +26,14 @@ export function TopNav({ coins = 100, onUpgradeClick }: TopNavProps) {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-[48px] bg-[#050505] border-b border-white/10 z-50 flex items-center justify-between px-3.5 select-none backdrop-blur-md">
-      {/* Left Section: Minimalist White Logo */}
+    <header className="fixed top-0 left-0 right-0 h-[48px] bg-[#050508]/85 border-b border-white/[0.08] z-50 flex items-center justify-between px-3.5 select-none backdrop-blur-2xl">
+      {/* Left Section: Neon Gradient Logo */}
       <div className="flex items-center">
         <Link href="/" className="flex items-center group">
-          <div className="w-[28px] h-[28px] rounded-full bg-white flex items-center justify-center p-1.5 shadow-sm group-hover:scale-105 transition-transform">
-            <Sparkles className="w-full h-full text-black stroke-[2.5]" />
+          <div className="w-[28px] h-[28px] rounded-full bg-gradient-to-tr from-[#00ffa3] to-[#00c3ff] flex items-center justify-center p-1.5 shadow-[0_0_15px_rgba(0,255,163,0.3)] group-hover:scale-105 transition-transform">
+            <Sparkles className="w-full h-full text-[#050508] stroke-[2.5]" />
           </div>
-          <span className="text-sm font-bold text-white ml-2 tracking-tight">
+          <span className="text-sm font-bold nav-logo ml-2 tracking-tight">
             Studio3D
           </span>
         </Link>
@@ -41,12 +41,12 @@ export function TopNav({ coins = 100, onUpgradeClick }: TopNavProps) {
 
       {/* Center Nav Links */}
       <nav className="hidden md:flex items-center gap-6 text-sm">
-        {/* Community with clean white/emerald dot */}
+        {/* Community with neon status dot */}
         <Link
           href="#community"
-          className="flex items-center text-zinc-400 hover:text-white transition-colors py-1 font-medium text-xs tracking-wide"
+          className="flex items-center text-white/60 hover:text-white transition-colors py-1 font-medium text-xs tracking-wide"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-white inline-block mr-1.5 shadow-[0_0_6px_rgba(255,255,255,0.8)]" />
+          <span className="status-dot mr-1.5 inline-block" />
           Community
         </Link>
 
@@ -54,28 +54,28 @@ export function TopNav({ coins = 100, onUpgradeClick }: TopNavProps) {
         <div className="relative">
           <button
             onClick={() => toggleDropdown("api")}
-            className="flex items-center gap-1 text-zinc-400 hover:text-white transition-colors py-1 font-medium text-xs tracking-wide"
+            className="flex items-center gap-1 text-white/60 hover:text-white transition-colors py-1 font-medium text-xs tracking-wide"
           >
             API
-            <ChevronDown className="w-3.5 h-3.5 text-zinc-500" />
+            <ChevronDown className="w-3.5 h-3.5 text-white/40" />
           </button>
           {activeDropdown === "api" && (
-            <div className="absolute top-full left-0 mt-2 w-44 bg-[#0d0d0d] border border-white/15 rounded-lg shadow-2xl py-1 z-50 text-xs backdrop-blur-xl">
+            <div className="absolute top-full left-0 mt-2 w-44 bg-[#050508]/95 border border-white/[0.08] rounded-xl shadow-2xl py-1 z-50 text-xs backdrop-blur-2xl">
               <Link
                 href="#api-docs"
-                className="block px-3 py-1.5 text-zinc-300 hover:text-white hover:bg-neutral-800"
+                className="block px-3 py-1.5 text-white/70 hover:text-[#00ffa3] hover:bg-white/[0.04]"
               >
                 API Documentation
               </Link>
               <Link
                 href="#api-keys"
-                className="block px-3 py-1.5 text-zinc-300 hover:text-white hover:bg-neutral-800"
+                className="block px-3 py-1.5 text-white/70 hover:text-[#00ffa3] hover:bg-white/[0.04]"
               >
                 API Keys
               </Link>
               <Link
                 href="#webhooks"
-                className="block px-3 py-1.5 text-zinc-300 hover:text-white hover:bg-neutral-800"
+                className="block px-3 py-1.5 text-white/70 hover:text-[#00ffa3] hover:bg-white/[0.04]"
               >
                 Webhooks
               </Link>
@@ -87,28 +87,28 @@ export function TopNav({ coins = 100, onUpgradeClick }: TopNavProps) {
         <div className="relative">
           <button
             onClick={() => toggleDropdown("resources")}
-            className="flex items-center gap-1 text-zinc-400 hover:text-white transition-colors py-1 font-medium text-xs tracking-wide"
+            className="flex items-center gap-1 text-white/60 hover:text-white transition-colors py-1 font-medium text-xs tracking-wide"
           >
             Resources
-            <ChevronDown className="w-3.5 h-3.5 text-zinc-500" />
+            <ChevronDown className="w-3.5 h-3.5 text-white/40" />
           </button>
           {activeDropdown === "resources" && (
-            <div className="absolute top-full left-0 mt-2 w-44 bg-[#0d0d0d] border border-white/15 rounded-lg shadow-2xl py-1 z-50 text-xs backdrop-blur-xl">
+            <div className="absolute top-full left-0 mt-2 w-44 bg-[#050508]/95 border border-white/[0.08] rounded-xl shadow-2xl py-1 z-50 text-xs backdrop-blur-2xl">
               <Link
                 href="#tutorials"
-                className="block px-3 py-1.5 text-zinc-300 hover:text-white hover:bg-neutral-800"
+                className="block px-3 py-1.5 text-white/70 hover:text-[#00ffa3] hover:bg-white/[0.04]"
               >
                 Tutorials & Guides
               </Link>
               <Link
                 href="#showcase"
-                className="block px-3 py-1.5 text-zinc-300 hover:text-white hover:bg-neutral-800"
+                className="block px-3 py-1.5 text-white/70 hover:text-[#00ffa3] hover:bg-white/[0.04]"
               >
                 Community Showcase
               </Link>
               <Link
                 href="#blender"
-                className="block px-3 py-1.5 text-zinc-300 hover:text-white hover:bg-neutral-800"
+                className="block px-3 py-1.5 text-white/70 hover:text-[#00ffa3] hover:bg-white/[0.04]"
               >
                 Blender Add-on
               </Link>
@@ -120,22 +120,22 @@ export function TopNav({ coins = 100, onUpgradeClick }: TopNavProps) {
         <div className="relative">
           <button
             onClick={() => toggleDropdown("lab")}
-            className="flex items-center gap-1 text-zinc-400 hover:text-white transition-colors py-1 font-medium text-xs tracking-wide"
+            className="flex items-center gap-1 text-white/60 hover:text-white transition-colors py-1 font-medium text-xs tracking-wide"
           >
             Creative Lab
-            <ChevronDown className="w-3.5 h-3.5 text-zinc-500" />
+            <ChevronDown className="w-3.5 h-3.5 text-white/40" />
           </button>
           {activeDropdown === "lab" && (
-            <div className="absolute top-full left-0 mt-2 w-44 bg-[#0d0d0d] border border-white/15 rounded-lg shadow-2xl py-1 z-50 text-xs backdrop-blur-xl">
+            <div className="absolute top-full left-0 mt-2 w-44 bg-[#050508]/95 border border-white/[0.08] rounded-xl shadow-2xl py-1 z-50 text-xs backdrop-blur-2xl">
               <Link
                 href="#experimental"
-                className="block px-3 py-1.5 text-zinc-300 hover:text-white hover:bg-neutral-800"
+                className="block px-3 py-1.5 text-white/70 hover:text-[#00ffa3] hover:bg-white/[0.04]"
               >
                 Experimental AI
               </Link>
               <Link
                 href="#rigging"
-                className="block px-3 py-1.5 text-zinc-300 hover:text-white hover:bg-neutral-800"
+                className="block px-3 py-1.5 text-white/70 hover:text-[#00ffa3] hover:bg-white/[0.04]"
               >
                 Auto-Rigging Lab
               </Link>
@@ -143,36 +143,36 @@ export function TopNav({ coins = 100, onUpgradeClick }: TopNavProps) {
           )}
         </div>
 
-        {/* Shop with White pill */}
+        {/* Shop with Cyan Badge */}
         <Link
           href="#shop"
-          className="flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors py-1 font-medium text-xs tracking-wide"
+          className="flex items-center gap-1.5 text-white/60 hover:text-white transition-colors py-1 font-medium text-xs tracking-wide"
         >
           Shop
-          <span className="bg-white text-black text-[10px] font-bold px-1.5 py-0.2 rounded-full leading-tight shadow-sm">
+          <span className="badge-cyan text-[9px] py-0 px-1.5 leading-tight">
             NEW
           </span>
         </Link>
       </nav>
 
-      {/* Right Section: White aesthetic actions */}
+      {/* Right Section: Neon accents */}
       <div className="flex items-center gap-2.5">
         {/* Agent button */}
-        <button className="flex items-center gap-1.5 text-xs text-zinc-300 hover:text-white bg-neutral-900 hover:bg-neutral-800 border border-white/10 px-2.5 py-1 rounded-lg transition-colors">
-          <div className="w-[18px] h-[18px] rounded-full bg-white flex items-center justify-center">
-            <Bot className="w-3 h-3 text-black" />
+        <button className="flex items-center gap-1.5 text-xs text-white/80 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] px-2.5 py-1 rounded-lg transition-colors">
+          <div className="w-[18px] h-[18px] rounded-full bg-[rgba(0,195,255,0.15)] border border-[rgba(0,195,255,0.3)] flex items-center justify-center">
+            <Bot className="w-3 h-3 text-[#00c3ff]" />
           </div>
           <span className="font-medium">Agent</span>
         </button>
 
-        {/* Workspace button: Clean white theme button */}
-        <button className="bg-white hover:bg-neutral-200 text-black text-xs font-semibold px-3.5 py-1.5 rounded-lg flex items-center gap-1 transition-all shadow-sm active:scale-[0.98]">
+        {/* Workspace button: Subtle glass secondary */}
+        <button className="bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.1] text-white text-xs font-semibold px-3.5 py-1.5 rounded-lg flex items-center gap-1 transition-all shadow-sm active:scale-[0.98]">
           <span>Workspace</span>
           <ChevronDown className="w-3.5 h-3.5 stroke-[2.5]" />
         </button>
 
-        {/* Coin display: Crisp monochrome border pill */}
-        <div className="flex items-center gap-1.5 bg-neutral-900 border border-white/10 rounded-full px-3 py-1">
+        {/* Coin display: Crisp glass pill */}
+        <div className="flex items-center gap-1.5 bg-white/[0.04] border border-white/[0.08] rounded-full px-3 py-1">
           <span className="text-sm select-none" role="img" aria-label="coin">
             🪙
           </span>
@@ -181,37 +181,37 @@ export function TopNav({ coins = 100, onUpgradeClick }: TopNavProps) {
           </span>
         </div>
 
-        {/* Upgrade button: High-contrast white/slate */}
+        {/* Upgrade button: Primary Neon CTA */}
         <button
           onClick={onUpgradeClick}
-          className="bg-zinc-800 hover:bg-zinc-700 text-white border border-white/15 text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm transition-all active:scale-[0.98]"
+          className="btn-primary text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-[0_0_15px_rgba(0,255,163,0.3)] active:scale-[0.98]"
         >
-          <Crown className="w-3.5 h-3.5 stroke-[2] text-amber-400" />
+          <Crown className="w-3.5 h-3.5 stroke-[2.5] text-[#050508]" />
           <span>Upgrade</span>
         </button>
 
         {/* Action icons */}
         <button
-          className="text-zinc-500 hover:text-white transition-colors p-1"
+          className="text-white/40 hover:text-white transition-colors p-1"
           title="Rewards & Gifts"
         >
           <Gift className="w-4 h-4" />
         </button>
 
         <button
-          className="text-zinc-500 hover:text-white transition-colors p-1"
+          className="text-white/40 hover:text-white transition-colors p-1"
           title="Help & Support"
         >
           <HelpCircle className="w-4 h-4" />
         </button>
 
-        {/* Bell with clean dot */}
+        {/* Bell with neon green dot */}
         <button
-          className="relative text-zinc-500 hover:text-white transition-colors p-1"
+          className="relative text-white/40 hover:text-white transition-colors p-1"
           title="Notifications"
         >
           <Bell className="w-4 h-4" />
-          <span className="absolute top-1 right-1 w-2 h-2 bg-white rounded-full ring-2 ring-black" />
+          <span className="status-dot absolute top-1 right-1 ring-2 ring-[#050508]" />
         </button>
 
         {/* Clerk UserButton */}

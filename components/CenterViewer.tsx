@@ -363,32 +363,32 @@ export function CenterViewer({
               <button
                 onClick={() => imageUrl && onUseFor3D(imageUrl)}
                 title="Use for 3D"
-                className="p-2 rounded-lg text-[ffffff] hover:text-[#e5e5e5] hover:bg-[ffffff]/10 transition-colors flex items-center gap-1.5 text-xs font-semibold"
+                className="p-2 rounded-lg text-[#00ffa3] hover:text-white hover:bg-[rgba(0,255,163,0.1)] transition-colors flex items-center gap-1.5 text-xs font-semibold"
               >
-                <Wand2 className="w-4 h-4 text-[ffffff]" />
+                <Wand2 className="w-4 h-4 text-[#00ffa3]" />
                 <span>Use for 3D</span>
               </button>
 
               {/* Trash */}
               <button
                 title="Delete"
-                className="p-2 rounded-lg text-[#555555] hover:text-red-400 hover:bg-[#1f1f1f] transition-colors"
+                className="p-2 rounded-lg text-white/40 hover:text-red-400 hover:bg-white/[0.05] transition-colors"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
 
               {/* Separator */}
-              <div className="w-[1px] h-4 bg-[#1f1f1f] mx-1" />
+              <div className="w-[1px] h-4 bg-white/[0.08] mx-1" />
 
-              {/* Green pill button: "NEW" badge + download icon */}
+              {/* Neon pill button: "NEW" badge + download icon */}
               <button
                 onClick={() => imageUrl && handleDownloadFile(imageUrl, "hd-concept.png")}
-                className="bg-[ffffff] hover:bg-[#e5e5e5] text-black font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1.5 transition-colors shadow-sm"
+                className="btn-primary text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(0,255,163,0.25)]"
               >
-                <span className="bg-black text-[ffffff] text-[9px] px-1 py-0.2 rounded font-bold uppercase">
+                <span className="badge-cyan text-[8px] py-0 px-1 leading-tight">
                   NEW
                 </span>
-                <Download className="w-3.5 h-3.5" />
+                <Download className="w-3.5 h-3.5 text-[#050508]" />
               </button>
             </div>
           ) : (
@@ -398,7 +398,7 @@ export function CenterViewer({
               <button
                 onClick={onRegenerate}
                 title="Regenerate"
-                className="p-2 rounded-lg text-[#555555] hover:text-[#cccccc] hover:bg-[#1f1f1f] transition-colors"
+                className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.05] transition-colors"
               >
                 <RefreshCw className="w-4 h-4" />
               </button>
@@ -407,29 +407,29 @@ export function CenterViewer({
               <button
                 onClick={handleShare}
                 title="Share 3D Model"
-                className="p-2 rounded-lg text-[#555555] hover:text-[#cccccc] hover:bg-[#1f1f1f] transition-colors"
+                className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.05] transition-colors"
               >
-                {copiedLink ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
+                {copiedLink ? <Check className="w-4 h-4 text-[#00ffa3]" /> : <Share2 className="w-4 h-4" />}
               </button>
 
               {/* Settings2 (post-processing) */}
               <button
                 title="Post-processing"
-                className="p-2 rounded-lg text-[#555555] hover:text-[#cccccc] hover:bg-[#1f1f1f] transition-colors"
+                className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.05] transition-colors"
               >
                 <Settings2 className="w-4 h-4" />
               </button>
 
               {/* Separator */}
-              <div className="w-[1px] h-4 bg-[#1f1f1f] mx-1" />
+              <div className="w-[1px] h-4 bg-white/[0.08] mx-1" />
 
               {/* Download green pill button with format selector popover */}
               <div className="relative">
                 <button
                   onClick={() => setShowDownloadPopover(!showDownloadPopover)}
-                  className="bg-[ffffff] hover:bg-[#e5e5e5] text-black font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1.5 transition-colors shadow-sm"
+                  className="btn-primary text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(0,255,163,0.25)]"
                 >
-                  <Download className="w-3.5 h-3.5" />
+                  <Download className="w-3.5 h-3.5 text-[#050508]" />
                   <span>Download</span>
                 </button>
 

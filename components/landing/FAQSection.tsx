@@ -53,8 +53,11 @@ const FAQS = [
 
 export function FAQSection() {
   return (
-    <section id="faq" className="bg-black py-24 lg:py-32">
-      <div className="max-w-3xl mx-auto px-6">
+    <section id="faq" className="relative bg-[#050508] py-24 lg:py-32 overflow-hidden">
+      {/* Ambient background glow */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gradient-to-r from-[#00ffa3]/10 to-[#00c3ff]/10 blur-[140px] rounded-full pointer-events-none" />
+
+      <div className="max-w-3xl mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -62,7 +65,10 @@ export function FAQSection() {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+          <div className="section-label mb-3">
+            Got Questions?
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mt-2">
             Frequently Asked Questions
           </h2>
         </motion.div>
@@ -74,13 +80,17 @@ export function FAQSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-12"
         >
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full space-y-3.5">
             {FAQS.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left font-medium text-white hover:text-violet-300">
+              <AccordionItem
+                key={index}
+                value={`item-${index}`}
+                className="glass-card px-6 transition-all duration-300 overflow-hidden"
+              >
+                <AccordionTrigger className="text-left font-medium text-white hover:text-[#00ffa3] py-5">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-sm text-[#888888] leading-relaxed">
+                <AccordionContent className="text-sm text-white/70 leading-relaxed pb-5">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>
