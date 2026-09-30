@@ -17,27 +17,27 @@ export function HowItWorksSection() {
       desc: "Drag and drop a PNG, JPG, or WebP image (up to 20MB) into Studio3D's Image to 3D tool.",
       renderVisual: () => (
         <div className="mt-6 flex flex-col gap-3">
-          <div className="rounded-[16px] border-2 border-dashed border-white/15 bg-white/[0.03] backdrop-blur-[16px] p-6 text-center transition-colors hover:border-[#00ffa3]/50">
-            <Upload className="mx-auto h-6 w-6 text-[#00c3ff] opacity-90 mb-2" />
-            <p className="text-xs text-white/60">
+          <div className="rounded-[16px] border-2 border-dashed border-border-subtle bg-bg-surface-secondary/50 backdrop-blur-[16px] p-6 text-center transition-colors hover:border-neon-green/50">
+            <Upload className="mx-auto h-6 w-6 text-neon-blue mb-2" />
+            <p className="text-xs text-text-secondary">
               Drag and drop image here to upload
             </p>
-            <p className="text-[10px] text-white/40 mt-1">
+            <p className="text-[10px] text-text-muted mt-1">
               Supported: .png / .jpg / .webp · Max 20MB
             </p>
           </div>
 
-          <div className="rounded-[16px] border border-white/10 bg-white/[0.04] backdrop-blur-[16px] p-2.5 flex items-center justify-between gap-2 shadow-[0_4px_30px_rgba(0,0,0,0.4)]">
+          <div className="rounded-[16px] border border-border-subtle bg-bg-surface backdrop-blur-[16px] p-2.5 flex items-center justify-between gap-2 shadow-sm">
             <div className="flex items-center gap-2 min-w-0">
               <div className="w-6 h-6 rounded-md bg-gradient-to-r from-[#00ffa3] to-[#00c3ff] flex items-center justify-center text-[10px] text-[#050508] font-bold shrink-0">
                 2D
               </div>
-              <span className="text-xs text-white/90 truncate">
+              <span className="text-xs text-text-primary truncate font-medium">
                 Adventurer&apos;s Backpack
               </span>
             </div>
             <div className="flex items-center gap-1.5 shrink-0">
-              <span className="text-[10px] bg-white/[0.06] text-white/70 px-2 py-0.5 rounded border border-white/10">
+              <span className="text-[10px] bg-bg-surface-secondary text-text-secondary px-2 py-0.5 rounded border border-border-subtle">
                 Meshy 7
               </span>
               <span className="btn-primary text-[11px] px-2.5 py-1">
@@ -55,28 +55,28 @@ export function HowItWorksSection() {
       title: "Generate Your 3D Model",
       desc: "Click Generate and Studio3D turns your image into a fully textured 3D model in about a minute.",
       renderVisual: () => (
-        <div className="mt-6 rounded-[16px] border border-white/10 bg-white/[0.03] backdrop-blur-[16px] p-3.5 flex flex-col gap-2.5 shadow-[0_4px_30px_rgba(0,0,0,0.4)]">
+        <div className="mt-6 rounded-[16px] border border-border-subtle bg-bg-surface-secondary/40 backdrop-blur-[16px] p-3.5 flex flex-col gap-2.5 shadow-sm">
           {/* Active Generation Card with Shimmering Progress Bar */}
-          <div className="rounded-[12px] border border-[#00ffa3]/30 bg-white/[0.04] p-3">
+          <div className="rounded-[12px] border border-neon-green/30 bg-bg-surface p-3 shadow-sm">
             <div className="flex items-center justify-between text-xs mb-2">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[#00ffa3] animate-ping" />
-                <span className="font-medium text-white text-xs">
+                <div className="w-2 h-2 rounded-full bg-neon-green animate-ping" />
+                <span className="font-medium text-text-primary text-xs">
                   Adventurer&apos;s Backpack
                 </span>
               </div>
-              <span className="text-[#00ffa3] font-mono text-xs font-semibold">23%</span>
+              <span className="text-neon-green font-mono text-xs font-semibold">23%</span>
             </div>
             {/* Shimmer progress bar */}
-            <div className="relative w-full h-1.5 rounded-full bg-white/10 overflow-hidden">
+            <div className="relative w-full h-1.5 rounded-full bg-bg-surface-secondary overflow-hidden border border-border-subtle">
               <div
                 className="h-full bg-gradient-to-r from-[#00ffa3] to-[#00c3ff] rounded-full"
                 style={{ width: "23%" }}
               />
               <div className="absolute inset-0 bg-white/20 animate-shimmer" />
             </div>
-            <p className="text-[10px] text-white/50 mt-2 flex items-center gap-1">
-              <Clock className="w-3 h-3 text-[#00c3ff]" />
+            <p className="text-[10px] text-text-muted mt-2 flex items-center gap-1">
+              <Clock className="w-3 h-3 text-neon-blue" />
               Estimated time remaining: 42s
             </p>
           </div>
@@ -90,17 +90,17 @@ export function HowItWorksSection() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="flex items-center justify-between rounded-lg bg-white/[0.03] border border-white/10 px-2.5 py-1.5 text-xs"
+                className="flex items-center justify-between rounded-lg bg-bg-surface border border-border-subtle px-2.5 py-1.5 text-xs shadow-xs"
               >
                 <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded bg-white/10 flex items-center justify-center text-[10px] text-[#00c3ff]">
+                  <div className="w-5 h-5 rounded bg-bg-surface-secondary flex items-center justify-center text-[10px] text-neon-blue font-bold">
                     3D
                   </div>
-                  <span className="text-white/70">{item.name}</span>
+                  <span className="text-text-secondary">{item.name}</span>
                 </div>
-                <div className="flex items-center gap-2 text-[10px] text-white/40">
+                <div className="flex items-center gap-2 text-[10px] text-text-muted">
                   <span>{item.time}</span>
-                  <span className="text-white/80 bg-white/[0.06] border border-white/10 px-1.5 py-0.5 rounded">
+                  <span className="text-text-primary bg-bg-surface-secondary border border-border-subtle px-1.5 py-0.5 rounded font-mono">
                     {item.badge}
                   </span>
                 </div>
@@ -117,10 +117,10 @@ export function HowItWorksSection() {
       title: "Download & Use",
       desc: "Download your 3D model in FBX, OBJ, GLB, USDZ, STL for any 3D workflow.",
       renderVisual: () => (
-        <div className="mt-6 rounded-[16px] border border-white/10 bg-white/[0.03] backdrop-blur-[16px] p-4 flex flex-col justify-between shadow-[0_4px_30px_rgba(0,0,0,0.4)]">
+        <div className="mt-6 rounded-[16px] border border-border-subtle bg-bg-surface-secondary/40 backdrop-blur-[16px] p-4 flex flex-col justify-between shadow-sm">
           <div>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-medium text-white/70">
+              <span className="text-xs font-medium text-text-secondary">
                 Export Format
               </span>
               <span className="badge-cyan">
@@ -128,7 +128,7 @@ export function HowItWorksSection() {
               </span>
             </div>
 
-            {/* Format Pills Grid - Glassmorphism style */}
+            {/* Format Pills Grid */}
             <div className="grid grid-cols-3 gap-2">
               {formats.map((fmt) => {
                 const isActive = selectedFormat === fmt;
@@ -136,10 +136,10 @@ export function HowItWorksSection() {
                   <button
                     key={fmt}
                     onClick={() => setSelectedFormat(fmt)}
-                    className={`rounded-[16px] px-3 py-2 text-xs font-mono font-medium transition-all shadow-[0_4px_30px_rgba(0,0,0,0.4)] ${
+                    className={`rounded-[16px] px-3 py-2 text-xs font-mono font-medium transition-all cursor-pointer ${
                       isActive
-                        ? "border border-[#00ffa3] text-[#00ffa3] bg-[#00ffa3]/10"
-                        : "bg-white/[0.05] border border-white/10 backdrop-blur-[16px] text-white/70 hover:border-white/30 hover:text-white"
+                        ? "border border-neon-green text-neon-green bg-neon-green/10 shadow-sm"
+                        : "bg-bg-surface border border-border-subtle text-text-secondary hover:border-border-secondary hover:text-text-primary shadow-xs"
                     }`}
                   >
                     {fmt}
@@ -148,14 +148,14 @@ export function HowItWorksSection() {
               })}
             </div>
 
-            <div className="mt-4 flex items-center justify-between text-[11px] text-white/50">
+            <div className="mt-4 flex items-center justify-between text-[11px] text-text-muted">
               <span>Geometry: Quad/Triangle</span>
               <span>Textures: PBR Maps 4K</span>
             </div>
           </div>
 
           <button
-            className="btn-primary mt-5 w-full py-2.5 text-xs font-bold flex items-center justify-center gap-1.5"
+            className="btn-primary mt-5 w-full py-2.5 text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"
           >
             <Download className="w-3.5 h-3.5 text-[#050508]" />
             Download {selectedFormat.toUpperCase()} Model
@@ -166,9 +166,9 @@ export function HowItWorksSection() {
   ];
 
   return (
-    <section id="how-it-works" className="relative bg-[#050508] py-24 lg:py-32 overflow-hidden">
+    <section id="how-it-works" className="relative bg-bg-base py-24 lg:py-32 overflow-hidden transition-colors">
       {/* Subtle ambient radial glow behind section */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-to-r from-[#00ffa3]/10 to-[#00c3ff]/10 blur-[140px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-to-r from-neon-green/10 to-neon-blue/10 blur-[140px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Section Header */}
@@ -182,7 +182,7 @@ export function HowItWorksSection() {
           <div className="section-label mb-3">
             Simple Process
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-2 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary mt-2 tracking-tight">
             How to Convert an Image to a 3D Model
           </h2>
         </motion.div>
@@ -190,7 +190,7 @@ export function HowItWorksSection() {
         {/* 3 Step Cards Container with connecting line */}
         <div className="relative mt-16">
           {/* Subtle neon line connecting steps on large screens */}
-          <div className="hidden lg:block absolute top-[52px] left-[15%] right-[15%] h-[2px] bg-gradient-to-r from-[#00ffa3]/40 via-[#00c3ff]/40 to-[#6300ff]/30 z-0 pointer-events-none" />
+          <div className="hidden lg:block absolute top-[52px] left-[15%] right-[15%] h-[2px] bg-gradient-to-r from-neon-green/40 via-neon-blue/40 to-neon-purple/30 z-0 pointer-events-none" />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
             {steps.map((step, idx) => {
@@ -220,7 +220,7 @@ export function HowItWorksSection() {
                     <h3 className="card-title text-xl font-semibold mt-4">
                       {step.title}
                     </h3>
-                    <p className="text-sm text-white/60 mt-2 leading-relaxed">
+                    <p className="text-sm text-text-secondary mt-2 leading-relaxed">
                       {step.desc}
                     </p>
                   </div>

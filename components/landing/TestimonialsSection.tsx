@@ -40,7 +40,7 @@ export function TestimonialsSection() {
   ];
 
   return (
-    <section id="testimonials" className="relative bg-[#050508] py-24 lg:py-32 overflow-hidden border-y border-white/[0.06]">
+    <section id="testimonials" className="relative bg-bg-base py-24 lg:py-32 overflow-hidden border-y border-border-subtle">
       {/* Ambient radial glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-r from-[#00ffa3]/10 to-[#00c3ff]/10 blur-[130px] rounded-full pointer-events-none" />
 
@@ -54,7 +54,7 @@ export function TestimonialsSection() {
           <div className="section-label mb-3">
             Community Reviews
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mt-2">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary tracking-tight mt-2">
             Loved by 12,000,000+ Creators Worldwide
           </h2>
         </motion.div>
@@ -63,8 +63,8 @@ export function TestimonialsSection() {
       {/* Infinite scrolling marquee track */}
       <div className="mt-16 relative w-full overflow-hidden flex items-center py-4">
         {/* Subtle gradient edges mask */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#050508] to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#050508] to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-bg-base to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-bg-base to-transparent z-10" />
 
         <div className="flex w-max animate-marquee-testimonials gap-6">
           {[...testimonials, ...testimonials, ...testimonials].map((t, idx) => (
@@ -84,7 +84,7 @@ export function TestimonialsSection() {
                     <h4 className="card-title text-sm font-semibold leading-tight">
                       {t.name}
                     </h4>
-                    <p className="text-xs text-white/50">{t.role}</p>
+                    <p className="text-xs text-text-muted">{t.role}</p>
                   </div>
                 </div>
 
@@ -99,14 +99,14 @@ export function TestimonialsSection() {
                 </div>
 
                 {/* Review Text */}
-                <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
+                <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
                   &ldquo;{t.review}&rdquo;
                 </p>
               </div>
 
-              <div className="mt-5 pt-3 border-t border-white/[0.07] flex items-center justify-between text-[10px] text-white/40">
+              <div className="mt-5 pt-3 border-t border-border-subtle flex items-center justify-between text-[10px] text-text-muted">
                 <span>Verified Studio3D Creator</span>
-                <span className="text-[#00ffa3] font-medium">5/5 Rating</span>
+                <span className="text-neon-green font-medium">5/5 Rating</span>
               </div>
             </div>
           ))}
@@ -116,13 +116,13 @@ export function TestimonialsSection() {
       {/* Badges footer */}
       <div className="mt-12 flex items-center justify-center gap-4 relative z-10">
         <div className="meta-pill">
-          <span className="font-semibold text-white">G2</span>
-          <span className="text-[#00ffa3] font-bold">★</span>
+          <span className="font-semibold text-text-primary">G2</span>
+          <span className="text-neon-green font-bold">★</span>
           <span>4.8</span>
         </div>
         <div className="meta-pill">
-          <span className="font-semibold text-white">Trustpilot</span>
-          <span className="text-[#00ffa3] font-bold">★</span>
+          <span className="font-semibold text-text-primary">Trustpilot</span>
+          <span className="text-neon-green font-bold">★</span>
           <span>4.8</span>
         </div>
       </div>

@@ -58,7 +58,7 @@ export function RightPanel({ workspace }: RightPanelProps) {
   });
 
   return (
-    <aside className="fixed right-0 top-[48px] w-[420px] h-[calc(100vh-48px)] bg-[#050508] border-l border-white/[0.08] z-30 select-none flex flex-col">
+    <aside className="fixed right-0 top-[48px] w-[420px] h-[calc(100vh-48px)] bg-bg-surface border-l border-border-subtle z-30 select-none flex flex-col transition-colors">
       {/* Hidden file input for right panel Upload button */}
       <input
         ref={fileInputRef}
@@ -75,23 +75,23 @@ export function RightPanel({ workspace }: RightPanelProps) {
       {/* 1. TOP ROW: Search input + Upload button */}
       <div className="px-4 pt-3 flex items-center gap-2 flex-shrink-0">
         {/* Search input (flex-1) */}
-        <div className="flex-1 bg-white/[0.03] border border-white/[0.08] rounded-xl h-9 flex items-center px-2.5 gap-2 transition-colors focus-within:border-[#00ffa3]/40">
-          <Search className="w-3.5 h-3.5 text-white/40 flex-shrink-0" />
+        <div className="flex-1 bg-bg-surface-secondary border border-border-subtle rounded-xl h-9 flex items-center px-2.5 gap-2 transition-colors focus-within:border-neon-green/60">
+          <Search className="w-3.5 h-3.5 text-text-muted flex-shrink-0" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search my generation..."
-            className="w-full bg-transparent text-xs text-white placeholder-white/30 outline-none"
+            className="w-full bg-transparent text-xs text-text-primary placeholder:text-text-muted outline-none"
           />
         </div>
 
         {/* Upload button */}
         <button
           onClick={() => fileInputRef.current?.click()}
-          className="btn-secondary rounded-xl h-9 px-3 flex items-center gap-1.5 transition-colors cursor-pointer text-xs text-white/70 hover:text-white"
+          className="btn-secondary rounded-xl h-9 px-3 flex items-center gap-1.5 transition-colors cursor-pointer text-xs font-medium"
         >
-          <Upload className="w-3.5 h-3.5 text-white/50" />
+          <Upload className="w-3.5 h-3.5 text-text-muted" />
           <span>Upload</span>
         </button>
       </div>
@@ -101,10 +101,10 @@ export function RightPanel({ workspace }: RightPanelProps) {
         {/* LayoutGrid icon (active) */}
         <button
           onClick={() => setActiveFilter(0)}
-          className={`p-1.5 rounded-lg transition-all ${
+          className={`p-1.5 rounded-lg transition-all cursor-pointer ${
             activeFilter === 0
-              ? "text-[#00ffa3] bg-[rgba(0,255,163,0.12)] border border-[rgba(0,255,163,0.3)] shadow-[0_0_8px_rgba(0,255,163,0.15)] font-semibold"
-              : "text-white/40 hover:text-white"
+              ? "text-neon-green bg-neon-green/10 border border-neon-green/30 shadow-sm font-semibold"
+              : "text-text-muted hover:text-text-primary"
           }`}
           title="All assets"
         >
@@ -114,10 +114,10 @@ export function RightPanel({ workspace }: RightPanelProps) {
         {/* Cube / Box icon */}
         <button
           onClick={() => setActiveFilter(1)}
-          className={`p-1.5 rounded-lg transition-all ${
+          className={`p-1.5 rounded-lg transition-all cursor-pointer ${
             activeFilter === 1
-              ? "text-[#00ffa3] bg-[rgba(0,255,163,0.12)] border border-[rgba(0,255,163,0.3)] shadow-[0_0_8px_rgba(0,255,163,0.15)] font-semibold"
-              : "text-white/40 hover:text-white"
+              ? "text-neon-green bg-neon-green/10 border border-neon-green/30 shadow-sm font-semibold"
+              : "text-text-muted hover:text-text-primary"
           }`}
           title="3D Meshes"
         >
@@ -127,10 +127,10 @@ export function RightPanel({ workspace }: RightPanelProps) {
         {/* Layers icon */}
         <button
           onClick={() => setActiveFilter(2)}
-          className={`p-1.5 rounded-lg transition-all ${
+          className={`p-1.5 rounded-lg transition-all cursor-pointer ${
             activeFilter === 2
-              ? "text-[#00ffa3] bg-[rgba(0,255,163,0.12)] border border-[rgba(0,255,163,0.3)] shadow-[0_0_8px_rgba(0,255,163,0.15)] font-semibold"
-              : "text-white/40 hover:text-white"
+              ? "text-neon-green bg-neon-green/10 border border-neon-green/30 shadow-sm font-semibold"
+              : "text-text-muted hover:text-text-primary"
           }`}
           title="2D Images"
         >
@@ -140,10 +140,10 @@ export function RightPanel({ workspace }: RightPanelProps) {
         {/* PersonStanding icon */}
         <button
           onClick={() => setActiveFilter(3)}
-          className={`p-1.5 rounded-lg transition-all ${
+          className={`p-1.5 rounded-lg transition-all cursor-pointer ${
             activeFilter === 3
-              ? "text-[#00ffa3] bg-[rgba(0,255,163,0.12)] border border-[rgba(0,255,163,0.3)] shadow-[0_0_8px_rgba(0,255,163,0.15)] font-semibold"
-              : "text-white/40 hover:text-white"
+              ? "text-neon-green bg-neon-green/10 border border-neon-green/30 shadow-sm font-semibold"
+              : "text-text-muted hover:text-text-primary"
           }`}
           title="Characters & Avatars"
         >
@@ -151,11 +151,11 @@ export function RightPanel({ workspace }: RightPanelProps) {
         </button>
 
         {/* Separator */}
-        <div className="w-[1px] h-4 bg-white/[0.08] mx-0.5" />
+        <div className="w-[1px] h-4 bg-border-subtle mx-0.5" />
 
         {/* Filter icon */}
         <button
-          className="p-1.5 rounded-lg text-white/40 hover:text-white transition-colors"
+          className="p-1.5 rounded-lg text-text-muted hover:text-text-primary transition-colors cursor-pointer"
           title="Filter options"
         >
           <Filter className="w-4 h-4" />
@@ -166,7 +166,7 @@ export function RightPanel({ workspace }: RightPanelProps) {
 
         {/* Square icon (collapse panel) */}
         <button
-          className="p-1 text-white/40 hover:text-white transition-colors"
+          className="p-1 text-text-muted hover:text-text-primary transition-colors cursor-pointer"
           title="Collapse panel"
         >
           <Square className="w-3.5 h-3.5" />
@@ -176,7 +176,7 @@ export function RightPanel({ workspace }: RightPanelProps) {
       {/* 3. GENERATION GALLERY (Scrollable) */}
       <div className="flex-1 overflow-y-auto no-scrollbar scrollbar-none mt-3 px-3 pb-4">
         {filteredItems.length === 0 ? (
-          <div className="text-center py-12 text-white/40 text-xs">
+          <div className="text-center py-12 text-text-muted text-xs">
             No generations found matching &quot;{searchQuery}&quot;
           </div>
         ) : (
@@ -196,13 +196,13 @@ export function RightPanel({ workspace }: RightPanelProps) {
       </div>
 
       {/* 4. BOTTOM PAGINATION BAR */}
-      <div className="border-t border-white/[0.08] bg-[#050508] px-4 py-2.5 flex items-center justify-between flex-shrink-0">
+      <div className="border-t border-border-subtle bg-bg-surface px-4 py-2.5 flex items-center justify-between flex-shrink-0">
         {/* Left: List & Grid icons */}
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => setViewMode("list")}
-            className={`p-1 rounded transition-colors ${
-              viewMode === "list" ? "text-[#00ffa3]" : "text-white/40 hover:text-white"
+            className={`p-1 rounded transition-colors cursor-pointer ${
+              viewMode === "list" ? "text-neon-green" : "text-text-muted hover:text-text-primary"
             }`}
             title="List view"
           >
@@ -210,8 +210,8 @@ export function RightPanel({ workspace }: RightPanelProps) {
           </button>
           <button
             onClick={() => setViewMode("grid")}
-            className={`p-1 rounded transition-colors ${
-              viewMode === "grid" ? "text-[#00ffa3]" : "text-white/40 hover:text-white"
+            className={`p-1 rounded transition-colors cursor-pointer ${
+              viewMode === "grid" ? "text-neon-green" : "text-text-muted hover:text-text-primary"
             }`}
             title="Grid view"
           >
@@ -223,28 +223,28 @@ export function RightPanel({ workspace }: RightPanelProps) {
         <div className="flex items-center gap-2 ml-auto">
           {/* Previous page */}
           <button
-            className="bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] rounded-lg px-2 py-1 text-xs text-white/50 hover:text-white transition-colors cursor-pointer"
+            className="bg-bg-surface-secondary border border-border-subtle hover:bg-bg-surface-hover rounded-lg px-2 py-1 text-xs text-text-secondary hover:text-text-primary transition-colors cursor-pointer"
             title="Previous page"
           >
             <ChevronLeft className="w-3 h-3" />
           </button>
 
           {/* Page index */}
-          <span className="text-xs text-white/50 font-medium px-1">1/1</span>
+          <span className="text-xs text-text-muted font-medium px-1">1/1</span>
 
           {/* Next page */}
           <button
-            className="bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] rounded-lg px-2 py-1 text-xs text-white/50 hover:text-white transition-colors cursor-pointer"
+            className="bg-bg-surface-secondary border border-border-subtle hover:bg-bg-surface-hover rounded-lg px-2 py-1 text-xs text-text-secondary hover:text-text-primary transition-colors cursor-pointer"
             title="Next page"
           >
             <ChevronRight className="w-3 h-3" />
           </button>
 
           {/* Separator */}
-          <div className="w-[1px] h-3 bg-white/[0.08] mx-0.5" />
+          <div className="w-[1px] h-3 bg-border-subtle mx-0.5" />
 
           {/* Items per page dropdown */}
-          <button className="bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] rounded-lg px-2 py-1 text-xs text-white/50 hover:text-white flex items-center gap-1 transition-colors cursor-pointer">
+          <button className="bg-bg-surface-secondary border border-border-subtle hover:bg-bg-surface-hover rounded-lg px-2 py-1 text-xs text-text-secondary hover:text-text-primary flex items-center gap-1 transition-colors cursor-pointer">
             <span>20</span>
             <ChevronDown className="w-2.5 h-2.5" />
           </button>

@@ -40,10 +40,10 @@ export function WhyChooseSection() {
   const chipTypes = ["green", "blue", "purple", "blue", "green", "purple"];
 
   return (
-    <section id="features" className="relative bg-[#050508] py-24 lg:py-32 overflow-hidden">
+    <section id="features" className="relative bg-bg-base py-24 lg:py-32 overflow-hidden transition-colors">
       {/* Subtle ambient radial glows behind feature section */}
-      <div className="absolute top-1/3 left-10 w-[500px] h-[500px] bg-[#00ffa3]/10 blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-[#00c3ff]/10 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/3 left-10 w-[500px] h-[500px] bg-neon-green/10 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-neon-blue/10 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div
@@ -56,7 +56,7 @@ export function WhyChooseSection() {
           <div className="section-label mb-3">
             Core Capabilities
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mt-2">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary tracking-tight mt-2">
             Why Creators Choose Studio3D&apos;s Image to 3D
           </h2>
         </motion.div>
@@ -83,14 +83,14 @@ export function WhyChooseSection() {
                   <h3 className="card-title text-xl font-semibold mt-4">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-white/60 mt-3 leading-relaxed">
+                  <p className="text-sm text-text-secondary mt-3 leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-white/[0.07] flex items-center justify-between text-xs text-white/40">
+                <div className="mt-6 pt-4 border-t border-border-subtle flex items-center justify-between text-xs text-text-muted">
                   <span>Studio3D AI Engine</span>
-                  <div className="flex items-center gap-1.5 text-[#00ffa3] opacity-0 group-hover:opacity-100 transition-opacity font-medium">
+                  <div className="flex items-center gap-1.5 text-neon-green opacity-0 group-hover:opacity-100 transition-opacity font-medium">
                     <span className="status-dot" />
                     <span>Active</span>
                   </div>

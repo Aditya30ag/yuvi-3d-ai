@@ -235,10 +235,10 @@ export function GenerationCard({ item, isSelected, onSelect }: GenerationCardPro
   return (
     <div
       onClick={() => onSelect(item.id)}
-      className={`aspect-square bg-white/[0.03] rounded-xl overflow-hidden relative cursor-pointer group transition-all duration-150 select-none border ${
+      className={`aspect-square bg-bg-surface-secondary rounded-xl overflow-hidden relative cursor-pointer group transition-all duration-150 select-none border ${
         isSelected
-          ? "border-[#00ffa3] ring-1 ring-[#00ffa3] shadow-[0_0_15px_rgba(0,255,163,0.25)] scale-[1.02]"
-          : "border-white/[0.06] hover:border-[#00ffa3]/30 hover:scale-[1.02]"
+          ? "border-neon-green ring-2 ring-neon-green/60 shadow-lg scale-[1.02]"
+          : "border-border-subtle hover:border-border-secondary hover:scale-[1.02] shadow-sm"
       }`}
       style={{
         background: `radial-gradient(circle at 50% 40%, ${item.gradientFrom} 0%, ${item.gradientTo} 100%)`,
@@ -247,15 +247,15 @@ export function GenerationCard({ item, isSelected, onSelect }: GenerationCardPro
       {/* Badge Top-Left */}
       <div className="absolute top-2 left-2 z-10 flex items-center gap-1">
         {item.badge === "GENERATED" ? (
-          <span className="badge-cyan text-[9px] py-0 px-1.5 leading-tight">
+          <span className="badge-cyan text-[9px] py-0 px-1.5 leading-tight shadow-sm">
             {item.type === "image" ? "IMAGE" : "3D MESH"}
           </span>
         ) : isTemplate ? (
-          <span className="meta-pill text-[9px] py-0.5 px-1.5 leading-tight bg-[#050508]/80 backdrop-blur">
+          <span className="meta-pill text-[9px] py-0.5 px-1.5 leading-tight bg-bg-surface/85 backdrop-blur text-text-secondary border-border-subtle shadow-sm">
             TEMPLATE
           </span>
         ) : (
-          <span className="meta-pill text-[9px] py-0.5 px-1.5 leading-tight bg-[#050508]/80 backdrop-blur">
+          <span className="meta-pill text-[9px] py-0.5 px-1.5 leading-tight bg-bg-surface/85 backdrop-blur text-text-secondary border-border-subtle shadow-sm">
             EXAMPLE
           </span>
         )}

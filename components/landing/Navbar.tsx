@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Sparkles, ChevronDown, Menu, X, ArrowRight } from "lucide-react";
+import { Sparkles, ChevronDown, Menu, X, ArrowRight, Settings as SettingsIcon } from "lucide-react";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { useTheme } from "@/components/theme/ThemeProvider";
 
 const NAV_LINKS = [
   { label: "Features", href: "#features", hasDropdown: true },
@@ -19,6 +20,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("Features");
+  const { openSettings } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,12 +66,12 @@ export function Navbar() {
                   href={link.href}
                   onClick={() => setActiveSection(link.label)}
                   className={`group inline-flex items-center gap-1 text-sm font-medium transition-colors ${
-                    isActive ? "text-white" : "text-white/70 hover:text-white"
+                    isActive ? "text-text-primary" : "text-text-secondary hover:text-text-primary"
                   }`}
                 >
                   <span>{link.label}</span>
                   {link.hasDropdown && (
-                    <ChevronDown className="h-3 w-3 text-white/50 transition-transform duration-200 group-hover:text-white group-hover:rotate-180" />
+                    <ChevronDown className="h-3 w-3 text-text-muted transition-transform duration-200 group-hover:text-text-primary group-hover:rotate-180" />
                   )}
                 </Link>
               );
@@ -78,10 +80,20 @@ export function Navbar() {
 
           {/* Right: Actions */}
           <div className="flex items-center gap-3">
+            {/* Settings button */}
+            <button
+              onClick={openSettings}
+              title="Settings"
+              aria-label="Settings"
+              className="p-1.5 rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-surface-hover transition-colors cursor-pointer"
+            >
+              <SettingsIcon className="w-4 h-4" />
+            </button>
+
             <SignedOut>
               <Link
                 href="/sign-in"
-                className="btn-secondary hidden sm:inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-semibold text-white/80 hover:text-white"
+                className="btn-secondary hidden sm:inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-semibold text-text-primary hover:bg-bg-surface-hover"
               >
                 Sign In
               </Link>
@@ -105,17 +117,25 @@ export function Navbar() {
                   afterSignOutUrl="/"
                   appearance={{
                     elements: {
-                      userButtonAvatarBox: "w-7 h-7 ring-1 ring-white/20",
+                      userButtonAvatarBox: "w-7 h-7 ring-1 ring-border-subtle",
                     },
                   }}
-                />
+                >
+                  <UserButton.MenuItems>
+                    <UserButton.Action
+                      label="Theme & Settings"
+                      labelIcon={<SettingsIcon className="w-4 h-4" />}
+                      onClick={openSettings}
+                    />
+                  </UserButton.MenuItems>
+                </UserButton>
               </div>
             </SignedIn>
 
             {/* Mobile Hamburger Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.05] backdrop-blur-md text-white transition-colors hover:bg-white/10 lg:hidden"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border-subtle bg-bg-surface-secondary text-text-primary transition-colors hover:bg-bg-surface-hover lg:hidden cursor-pointer"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? (
@@ -129,34 +149,34 @@ export function Navbar() {
       </header>
 
       {/* Breadcrumb line below navbar */}
-      <div className="border-b border-white/[0.06] bg-[#050508]/70 py-1.5 px-6 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center gap-2 text-xs text-white/50">
-          <Link href="/" className="hover:text-white transition-colors">
+      <div className="border-b border-border-subtle bg-bg-surface-secondary/70 py-1.5 px-6 backdrop-blur-md transition-colors">
+        <div className="mx-auto flex max-w-7xl items-center gap-2 text-xs text-text-muted">
+          <Link href="/" className="hover:text-text-primary transition-colors">
             Home
           </Link>
           <span>&gt;</span>
-          <span className="text-white/60">Features</span>
+          <span className="text-text-secondary">Features</span>
           <span>&gt;</span>
-          <span className="text-[#00ffa3] font-medium">Image to 3D</span>
+          <span className="text-neon-green font-medium">Image to 3D</span>
         </div>
       </div>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-x-0 top-[88px] z-40 border-b border-white/10 bg-[#050508]/95 p-6 backdrop-blur-2xl lg:hidden">
+        <div className="fixed inset-x-0 top-[88px] z-40 border-b border-border-subtle bg-bg-surface/95 p-6 backdrop-blur-2xl lg:hidden shadow-2xl transition-colors">
           <div className="flex flex-col gap-4">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between text-base font-medium text-white/70 hover:text-white"
+                className="flex items-center justify-between text-base font-medium text-text-secondary hover:text-text-primary"
               >
                 <span>{link.label}</span>
-                <ArrowRight className="h-4 w-4 text-white/40" />
+                <ArrowRight className="h-4 w-4 text-text-muted" />
               </Link>
             ))}
-            <div className="mt-4 pt-4 border-t border-white/10">
+            <div className="mt-4 pt-4 border-t border-border-subtle">
               <SignedOut>
                 <div className="flex flex-col gap-2.5">
                   <Link

@@ -20,7 +20,7 @@ export function WorkflowsSection() {
               className="flex flex-col items-center"
             >
               {/* Pixel sword / character icon */}
-              <div className="grid grid-cols-5 gap-1 p-2.5 bg-white/[0.04] backdrop-blur-[16px] border border-white/15 rounded-xl shadow-lg">
+              <div className="grid grid-cols-5 gap-1 p-2.5 bg-bg-surface/80 backdrop-blur-[16px] border border-border-subtle rounded-xl shadow-lg">
                 <div className="w-2.5 h-2.5 bg-[#00c3ff]" />
                 <div className="w-2.5 h-2.5 bg-[#00c3ff]" />
                 <div className="w-2.5 h-2.5 bg-[#00c3ff]" />
@@ -28,14 +28,14 @@ export function WorkflowsSection() {
                 <div className="w-2.5 h-2.5 bg-transparent" />
 
                 <div className="w-2.5 h-2.5 bg-[#00c3ff]" />
-                <div className="w-2.5 h-2.5 bg-white" />
-                <div className="w-2.5 h-2.5 bg-white" />
+                <div className="w-2.5 h-2.5 bg-white dark:bg-white bg-slate-300" />
+                <div className="w-2.5 h-2.5 bg-white dark:bg-white bg-slate-300" />
                 <div className="w-2.5 h-2.5 bg-[#00c3ff]" />
                 <div className="w-2.5 h-2.5 bg-[#00c3ff]" />
 
                 <div className="w-2.5 h-2.5 bg-[#00c3ff]" />
-                <div className="w-2.5 h-2.5 bg-white" />
-                <div className="w-2.5 h-2.5 bg-white" />
+                <div className="w-2.5 h-2.5 bg-white dark:bg-white bg-slate-300" />
+                <div className="w-2.5 h-2.5 bg-white dark:bg-white bg-slate-300" />
                 <div className="w-2.5 h-2.5 bg-[#00ffa3]" />
                 <div className="w-2.5 h-2.5 bg-[#00ffa3]" />
 
@@ -45,7 +45,7 @@ export function WorkflowsSection() {
                 <div className="w-2.5 h-2.5 bg-[#00ffa3]" />
                 <div className="w-2.5 h-2.5 bg-transparent" />
               </div>
-              <span className="text-[10px] text-white/60 font-mono mt-2.5">
+              <span className="text-[10px] text-text-muted font-mono mt-2.5">
                 Unity · Unreal · Blender
               </span>
             </motion.div>
@@ -93,14 +93,14 @@ export function WorkflowsSection() {
         <div className="h-48 w-full rounded-t-[20px] bg-gradient-to-b from-[#00ffa3]/20 via-[#00c3ff]/10 to-transparent flex items-center justify-center relative overflow-hidden">
           <div className="flex flex-col items-center justify-center w-full px-8">
             {/* Horizontal layered lines simulating 3D print slicing */}
-            <div className="w-32 flex flex-col gap-1.5 p-3 rounded-xl bg-white/[0.04] backdrop-blur-[16px] border border-white/10">
+            <div className="w-32 flex flex-col gap-1.5 p-3 rounded-xl bg-bg-surface/80 backdrop-blur-[16px] border border-border-subtle">
               <div className="h-1 w-full bg-gradient-to-r from-[#00ffa3] to-[#00c3ff] rounded" />
               <div className="h-1 w-11/12 mx-auto bg-[#00c3ff]/90 rounded" />
               <div className="h-1 w-10/12 mx-auto bg-[#00ffa3]/75 rounded" />
               <div className="h-1 w-9/12 mx-auto bg-[#00c3ff]/60 rounded" />
               <div className="h-1 w-7/12 mx-auto bg-[#6300ff]/50 rounded animate-pulse" />
             </div>
-            <span className="text-[10px] text-white/70 font-mono mt-3">
+            <span className="text-[10px] text-text-muted font-mono mt-3">
               STL · 3MF · 97% Slicer Pass Rate
             </span>
           </div>
@@ -110,7 +110,7 @@ export function WorkflowsSection() {
   ];
 
   return (
-    <section id="workflows" className="relative bg-[#050508] py-24 lg:py-32 overflow-hidden">
+    <section id="workflows" className="relative bg-bg-base py-24 lg:py-32 overflow-hidden">
       {/* Ambient background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-gradient-to-r from-[#00ffa3]/10 to-[#00c3ff]/10 blur-[150px] rounded-full pointer-events-none" />
 
@@ -125,7 +125,7 @@ export function WorkflowsSection() {
           <div className="section-label mb-3">
             Versatile Output
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mt-2">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary tracking-tight mt-2">
             Built for Every 3D Workflow
           </h2>
         </motion.div>
@@ -144,20 +144,20 @@ export function WorkflowsSection() {
               {workflow.topVisual()}
 
               {/* Body Content */}
-              <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between border-t border-white/[0.07]">
+              <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between border-t border-border-subtle">
                 <div>
-                  <h3 className="card-title text-xl font-semibold group-hover:text-white transition-colors">
+                  <h3 className="card-title text-xl font-semibold group-hover:text-neon-green dark:group-hover:text-white transition-colors">
                     {workflow.title}
                   </h3>
-                  <p className="text-sm text-white/60 mt-3 leading-relaxed">
+                  <p className="text-sm text-text-muted mt-3 leading-relaxed">
                     {workflow.desc}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-white/[0.07]">
+                <div className="mt-6 pt-4 border-t border-border-subtle">
                   <Link
                     href="/workspace"
-                    className="inline-flex items-center gap-1.5 text-[#00c3ff] text-sm font-medium hover:text-[#00ffa3] transition-colors group-hover:translate-x-1 duration-200"
+                    className="inline-flex items-center gap-1.5 text-neon-blue text-sm font-medium hover:text-neon-green transition-colors group-hover:translate-x-1 duration-200"
                   >
                     <span>Learn More</span>
                     <ArrowRight className="w-3.5 h-3.5" />

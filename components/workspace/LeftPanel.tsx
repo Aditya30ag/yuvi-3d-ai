@@ -106,24 +106,24 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
   // If user selected "Assets" feature
   if (activeFeature === "assets") {
     return (
-      <aside className="fixed left-[56px] top-[48px] w-[345px] h-[calc(100vh-48px)] bg-[#050508] border-r border-white/[0.08] z-30 select-none overflow-y-auto no-scrollbar scrollbar-none flex flex-col">
-        <div className="p-4 border-b border-white/[0.08]">
-          <h2 className="text-sm font-semibold text-white flex items-center gap-2">
-            <FolderOpen className="w-4 h-4 text-[#00ffa3]" />
+      <aside className="fixed left-[56px] top-[48px] w-[345px] h-[calc(100vh-48px)] bg-bg-surface border-r border-border-subtle z-30 select-none overflow-y-auto no-scrollbar scrollbar-none flex flex-col transition-colors">
+        <div className="p-4 border-b border-border-subtle">
+          <h2 className="text-sm font-semibold text-text-primary flex items-center gap-2">
+            <FolderOpen className="w-4 h-4 text-neon-green" />
             Asset Library
           </h2>
-          <p className="text-xs text-white/50 mt-1">
+          <p className="text-xs text-text-secondary mt-1">
             Browse and manage all your generated 2D images and 3D models.
           </p>
         </div>
 
         <div className="p-3">
           <div className="relative">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-white/40" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-text-muted" />
             <input
               type="text"
               placeholder="Filter assets..."
-              className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder-white/30 outline-none focus:border-[#00ffa3]/40 transition-colors"
+              className="w-full bg-bg-surface-secondary border border-border-subtle rounded-xl pl-8 pr-3 py-1.5 text-xs text-text-primary placeholder:text-text-muted outline-none focus:border-neon-green/60 transition-colors"
             />
           </div>
 
@@ -132,10 +132,10 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
               <div
                 key={item.id}
                 onClick={() => workspace.setSelectedCard(item.id)}
-                className={`p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] cursor-pointer transition-all border ${
+                className={`p-2.5 rounded-xl bg-bg-surface-secondary/50 hover:bg-bg-surface-hover cursor-pointer transition-all border ${
                   workspace.selectedCard === item.id
-                    ? "border-[#00ffa3] ring-1 ring-[#00ffa3]/30 shadow-[0_0_12px_rgba(0,255,163,0.15)]"
-                    : "border-white/[0.06]"
+                    ? "border-neon-green ring-1 ring-neon-green/30 shadow-md"
+                    : "border-border-subtle"
                 }`}
               >
                 <div
@@ -145,17 +145,17 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                   }}
                 >
                   {item.type === "image" ? (
-                    <ImageIcon className="w-8 h-8 text-white/50" />
+                    <ImageIcon className="w-8 h-8 text-white/70" />
                   ) : (
-                    <Box className="w-8 h-8 text-white/50" />
+                    <Box className="w-8 h-8 text-white/70" />
                   )}
                 </div>
-                <div className="text-xs font-medium text-white truncate">
+                <div className="text-xs font-medium text-text-primary truncate">
                   {item.title}
                 </div>
-                <div className="text-[10px] text-white/50 flex items-center justify-between mt-1">
+                <div className="text-[10px] text-text-muted flex items-center justify-between mt-1">
                   <span>{item.category}</span>
-                  <span className="text-[#00ffa3] font-semibold">{item.type.toUpperCase()}</span>
+                  <span className="text-neon-green font-semibold">{item.type.toUpperCase()}</span>
                 </div>
               </div>
             ))}
@@ -168,14 +168,14 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
   // If user selected any other non-Image feature
   if (activeFeature !== "image") {
     return (
-      <aside className="fixed left-[56px] top-[48px] w-[345px] h-[calc(100vh-48px)] bg-[#050508] border-r border-white/[0.08] z-30 select-none overflow-y-auto no-scrollbar scrollbar-none flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-14 h-14 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center mb-4 text-[#00ffa3] shadow-[0_0_20px_rgba(0,255,163,0.15)]">
-          <Sparkles className="w-7 h-7 text-[#00ffa3]" />
+      <aside className="fixed left-[56px] top-[48px] w-[345px] h-[calc(100vh-48px)] bg-bg-surface border-r border-border-subtle z-30 select-none overflow-y-auto no-scrollbar scrollbar-none flex flex-col items-center justify-center p-6 text-center transition-colors">
+        <div className="w-14 h-14 rounded-2xl bg-bg-surface-secondary border border-border-subtle flex items-center justify-center mb-4 text-neon-green shadow-sm">
+          <Sparkles className="w-7 h-7 text-neon-green" />
         </div>
-        <h3 className="text-base font-semibold text-white capitalize">
+        <h3 className="text-base font-semibold text-text-primary capitalize">
           {activeFeature} Mode
         </h3>
-        <p className="text-xs text-white/50 mt-2 max-w-xs leading-relaxed">
+        <p className="text-xs text-text-secondary mt-2 max-w-xs leading-relaxed">
           The {activeFeature} workflow module is coming soon. Switch back to Image mode to generate 2D images or 3D models.
         </p>
         <button
@@ -191,7 +191,7 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
   return (
     <aside
       onPaste={handlePaste}
-      className="fixed left-[56px] top-[48px] w-[345px] h-[calc(100vh-48px)] bg-[#050508] border-r border-white/[0.08] z-30 select-none overflow-y-auto no-scrollbar scrollbar-none flex flex-col"
+      className="fixed left-[56px] top-[48px] w-[345px] h-[calc(100vh-48px)] bg-bg-surface border-r border-border-subtle z-30 select-none overflow-y-auto no-scrollbar scrollbar-none flex flex-col transition-colors"
     >
       {/* 1. TOP — Asset Type Tabs (3 tabs row) */}
       <div className="mt-3 mx-3 flex items-center justify-between gap-2">
@@ -203,8 +203,8 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
           }}
           className={`rounded-xl w-[95px] h-[72px] flex flex-col items-center justify-center gap-1.5 cursor-pointer border transition-all ${
             activeTab === 0 && subMode === "image-to-3d"
-              ? "border-[#00ffa3]/40 bg-[rgba(0,255,163,0.08)] shadow-[0_0_12px_rgba(0,255,163,0.12)] text-white"
-              : "border-white/[0.08] bg-white/[0.03] hover:border-white/20 text-white/60 hover:text-white"
+              ? "border-neon-green/40 bg-neon-green/10 shadow-sm text-text-primary font-semibold"
+              : "border-border-subtle bg-bg-surface-secondary text-text-secondary hover:text-text-primary hover:border-border-secondary"
           }`}
           title="Image-to-3D Mode"
         >
@@ -236,8 +236,8 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
           }}
           className={`rounded-xl w-[95px] h-[72px] flex flex-col items-center justify-center gap-1.5 cursor-pointer border transition-all ${
             activeTab === 1 || subMode === "image-gen"
-              ? "border-[#00ffa3]/40 bg-[rgba(0,255,163,0.08)] shadow-[0_0_12px_rgba(0,255,163,0.12)] text-white"
-              : "border-white/[0.08] bg-white/[0.03] hover:border-white/20 text-white/60 hover:text-white"
+              ? "border-neon-green/40 bg-neon-green/10 shadow-sm text-text-primary font-semibold"
+              : "border-border-subtle bg-bg-surface-secondary text-text-secondary hover:text-text-primary hover:border-border-secondary"
           }`}
           title="Text-to-Image Generation"
         >
@@ -257,8 +257,8 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
           }}
           className={`rounded-xl w-[95px] h-[72px] flex flex-col items-center justify-center gap-1.5 cursor-pointer border transition-all ${
             activeTab === 2
-              ? "border-[#00ffa3]/40 bg-[rgba(0,255,163,0.08)] shadow-[0_0_12px_rgba(0,255,163,0.12)] text-white"
-              : "border-white/[0.08] bg-white/[0.03] hover:border-white/20 text-white/60 hover:text-white"
+              ? "border-neon-green/40 bg-neon-green/10 shadow-sm text-text-primary font-semibold"
+              : "border-border-subtle bg-bg-surface-secondary text-text-secondary hover:text-text-primary hover:border-border-secondary"
           }`}
           title="Assets Library"
         >
@@ -272,23 +272,23 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
       </div>
 
       {/* Synchronized Mode Switcher Pill */}
-      <div className="mt-3 mx-3 bg-white/[0.04] rounded-xl p-1 flex border border-white/[0.08]">
+      <div className="mt-3 mx-3 bg-bg-surface-secondary rounded-xl p-1 flex border border-border-subtle">
         <button
           onClick={() => setSubMode("image-to-3d")}
-          className={`flex-1 text-xs py-1.5 text-center rounded-lg font-medium transition-all ${
+          className={`flex-1 text-xs py-1.5 text-center rounded-lg font-medium transition-all cursor-pointer ${
             subMode === "image-to-3d"
-              ? "bg-[var(--grad-primary)] text-[#050508] shadow-[0_0_12px_rgba(0,255,163,0.25)] font-bold"
-              : "text-white/50 hover:text-white"
+              ? "bg-bg-surface text-text-primary shadow-sm font-bold border border-border-subtle"
+              : "text-text-muted hover:text-text-primary"
           }`}
         >
           Image to 3D
         </button>
         <button
           onClick={() => setSubMode("image-gen")}
-          className={`flex-1 text-xs py-1.5 text-center rounded-lg font-medium transition-all ${
+          className={`flex-1 text-xs py-1.5 text-center rounded-lg font-medium transition-all cursor-pointer ${
             subMode === "image-gen"
-              ? "bg-[var(--grad-primary)] text-[#050508] shadow-[0_0_12px_rgba(0,255,163,0.25)] font-bold"
-              : "text-white/50 hover:text-white"
+              ? "bg-bg-surface text-text-primary shadow-sm font-bold border border-border-subtle"
+              : "text-text-muted hover:text-text-primary"
           }`}
         >
           Generate Image
@@ -303,8 +303,8 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
           {/* Prompt Section */}
           <div className="mx-3">
             <div className="flex items-center justify-between mb-1.5">
-              <span className="text-xs font-semibold text-white flex items-center gap-1.5">
-                <Wand2 className="w-3.5 h-3.5 text-[#00ffa3]" />
+              <span className="text-xs font-semibold text-text-primary flex items-center gap-1.5">
+                <Wand2 className="w-3.5 h-3.5 text-neon-green" />
                 Prompt
               </span>
               <button
@@ -315,7 +315,7 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                     ];
                   setPromptText(randomPrompt);
                 }}
-                className="text-[11px] text-[#00ffa3] hover:text-[#00c3ff] font-medium transition-colors"
+                className="text-[11px] text-neon-green hover:underline font-medium transition-colors cursor-pointer"
               >
                 Surprise me
               </button>
@@ -326,7 +326,7 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
               value={promptText}
               onChange={(e) => setPromptText(e.target.value)}
               placeholder="Describe the 3D asset you envision (e.g. Cyberpunk samurai helmet with glowing horns)..."
-              className="w-full bg-white/[0.03] border border-white/[0.08] focus:border-[#00ffa3]/40 rounded-xl p-3 text-xs text-white placeholder-white/25 outline-none resize-none leading-relaxed transition-colors"
+              className="w-full bg-bg-surface-secondary/60 border border-border-subtle focus:border-neon-green/60 rounded-xl p-3 text-xs text-text-primary placeholder:text-text-muted outline-none resize-none leading-relaxed transition-colors"
             />
 
             {/* Quick Prompt Chips */}
@@ -335,7 +335,7 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                 <button
                   key={idx}
                   onClick={() => setPromptText(item)}
-                  className="bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/70 hover:text-white text-[10px] px-2 py-1 rounded-md transition-colors truncate max-w-full text-left"
+                  className="bg-bg-surface-secondary hover:bg-bg-surface-hover border border-border-subtle text-text-secondary hover:text-text-primary text-[10px] px-2 py-1 rounded-md transition-colors truncate max-w-full text-left cursor-pointer"
                 >
                   ✦ {item}
                 </button>
@@ -346,8 +346,8 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
           {/* Art Style Selector */}
           <div className="mt-5 mx-3">
             <div className="flex items-center gap-1.5 mb-2">
-              <Palette className="w-3.5 h-3.5 text-white/40" />
-              <span className="text-xs font-medium text-white">Art Style</span>
+              <Palette className="w-3.5 h-3.5 text-text-muted" />
+              <span className="text-xs font-medium text-text-primary">Art Style</span>
             </div>
 
             <div className="grid grid-cols-3 gap-1.5">
@@ -355,10 +355,10 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                 <button
                   key={style.id}
                   onClick={() => setArtStyle(style.id)}
-                  className={`py-1.5 px-2 rounded-lg text-xs font-medium text-center transition-all ${
+                  className={`py-1.5 px-2 rounded-lg text-xs font-medium text-center transition-all cursor-pointer ${
                     artStyle === style.id
-                      ? "bg-[rgba(0,255,163,0.12)] text-[#00ffa3] border border-[rgba(0,255,163,0.3)] shadow-[0_0_8px_rgba(0,255,163,0.15)] font-semibold"
-                      : "bg-white/[0.03] border border-white/[0.08] text-white/50 hover:text-white hover:bg-white/[0.06]"
+                      ? "bg-neon-green/10 text-neon-green border border-neon-green/30 shadow-sm font-semibold"
+                      : "bg-bg-surface-secondary border border-border-subtle text-text-secondary hover:text-text-primary hover:bg-bg-surface-hover"
                   }`}
                 >
                   {style.label}
@@ -370,8 +370,8 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
           {/* Aspect Ratio */}
           <div className="mt-5 mx-3">
             <div className="flex items-center gap-1.5 mb-2">
-              <Ratio className="w-3.5 h-3.5 text-white/40" />
-              <span className="text-xs font-medium text-white">Aspect Ratio</span>
+              <Ratio className="w-3.5 h-3.5 text-text-muted" />
+              <span className="text-xs font-medium text-text-primary">Aspect Ratio</span>
             </div>
 
             <div className="grid grid-cols-4 gap-1.5">
@@ -379,10 +379,10 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                 <button
                   key={ratio}
                   onClick={() => setAspectRatio(ratio)}
-                  className={`py-1.5 text-xs font-medium rounded-lg text-center transition-all ${
+                  className={`py-1.5 text-xs font-medium rounded-lg text-center transition-all cursor-pointer ${
                     aspectRatio === ratio
-                      ? "bg-[rgba(0,255,163,0.12)] text-[#00ffa3] border border-[rgba(0,255,163,0.3)] shadow-[0_0_8px_rgba(0,255,163,0.15)] font-semibold"
-                      : "bg-white/[0.03] border border-white/[0.08] text-white/50 hover:text-white hover:bg-white/[0.06]"
+                      ? "bg-neon-green/10 text-neon-green border border-neon-green/30 shadow-sm font-semibold"
+                      : "bg-bg-surface-secondary border border-border-subtle text-text-secondary hover:text-text-primary hover:bg-bg-surface-hover"
                   }`}
                 >
                   {ratio}
@@ -393,15 +393,15 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
 
           {/* Cost Row */}
           <div className="mt-5 mx-3 flex items-center justify-between py-1">
-            <div className="flex items-center gap-1.5 text-xs text-white/50">
-              <Clock className="w-3 h-3 text-white/40" />
+            <div className="flex items-center gap-1.5 text-xs text-text-muted">
+              <Clock className="w-3 h-3 text-text-muted" />
               <span>~15 sec</span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="text-sm" role="img" aria-label="coins">
                 🪙
               </span>
-              <span className="text-sm font-semibold text-white">10</span>
+              <span className="text-sm font-semibold text-text-primary">10</span>
             </div>
           </div>
 
@@ -428,13 +428,13 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
         <div className="flex flex-col">
           {/* AI Model Selector */}
           <div className="mt-4 mx-3">
-            <div className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-1 flex">
+            <div className="bg-bg-surface-secondary border border-border-subtle rounded-xl p-1 flex">
               <button
                 onClick={() => setModelTopology("high-detail")}
                 className={`flex-1 text-xs py-2 text-center rounded-lg cursor-pointer transition-all ${
                   modelTopology === "high-detail"
-                    ? "bg-[rgba(0,255,163,0.12)] text-[#00ffa3] border border-[rgba(0,255,163,0.3)] font-semibold shadow-[0_0_8px_rgba(0,255,163,0.15)]"
-                    : "text-white/50 hover:text-white"
+                    ? "bg-bg-surface text-text-primary border border-border-subtle font-semibold shadow-sm"
+                    : "text-text-secondary hover:text-text-primary"
                 }`}
               >
                 High Detail
@@ -443,8 +443,8 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                 onClick={() => setModelTopology("smart-topology")}
                 className={`flex-1 text-xs py-2 text-center rounded-lg cursor-pointer transition-all ${
                   modelTopology === "smart-topology"
-                    ? "bg-[rgba(0,255,163,0.12)] text-[#00ffa3] border border-[rgba(0,255,163,0.3)] font-semibold shadow-[0_0_8px_rgba(0,255,163,0.15)]"
-                    : "text-white/50 hover:text-white"
+                    ? "bg-bg-surface text-text-primary border border-border-subtle font-semibold shadow-sm"
+                    : "text-text-secondary hover:text-text-primary"
                 }`}
               >
                 Smart Topology
@@ -455,25 +455,25 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
             <div className="relative mt-2">
               <div
                 onClick={() => setModelDropdownOpen(!modelDropdownOpen)}
-                className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-white/[0.06] hover:border-white/20 transition-colors"
+                className="w-full bg-bg-surface-secondary/70 border border-border-subtle rounded-xl px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-bg-surface-hover hover:border-border-secondary transition-colors"
               >
                 <div>
-                  <div className="text-sm font-medium text-white">
+                  <div className="text-sm font-medium text-text-primary">
                     {selectedModel}
                   </div>
-                  <div className="text-[11px] text-white/40 mt-0.5">
+                  <div className="text-[11px] text-text-muted mt-0.5">
                     Most detail, highest precision
                   </div>
                 </div>
                 <ChevronDown
-                  className={`w-4 h-4 text-white/40 transition-transform ${
+                  className={`w-4 h-4 text-text-muted transition-transform ${
                     modelDropdownOpen ? "rotate-180" : ""
                   }`}
                 />
               </div>
 
               {modelDropdownOpen && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-[#050508]/95 border border-white/[0.08] rounded-xl shadow-2xl py-1 z-50 text-xs backdrop-blur-2xl">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-bg-surface border border-border-subtle rounded-xl shadow-2xl py-1 z-50 text-xs backdrop-blur-2xl">
                   {[
                     { name: "Meshy 7.1 - Flagship", desc: "Most detail, highest precision" },
                     { name: "Meshy 7.0 - Pro", desc: "Balanced speed and detail" },
@@ -485,14 +485,14 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                         setSelectedModel(m.name);
                         setModelDropdownOpen(false);
                       }}
-                      className="px-4 py-2.5 hover:bg-white/[0.05] cursor-pointer flex items-center justify-between transition-colors"
+                      className="px-4 py-2.5 hover:bg-bg-surface-hover cursor-pointer flex items-center justify-between transition-colors"
                     >
                       <div>
-                        <div className="font-medium text-white">{m.name}</div>
-                        <div className="text-[10px] text-white/40">{m.desc}</div>
+                        <div className="font-medium text-text-primary">{m.name}</div>
+                        <div className="text-[10px] text-text-muted">{m.desc}</div>
                       </div>
                       {selectedModel === m.name && (
-                        <Check className="w-3.5 h-3.5 text-[#00ffa3]" />
+                        <Check className="w-3.5 h-3.5 text-neon-green" />
                       )}
                     </div>
                   ))}
@@ -504,16 +504,16 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
           {/* IMAGE UPLOAD SECTION */}
           <div className="mt-6 mx-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-white">Image</span>
+              <span className="text-sm font-medium text-text-primary">Image</span>
               <div className="flex items-center gap-2">
                 <button
-                  className="text-white/40 hover:text-white transition-colors"
+                  className="text-text-muted hover:text-text-primary transition-colors cursor-pointer"
                   title="Tip: Use clean high-contrast images for best 3D meshes"
                 >
                   <Lightbulb className="w-3.5 h-3.5" />
                 </button>
                 <button
-                  className="text-white/40 hover:text-white transition-colors"
+                  className="text-text-muted hover:text-text-primary transition-colors cursor-pointer"
                   title="Recent upload history"
                 >
                   <LayoutList className="w-3.5 h-3.5" />
@@ -527,12 +527,12 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
-              className={`mt-2 bg-white/[0.02] border-2 border-dashed rounded-xl h-[140px] flex flex-col items-center justify-center cursor-pointer transition-all relative overflow-hidden group ${
+              className={`mt-2 bg-bg-surface-secondary/40 border-2 border-dashed rounded-xl h-[140px] flex flex-col items-center justify-center cursor-pointer transition-all relative overflow-hidden group ${
                 isDragging
-                  ? "border-[#00ffa3] bg-[rgba(0,255,163,0.06)]"
+                  ? "border-neon-green bg-neon-green/5"
                   : uploadedImage
-                  ? "border-white/20 hover:border-[#00ffa3]/30"
-                  : "border-white/[0.08] hover:border-[#00ffa3]/30"
+                  ? "border-border-secondary hover:border-neon-green/40"
+                  : "border-border-subtle hover:border-neon-green/40"
               }`}
             >
               <input
@@ -548,7 +548,7 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
               />
 
               {uploadedImage ? (
-                <div className="relative w-full h-full flex items-center justify-center p-2 bg-[#050508]/80">
+                <div className="relative w-full h-full flex items-center justify-center p-2 bg-bg-surface-secondary/80">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={uploadedImage}
@@ -560,25 +560,25 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                       e.stopPropagation();
                       handleRemoveUpload();
                     }}
-                    className="absolute top-2 right-2 w-6 h-6 bg-black/70 hover:bg-[#050508] text-white rounded-full flex items-center justify-center transition-colors shadow border border-white/10"
+                    className="absolute top-2 right-2 w-6 h-6 bg-black/70 hover:bg-black text-white rounded-full flex items-center justify-center transition-colors shadow border border-white/20"
                     title="Remove image"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
-                  <div className="absolute bottom-2 left-2 bg-[#050508]/85 backdrop-blur px-2 py-0.5 rounded text-[10px] text-white max-w-[200px] truncate border border-white/[0.08]">
+                  <div className="absolute bottom-2 left-2 bg-bg-surface/90 backdrop-blur px-2 py-0.5 rounded text-[10px] text-text-primary max-w-[200px] truncate border border-border-subtle">
                     {uploadedFileName || "Source Image Ready"}
                   </div>
                 </div>
               ) : (
                 <div className="flex flex-col items-center text-center px-4">
-                  <ImageIcon className="w-7 h-7 text-white/40 group-hover:text-[#00ffa3] transition-colors" />
-                  <p className="text-sm text-white/80 mt-2 font-medium">
+                  <ImageIcon className="w-7 h-7 text-text-muted group-hover:text-neon-green transition-colors" />
+                  <p className="text-sm text-text-primary mt-2 font-medium">
                     Click / Drag & Drop / Paste Image
                   </p>
-                  <p className="text-[11px] text-white/40 mt-1">
+                  <p className="text-[11px] text-text-muted mt-1">
                     Supported Formats: .png, .jpg, .jpeg, .webp
                   </p>
-                  <p className="text-[11px] text-white/30">Max size: 20MB</p>
+                  <p className="text-[11px] text-text-faint">Max size: 20MB</p>
                 </div>
               )}
             </div>
@@ -591,10 +591,10 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                   <button
                     key={idx}
                     onClick={() => setSelectedPose(isPoseSelected ? null : idx)}
-                    className={`flex-1 h-16 bg-white/[0.03] rounded-xl flex items-center justify-center border transition-all cursor-pointer ${
+                    className={`flex-1 h-16 bg-bg-surface-secondary rounded-xl flex items-center justify-center border transition-all cursor-pointer ${
                       isPoseSelected
-                        ? "border-[#00ffa3] bg-[rgba(0,255,163,0.08)] shadow-[0_0_8px_rgba(0,255,163,0.15)] text-[#00ffa3]"
-                        : "border-white/[0.08] hover:border-white/20 text-white/40 hover:text-white"
+                        ? "border-neon-green bg-neon-green/10 shadow-sm text-neon-green"
+                        : "border-border-subtle hover:border-border-secondary text-text-muted hover:text-text-primary"
                     }`}
                     title={`Pose Reference ${idx + 1}`}
                   >
@@ -649,20 +649,20 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
           {/* MULTI-VIEW TOGGLE */}
           <div className="mt-4 mx-3 flex items-center justify-between">
             <div className="flex items-center gap-1.5">
-              <span className="text-sm text-white">Multi-view</span>
-              <Info className="w-3 h-3 text-white/40" />
+              <span className="text-sm text-text-primary">Multi-view</span>
+              <Info className="w-3 h-3 text-text-muted" />
             </div>
             <div className="flex items-center gap-2">
-              <Crown className="w-3.5 h-3.5 text-[#00c3ff]" />
+              <Crown className="w-3.5 h-3.5 text-[#0284c7] dark:text-[#00c3ff]" />
               <button
                 onClick={() => setMultiView(!multiView)}
                 className={`w-9 h-5 rounded-full transition-colors relative cursor-pointer ${
-                  multiView ? "bg-[#00ffa3]" : "bg-white/[0.08] border border-white/10"
+                  multiView ? "bg-gradient-to-r from-[#00ffa3] to-[#00c3ff]" : "bg-border-secondary dark:bg-white/[0.08]"
                 }`}
               >
                 <div
-                  className={`w-3.5 h-3.5 rounded-full transition-transform absolute top-[3px] ${
-                    multiView ? "left-[19px] bg-[#050508]" : "left-[3px] bg-white/70"
+                  className={`w-3.5 h-3.5 rounded-full transition-transform absolute top-[3px] shadow-sm ${
+                    multiView ? "left-[19px] bg-[#050508]" : "left-[3px] bg-white dark:bg-white/80"
                   }`}
                 />
               </button>
@@ -671,22 +671,22 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
 
           {/* GENERATE IMAGE SUGGESTION (Switch to Image-Gen) */}
           {showImageGenSuggestion && (
-            <div className="mt-3 mx-3 bg-white/[0.03] border border-white/[0.08] rounded-xl px-3 py-2.5 flex items-start gap-2 relative">
-              <Info className="w-3 h-3 text-white/40 mt-0.5 flex-shrink-0" />
+            <div className="mt-3 mx-3 bg-bg-surface-secondary border border-border-subtle rounded-xl px-3 py-2.5 flex items-start gap-2 relative">
+              <Info className="w-3 h-3 text-text-muted mt-0.5 flex-shrink-0" />
               <div className="flex-1 pr-4">
-                <p className="text-xs text-white/50">
+                <p className="text-xs text-text-secondary">
                   No image yet? Generate one first.
                 </p>
                 <button
                   onClick={() => setSubMode("image-gen")}
-                  className="text-xs text-[#00ffa3] underline cursor-pointer hover:text-[#00c3ff] mt-0.5 inline-block text-left font-medium transition-colors"
+                  className="text-xs text-neon-green underline cursor-pointer hover:opacity-80 mt-0.5 inline-block text-left font-medium transition-opacity"
                 >
                   🖼 Generate Image
                 </button>
               </div>
               <button
                 onClick={() => setShowImageGenSuggestion(false)}
-                className="absolute top-2.5 right-2.5 text-white/40 hover:text-white cursor-pointer"
+                className="absolute top-2.5 right-2.5 text-text-muted hover:text-text-primary cursor-pointer"
               >
                 <X className="w-3 h-3" />
               </button>
@@ -695,28 +695,28 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
 
           {/* MEMORY TO HOLD */}
           <div className="mt-2 mx-3">
-            <button className="w-full bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] rounded-xl px-4 py-2 flex items-center gap-2 cursor-pointer transition-colors">
+            <button className="w-full bg-bg-surface-secondary hover:bg-bg-surface-hover border border-border-subtle rounded-xl px-4 py-2 flex items-center gap-2 cursor-pointer transition-colors">
               <div className="w-5 h-5 bg-gradient-to-tr from-[#00ffa3] to-[#00c3ff] rounded-full flex items-center justify-center flex-shrink-0 shadow-[0_0_8px_rgba(0,255,163,0.3)]">
                 <Sparkles className="w-2.5 h-2.5 text-[#050508]" />
               </div>
-              <span className="text-xs text-white/70 font-medium">Memory to Hold</span>
+              <span className="text-xs text-text-secondary font-medium">Memory to Hold</span>
             </button>
           </div>
 
           {/* RESOLUTION */}
           <div className="mt-5 mx-3">
             <div className="flex items-center gap-1.5">
-              <span className="text-sm text-white">Resolution</span>
-              <Info className="w-3 h-3 text-white/40" />
+              <span className="text-sm text-text-primary">Resolution</span>
+              <Info className="w-3 h-3 text-text-muted" />
             </div>
 
             <div className="mt-2 flex gap-2">
               <button
                 onClick={() => setResolution("standard")}
-                className={`flex-1 text-xs py-1.5 rounded-lg font-medium transition-all ${
+                className={`flex-1 text-xs py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
                   resolution === "standard"
-                    ? "bg-[rgba(0,255,163,0.12)] text-[#00ffa3] border border-[rgba(0,255,163,0.3)] shadow-[0_0_8px_rgba(0,255,163,0.15)] font-semibold"
-                    : "bg-white/[0.03] border border-white/[0.08] text-white/50 hover:text-white hover:bg-white/[0.06]"
+                    ? "bg-neon-green/10 text-neon-green border border-neon-green/30 shadow-sm font-semibold"
+                    : "bg-bg-surface-secondary border border-border-subtle text-text-secondary hover:text-text-primary hover:bg-bg-surface-hover"
                 }`}
               >
                 Standard
@@ -724,26 +724,26 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
 
               <button
                 onClick={() => setResolution("ultra-2k")}
-                className={`flex-1 text-xs py-1.5 rounded-lg font-medium flex items-center justify-center gap-1 transition-all ${
+                className={`flex-1 text-xs py-1.5 rounded-lg font-medium flex items-center justify-center gap-1 transition-all cursor-pointer ${
                   resolution === "ultra-2k"
-                    ? "bg-[rgba(0,255,163,0.12)] text-[#00ffa3] border border-[rgba(0,255,163,0.3)] shadow-[0_0_8px_rgba(0,255,163,0.15)] font-semibold"
-                    : "bg-white/[0.03] border border-white/[0.08] text-white/50 hover:text-white hover:bg-white/[0.06]"
+                    ? "bg-neon-green/10 text-neon-green border border-neon-green/30 shadow-sm font-semibold"
+                    : "bg-bg-surface-secondary border border-border-subtle text-text-secondary hover:text-text-primary hover:bg-bg-surface-hover"
                 }`}
               >
                 <span>Ultra 2K</span>
-                <Crown className="w-2.5 h-2.5 text-[#00c3ff]" />
+                <Crown className="w-2.5 h-2.5 text-[#0284c7] dark:text-[#00c3ff]" />
               </button>
 
               <button
                 onClick={() => setResolution("ultra-4k")}
-                className={`flex-1 text-xs py-1.5 rounded-lg font-medium flex items-center justify-center gap-1 transition-all ${
+                className={`flex-1 text-xs py-1.5 rounded-lg font-medium flex items-center justify-center gap-1 transition-all cursor-pointer ${
                   resolution === "ultra-4k"
-                    ? "bg-[rgba(0,255,163,0.12)] text-[#00ffa3] border border-[rgba(0,255,163,0.3)] shadow-[0_0_8px_rgba(0,255,163,0.15)] font-semibold"
-                    : "bg-white/[0.03] border border-white/[0.08] text-white/50 hover:text-white hover:bg-white/[0.06]"
+                    ? "bg-neon-green/10 text-neon-green border border-neon-green/30 shadow-sm font-semibold"
+                    : "bg-bg-surface-secondary border border-border-subtle text-text-secondary hover:text-text-primary hover:bg-bg-surface-hover"
                 }`}
               >
                 <span>Ultra 4K</span>
-                <Crown className="w-2.5 h-2.5 text-[#00c3ff]" />
+                <Crown className="w-2.5 h-2.5 text-[#0284c7] dark:text-[#00c3ff]" />
               </button>
             </div>
           </div>
@@ -751,19 +751,19 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
           {/* SPLIT TOGGLE */}
           <div className="mt-4 mx-3 flex items-center justify-between">
             <div className="flex items-center gap-1.5">
-              <span className="text-sm text-white">Split</span>
-              <Info className="w-3 h-3 text-white/40" />
-              <Crown className="w-3.5 h-3.5 text-[#00c3ff] ml-0.5" />
+              <span className="text-sm text-text-primary">Split</span>
+              <Info className="w-3 h-3 text-text-muted" />
+              <Crown className="w-3.5 h-3.5 text-[#0284c7] dark:text-[#00c3ff] ml-0.5" />
             </div>
             <button
               onClick={() => setSplit(!split)}
               className={`w-9 h-5 rounded-full transition-colors relative cursor-pointer ${
-                split ? "bg-[#00ffa3]" : "bg-white/[0.08] border border-white/10"
+                split ? "bg-gradient-to-r from-[#00ffa3] to-[#00c3ff]" : "bg-border-secondary dark:bg-white/[0.08]"
               }`}
             >
               <div
-                className={`w-3.5 h-3.5 rounded-full transition-transform absolute top-[3px] ${
-                  split ? "left-[19px] bg-[#050508]" : "left-[3px] bg-white/70"
+                className={`w-3.5 h-3.5 rounded-full transition-transform absolute top-[3px] shadow-sm ${
+                  split ? "left-[19px] bg-[#050508]" : "left-[3px] bg-white dark:bg-white/80"
                 }`}
               />
             </button>
@@ -771,15 +771,15 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
 
           {/* COST DISPLAY */}
           <div className="mt-3 mx-3 flex items-center justify-between py-1">
-            <div className="flex items-center gap-1.5 text-xs text-white/50">
-              <Clock className="w-3 h-3 text-white/40" />
+            <div className="flex items-center gap-1.5 text-xs text-text-muted">
+              <Clock className="w-3 h-3 text-text-muted" />
               <span>1 min</span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="text-sm" role="img" aria-label="coins">
                 🪙
               </span>
-              <span className="text-sm font-semibold text-white">20</span>
+              <span className="text-sm font-semibold text-text-primary">20</span>
             </div>
           </div>
 

@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 
 export function FinalCTASection() {
   return (
-    <section id="final-cta" className="relative bg-[#050508] py-28 lg:py-36 overflow-hidden">
+    <section id="final-cta" className="relative bg-bg-base py-28 lg:py-36 overflow-hidden">
       {/* Radial green and blue ambient glows behind content */}
       <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[#00ffa3]/10 blur-[160px] rounded-full pointer-events-none" />
       <div className="absolute top-1/2 right-1/3 translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[#00c3ff]/10 blur-[160px] rounded-full pointer-events-none" />
@@ -26,11 +26,11 @@ export function FinalCTASection() {
             </span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-text-primary tracking-tight leading-tight">
             Start Converting Images to <span className="accent">3D — Free</span>
           </h2>
 
-          <p className="text-base sm:text-lg text-white/70 mt-5 max-w-xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-text-secondary mt-5 max-w-xl mx-auto leading-relaxed">
             No credit card required. No software to download. Generate your first
             3D model in under a minute.
           </p>
@@ -49,7 +49,7 @@ export function FinalCTASection() {
             </Link>
           </motion.div>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-white/60">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-text-muted">
             <span className="flex items-center gap-2">
               <span className="status-dot" />
               Free monthly credits

@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserButton, useUser } from "@clerk/nextjs";
-import { Box, Sparkles, Layers } from "lucide-react";
+import { Box, Sparkles, Layers, Settings as SettingsIcon } from "lucide-react";
+import { useTheme } from "@/components/theme/ThemeProvider";
 
 interface SidebarProps {
   onCloseMobile?: () => void;
@@ -12,6 +13,7 @@ interface SidebarProps {
 export function Sidebar({ onCloseMobile }: SidebarProps) {
   const pathname = usePathname();
   const { user, isLoaded } = useUser();
+  const { openSettings } = useTheme();
 
   const navItems = [
     {
@@ -29,34 +31,34 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
   ];
 
   return (
-    <aside className="w-72 bg-[#111111] border-r border-[#26262b] flex flex-col h-full select-none">
+    <aside className="w-72 bg-sidebar-bg border-r border-border-subtle flex flex-col h-full select-none backdrop-blur-xl transition-colors">
       {/* Brand Header */}
-      <div className="p-6 border-b border-[#26262b]">
+      <div className="p-6 border-b border-border-subtle">
         <Link
           href="/workspace"
           onClick={onCloseMobile}
           className="flex items-center gap-3 group"
         >
-          <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-lg shadow-white/10 group-hover:scale-105 transition-all">
-            <Box className="w-5 h-5 text-black" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#00ffa3] to-[#00c3ff] flex items-center justify-center shadow-md group-hover:scale-105 transition-all">
+            <Box className="w-5 h-5 text-[#050508]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold tracking-tight text-white">
+              <span className="text-xl font-bold tracking-tight text-text-primary">
                 Studio3D
               </span>
-              <span className="px-1.5 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded bg-white/10 text-white border border-white/20">
+              <span className="px-1.5 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded bg-bg-surface-secondary text-text-secondary border border-border-subtle">
                 PRO
               </span>
             </div>
-            <p className="text-xs text-zinc-400">Powered by Meshy AI</p>
+            <p className="text-xs text-text-muted">Powered by Meshy AI</p>
           </div>
         </Link>
       </div>
 
       {/* Main Navigation */}
       <div className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
-        <div className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
+        <div className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-text-muted">
           Workspaces
         </div>
         {navItems.map((item) => {
@@ -70,15 +72,15 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
               onClick={onCloseMobile}
               className={`flex items-start gap-3.5 px-3.5 py-3 rounded-xl transition-all group relative ${
                 isActive
-                  ? "bg-white text-black font-semibold shadow-md shadow-white/10 border border-white"
-                  : "text-zinc-400 hover:text-white hover:bg-zinc-800/40 border border-transparent"
+                  ? "bg-bg-surface text-text-primary font-semibold shadow-sm border border-border-subtle"
+                  : "text-text-secondary hover:text-text-primary hover:bg-bg-surface-hover border border-transparent"
               }`}
             >
               <div
                 className={`p-2 rounded-lg transition-colors mt-0.5 ${
                   isActive
-                    ? "bg-black text-white"
-                    : "bg-zinc-800/80 text-zinc-400 group-hover:text-zinc-200 group-hover:bg-zinc-800"
+                    ? "bg-neon-green/10 text-neon-green"
+                    : "bg-bg-surface-secondary text-text-muted group-hover:text-text-primary group-hover:bg-bg-surface-hover"
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -87,10 +89,10 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium leading-none">{item.label}</p>
                   {isActive && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-neon-green animate-pulse" />
                   )}
                 </div>
-                <p className={`text-xs mt-1 truncate ${isActive ? "text-zinc-700" : "text-zinc-400"}`}>
+                <p className={`text-xs mt-1 truncate ${isActive ? "text-text-secondary" : "text-text-muted"}`}>
                   {item.description}
                 </p>
               </div>
@@ -100,12 +102,12 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
 
         {/* Workflow Guide Card */}
         <div className="pt-6 px-1">
-          <div className="p-4 rounded-xl bg-gradient-to-b from-zinc-900/90 to-black border border-white/10">
-            <div className="flex items-center gap-2 text-white text-xs font-semibold uppercase tracking-wider mb-2">
-              <Layers className="w-3.5 h-3.5" />
+          <div className="p-4 rounded-xl bg-bg-surface border border-border-subtle shadow-sm">
+            <div className="flex items-center gap-2 text-text-primary text-xs font-semibold uppercase tracking-wider mb-2">
+              <Layers className="w-3.5 h-3.5 text-neon-green" />
               Workflow Pipeline
             </div>
-            <p className="text-xs text-zinc-300 leading-relaxed">
+            <p className="text-xs text-text-secondary leading-relaxed">
               1. Generate high-detail concept art
               <br />
               2. Transfer to 3D converter
@@ -117,28 +119,45 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
       </div>
 
       {/* User Section at bottom */}
-      <div className="p-4 border-t border-[#26262b] bg-[#0f0f11]/80 backdrop-blur-sm">
-        <div className="flex items-center justify-between gap-3 p-2 rounded-xl bg-zinc-900/60 border border-zinc-800/60">
+      <div className="p-4 border-t border-border-subtle bg-bg-surface-secondary/40 backdrop-blur-sm">
+        <div className="flex items-center justify-between gap-3 p-2 rounded-xl bg-bg-surface border border-border-subtle shadow-sm">
           <div className="flex items-center gap-3 min-w-0">
             <UserButton
               afterSignOutUrl="/sign-in"
               appearance={{
                 elements: {
-                  avatarBox: "w-9 h-9 ring-2 ring-violet-500/30",
+                  avatarBox: "w-9 h-9 ring-1 ring-border-subtle",
                 },
               }}
-            />
+            >
+              <UserButton.MenuItems>
+                <UserButton.Action
+                  label="Theme & Settings"
+                  labelIcon={<SettingsIcon className="w-4 h-4" />}
+                  onClick={openSettings}
+                />
+              </UserButton.MenuItems>
+            </UserButton>
             {isLoaded && user && (
               <div className="min-w-0 flex-1">
-                <p className="text-xs font-medium text-zinc-200 truncate">
+                <p className="text-xs font-medium text-text-primary truncate">
                   {user.fullName || user.username || "Creator"}
                 </p>
-                <p className="text-[11px] text-zinc-400 truncate">
+                <p className="text-[11px] text-text-muted truncate">
                   {user.primaryEmailAddress?.emailAddress || "Active"}
                 </p>
               </div>
             )}
           </div>
+
+          <button
+            onClick={openSettings}
+            title="Settings"
+            aria-label="Settings"
+            className="p-1.5 text-text-muted hover:text-text-primary hover:bg-bg-surface-hover rounded-lg transition-colors cursor-pointer"
+          >
+            <SettingsIcon className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </aside>

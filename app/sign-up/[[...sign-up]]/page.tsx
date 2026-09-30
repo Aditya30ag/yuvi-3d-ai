@@ -1,27 +1,31 @@
 import { SignUp } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
 
 export default function SignUpPage() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#050508] px-4 py-8 relative z-10">
+    <div className="min-h-screen w-full flex items-center justify-center bg-bg-base px-4 py-8 relative z-10 transition-colors">
       <SignUp
         appearance={{
-          baseTheme: dark,
           variables: {
-            colorPrimary: "#00ffa3",
-            colorBackground: "#0b0c10",
-            colorInputBackground: "rgba(255, 255, 255, 0.05)",
-            colorInputText: "#ffffff",
-            colorText: "#ffffff",
-            colorTextSecondary: "rgba(255, 255, 255, 0.6)",
+            colorPrimary: "#059669",
+            colorBackground: "#ffffff",
+            colorInputBackground: "#f9fafb",
+            colorInputText: "#111827",
+            colorText: "#111827",
+            colorTextSecondary: "#6b7280",
             borderRadius: "1rem",
           },
           elements: {
-            card: "border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.8)] backdrop-blur-xl",
-            formButtonPrimary: "bg-gradient-to-r from-[#00ffa3] to-[#00c3ff] text-[#050508] font-bold hover:shadow-[0_0_20px_rgba(0,255,163,0.4)] transition-all",
-            footerActionLink: "text-[#00ffa3] hover:text-[#00c3ff] hover:underline",
-            headerTitle: "text-white font-bold",
-            headerSubtitle: "text-white/60",
+            card: "border border-border-subtle shadow-xl bg-white",
+            formButtonPrimary:
+              "bg-gradient-to-r from-[#00ffa3] to-[#00c3ff] text-[#050508] font-bold hover:shadow-[0_0_20px_rgba(0,255,163,0.3)] transition-all",
+            footerActionLink: "text-[#059669] hover:text-[#0284c7] hover:underline font-medium",
+            headerTitle: "text-gray-900 font-bold",
+            headerSubtitle: "text-gray-500",
+            socialButtonsBlockButton: "border border-gray-200 hover:bg-gray-50 text-gray-700",
+            formFieldInput: "border border-gray-300 focus:border-[#059669]",
+          },
+          captcha: {
+            theme: "light",
           },
         }}
       />

@@ -36,7 +36,7 @@ export function CenterViewer({
   generatingProgress,
   onUseFor3D,
   onRegenerate,
-  bgColor = "#0d0d0d",
+  bgColor = "transparent",
 }: CenterViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const modelViewerRef = useRef<(HTMLElement & {
@@ -98,55 +98,56 @@ export function CenterViewer({
   const toggleFullscreen = () => {
     if (!containerRef.current) return;
     if (!document.fullscreenElement) {
-      containerRef.current.requestFullscreen().catch(() => {});
+      containerRef.current.requestFullscreen?.().catch(() => {});
       setIsFullscreen(true);
     } else {
-      document.exitFullscreen().catch(() => {});
+      document.exitFullscreen?.().catch(() => {});
       setIsFullscreen(false);
     }
   };
 
-  // Toggle wireframe
+  // Wireframe toggle (roughness emulation on material)
   const toggleWireframe = () => {
     setWireframeActive((prev) => !prev);
-    if (modelViewerRef.current && modelViewerRef.current.model) {
-      try {
-        const materials = modelViewerRef.current.model.materials;
-        materials?.forEach((mat) => {
-          if (mat.pbrMetallicRoughness) {
-            mat.pbrMetallicRoughness.setRoughnessFactor(wireframeActive ? 0.8 : 0.1);
-          }
-        });
-      } catch {
-        // ignore
-      }
+    if (modelViewerRef.current?.model?.materials?.[0]?.pbrMetallicRoughness) {
+      const pbr = modelViewerRef.current.model.materials[0].pbrMetallicRoughness;
+      pbr.setRoughnessFactor(wireframeActive ? 0.4 : 1.0);
     }
   };
 
-  // Toggle light
+  // Lighting toggle: rotate exposures [0.6, 1.0, 1.5, 2.0]
   const toggleLighting = () => {
-    setLightingExposure((prev) => (prev >= 1.6 ? 0.7 : prev + 0.45));
+    const exposures = [0.6, 1.0, 1.5, 2.0];
+    const currentIndex = exposures.indexOf(lightingExposure);
+    const nextIndex = (currentIndex + 1) % exposures.length;
+    setLightingExposure(exposures[nextIndex]);
   };
 
-  // Copy share link
+  // Download GLB or Image
+  const handleDownloadFile = async (url: string, filename: string) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch {
+      window.open(url, "_blank");
+    }
+  };
+
+  // Share link
   const handleShare = () => {
     if (typeof window !== "undefined") {
-      navigator.clipboard.writeText(window.location.href);
+      navigator.clipboard?.writeText(window.location.href);
       setCopiedLink(true);
       setTimeout(() => setCopiedLink(false), 2000);
     }
-  };
-
-  // Trigger download helper
-  const handleDownloadFile = (url: string, filename: string) => {
-    if (!url || url === "#") return;
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setShowDownloadPopover(false);
   };
 
   const formatNumber = (val: number | undefined) => {
@@ -163,17 +164,17 @@ export function CenterViewer({
   return (
     <div
       ref={containerRef}
-      style={{ backgroundColor: bgColor }}
-      className="flex-1 h-full relative flex flex-col min-w-0 select-none overflow-hidden"
+      style={{ backgroundColor: bgColor !== "transparent" ? bgColor : undefined }}
+      className="flex-1 h-full relative flex flex-col min-w-0 select-none overflow-hidden bg-bg-base transition-colors"
     >
       {/* ================= TOP BAR (inside center panel) ================= */}
-      <div className="h-[40px] w-full bg-[#0d0d0d] border-b border-[#1f1f1f] flex items-center justify-between px-3 z-20 flex-shrink-0">
+      <div className="h-[40px] w-full bg-bg-surface border-b border-border-subtle flex items-center justify-between px-3 z-20 flex-shrink-0">
         <div className="flex items-center gap-1">
           {/* Reset Camera */}
           <button
             onClick={handleResetCamera}
             title="Reset Camera"
-            className="p-1.5 rounded text-[#555555] hover:text-[#cccccc] hover:bg-[#1a1a1a] transition-colors"
+            className="p-1.5 rounded text-text-muted hover:text-text-primary hover:bg-bg-surface-hover transition-colors cursor-pointer"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
@@ -182,7 +183,7 @@ export function CenterViewer({
           <button
             onClick={toggleFullscreen}
             title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-            className="p-1.5 rounded text-[#555555] hover:text-[#cccccc] hover:bg-[#1a1a1a] transition-colors"
+            className="p-1.5 rounded text-text-muted hover:text-text-primary hover:bg-bg-surface-hover transition-colors cursor-pointer"
           >
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
@@ -191,10 +192,10 @@ export function CenterViewer({
           <button
             onClick={toggleWireframe}
             title={wireframeActive ? "Shaded View" : "Wireframe Toggle"}
-            className={`p-1.5 rounded transition-colors ${
+            className={`p-1.5 rounded transition-colors cursor-pointer ${
               wireframeActive
-                ? "text-white bg-[#1f1f1f]"
-                : "text-[#555555] hover:text-[#cccccc] hover:bg-[#1a1a1a]"
+                ? "text-text-primary bg-bg-surface-secondary border border-border-subtle"
+                : "text-text-muted hover:text-text-primary hover:bg-bg-surface-hover"
             }`}
           >
             <Grid3X3 className="w-4 h-4" />
@@ -204,7 +205,7 @@ export function CenterViewer({
           <button
             onClick={toggleLighting}
             title={`Exposure: ${lightingExposure.toFixed(1)}`}
-            className="p-1.5 rounded text-[#555555] hover:text-[#cccccc] hover:bg-[#1a1a1a] transition-colors"
+            className="p-1.5 rounded text-text-muted hover:text-text-primary hover:bg-bg-surface-hover transition-colors cursor-pointer"
           >
             <Sun className="w-4 h-4" />
           </button>
@@ -213,22 +214,22 @@ export function CenterViewer({
           <button
             onClick={() => setShowStats(!showStats)}
             title={showStats ? "Hide Mesh Info" : "Show Mesh Info"}
-            className={`p-1.5 rounded transition-colors ${
+            className={`p-1.5 rounded transition-colors cursor-pointer ${
               showStats
-                ? "text-[#cccccc]"
-                : "text-[#555555] hover:text-[#cccccc]"
+                ? "text-text-primary"
+                : "text-text-muted hover:text-text-primary"
             }`}
           >
             <Eye className="w-4 h-4" />
           </button>
 
           {/* Separator */}
-          <div className="w-[1px] h-4 bg-[#1f1f1f] mx-1" />
+          <div className="w-[1px] h-4 bg-border-subtle mx-1" />
 
           {/* Settings2 */}
           <button
             title="Viewer Settings"
-            className="p-1.5 rounded text-[#555555] hover:text-[#cccccc] hover:bg-[#1a1a1a] transition-colors"
+            className="p-1.5 rounded text-text-muted hover:text-text-primary hover:bg-bg-surface-hover transition-colors cursor-pointer"
           >
             <Settings2 className="w-4 h-4" />
           </button>
@@ -237,7 +238,7 @@ export function CenterViewer({
         {/* Right tag / indicator */}
         <div className="flex items-center gap-2">
           {is3DTask && (
-            <span className="text-[11px] text-[#555555] uppercase tracking-wider font-mono">
+            <span className="text-[11px] text-text-muted uppercase tracking-wider font-mono">
               WebGL 2.0 / PBR
             </span>
           )}
@@ -249,14 +250,14 @@ export function CenterViewer({
         {/* State 1: Generation In Progress */}
         {isGenerating ? (
           <div className="flex flex-col items-center justify-center gap-4 z-10">
-            <div className="relative w-24 h-24 rounded-full flex items-center justify-center animate-pulse bg-gradient-to-tr from-[ffffff]/20 via-[ffffff]/5 to-transparent border border-[ffffff]/30">
-              <Loader2 className="w-10 h-10 animate-spin text-[ffffff]" />
+            <div className="relative w-24 h-24 rounded-full flex items-center justify-center animate-pulse bg-neon-green/10 border border-neon-green/30">
+              <Loader2 className="w-10 h-10 animate-spin text-neon-green" />
             </div>
             <div className="flex flex-col items-center gap-1 text-center">
-              <span className="text-white text-sm font-medium">
+              <span className="text-text-primary text-sm font-semibold">
                 Synthesizing Neural Asset
               </span>
-              <span className="text-xs text-[#888888]">
+              <span className="text-xs text-text-muted">
                 {generatingProgress}% completed
               </span>
             </div>
@@ -264,13 +265,13 @@ export function CenterViewer({
         ) : !generation ? (
           /* State 2: Empty State */
           <div className="flex flex-col items-center justify-center text-center p-6 select-none">
-            <div className="w-12 h-12 rounded-xl bg-[#141414] border border-[#2a2a2a] flex items-center justify-center mb-3">
-              <Upload className="w-6 h-6 text-[#2a2a2a]" />
+            <div className="w-12 h-12 rounded-xl bg-bg-surface-secondary border border-border-subtle flex items-center justify-center mb-3">
+              <Upload className="w-6 h-6 text-text-muted" />
             </div>
-            <p className="text-[#555555] text-[14px] font-medium">
+            <p className="text-text-primary text-[14px] font-semibold">
               No generation selected
             </p>
-            <p className="text-[#333333] text-[12px] mt-1 max-w-xs">
+            <p className="text-text-secondary text-[12px] mt-1 max-w-xs">
               Select a generation from the panel or create a new one
             </p>
           </div>
@@ -281,7 +282,7 @@ export function CenterViewer({
             <img
               src={imageUrl}
               alt={generation.name || "Generated concept"}
-              className="max-w-2xl max-h-full object-contain rounded-lg shadow-2xl transition-opacity duration-300"
+              className="max-w-2xl max-h-full object-contain rounded-lg shadow-xl transition-opacity duration-300"
             />
           </div>
         ) : is3DTask && glbUrl ? (
@@ -289,20 +290,20 @@ export function CenterViewer({
           <div className="relative w-full h-full">
             {/* Top-left Stats Overlay */}
             {showStats && (
-              <div className="absolute top-3 left-3 z-10 bg-black/60 backdrop-blur-md rounded-md px-3 py-2 border border-white/5 flex flex-col gap-1 min-w-[130px] pointer-events-none">
+              <div className="absolute top-3 left-3 z-10 bg-bg-surface/90 backdrop-blur-md rounded-md px-3 py-2 border border-border-subtle shadow-md flex flex-col gap-1 min-w-[130px] pointer-events-none">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-[#888888]">Topology</span>
-                  <span className="text-white font-medium ml-3">{topology}</span>
+                  <span className="text-text-muted">Topology</span>
+                  <span className="text-text-primary font-medium ml-3">{topology}</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-[#888888]">Faces</span>
-                  <span className="text-white font-medium ml-3 font-mono">
+                  <span className="text-text-muted">Faces</span>
+                  <span className="text-text-primary font-medium ml-3 font-mono">
                     {formatNumber(stats.faces)}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-[#888888]">Vertices</span>
-                  <span className="text-white font-medium ml-3 font-mono">
+                  <span className="text-text-muted">Vertices</span>
+                  <span className="text-text-primary font-medium ml-3 font-mono">
                     {formatNumber(stats.vertices)}
                   </span>
                 </div>
@@ -324,20 +325,20 @@ export function CenterViewer({
               style={{
                 width: "100%",
                 height: "100%",
-                background: bgColor,
+                background: bgColor !== "transparent" ? bgColor : undefined,
               }}
             />
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center text-center p-6">
-            <span className="text-[#555555] text-sm">Asset unavailable</span>
+            <span className="text-text-muted text-sm">Asset unavailable</span>
           </div>
         )}
       </div>
 
       {/* ================= BOTTOM ACTION BAR (48px) ================= */}
       {generation && !isGenerating && (
-        <div className="h-[48px] w-full bg-[#0d0d0d] border-t border-[#1f1f1f] flex items-center justify-center px-4 gap-2 z-20 flex-shrink-0 relative">
+        <div className="h-[48px] w-full bg-bg-surface border-t border-border-subtle flex items-center justify-center px-4 gap-2 z-20 flex-shrink-0 relative">
           {isImageTask ? (
             /* Image Bottom Bar Actions */
             <div className="flex items-center gap-2">
@@ -345,7 +346,7 @@ export function CenterViewer({
               <button
                 onClick={() => imageUrl && handleDownloadFile(imageUrl, "concept-art.png")}
                 title="Download Image"
-                className="p-2 rounded-lg text-[#555555] hover:text-[#cccccc] hover:bg-[#1f1f1f] transition-colors"
+                className="p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-surface-hover transition-colors cursor-pointer"
               >
                 <ArrowDownToLine className="w-4 h-4" />
               </button>
@@ -354,36 +355,36 @@ export function CenterViewer({
               <button
                 onClick={handleShare}
                 title="Share Image"
-                className="p-2 rounded-lg text-[#555555] hover:text-[#cccccc] hover:bg-[#1f1f1f] transition-colors"
+                className="p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-surface-hover transition-colors cursor-pointer"
               >
-                {copiedLink ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
+                {copiedLink ? <Check className="w-4 h-4 text-emerald-500" /> : <Share2 className="w-4 h-4" />}
               </button>
 
               {/* Wand2 ("Use for 3D") */}
               <button
                 onClick={() => imageUrl && onUseFor3D(imageUrl)}
                 title="Use for 3D"
-                className="p-2 rounded-lg text-[#00ffa3] hover:text-white hover:bg-[rgba(0,255,163,0.1)] transition-colors flex items-center gap-1.5 text-xs font-semibold"
+                className="p-2 rounded-lg text-neon-green hover:underline hover:bg-neon-green/10 transition-colors flex items-center gap-1.5 text-xs font-semibold cursor-pointer"
               >
-                <Wand2 className="w-4 h-4 text-[#00ffa3]" />
+                <Wand2 className="w-4 h-4 text-neon-green" />
                 <span>Use for 3D</span>
               </button>
 
               {/* Trash */}
               <button
                 title="Delete"
-                className="p-2 rounded-lg text-white/40 hover:text-red-400 hover:bg-white/[0.05] transition-colors"
+                className="p-2 rounded-lg text-text-muted hover:text-red-500 hover:bg-bg-surface-hover transition-colors cursor-pointer"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
 
               {/* Separator */}
-              <div className="w-[1px] h-4 bg-white/[0.08] mx-1" />
+              <div className="w-[1px] h-4 bg-border-subtle mx-1" />
 
               {/* Neon pill button: "NEW" badge + download icon */}
               <button
                 onClick={() => imageUrl && handleDownloadFile(imageUrl, "hd-concept.png")}
-                className="btn-primary text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(0,255,163,0.25)]"
+                className="btn-primary text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(0,255,163,0.25)] cursor-pointer"
               >
                 <span className="badge-cyan text-[8px] py-0 px-1 leading-tight">
                   NEW
@@ -398,7 +399,7 @@ export function CenterViewer({
               <button
                 onClick={onRegenerate}
                 title="Regenerate"
-                className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.05] transition-colors"
+                className="p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-surface-hover transition-colors cursor-pointer"
               >
                 <RefreshCw className="w-4 h-4" />
               </button>
@@ -407,36 +408,36 @@ export function CenterViewer({
               <button
                 onClick={handleShare}
                 title="Share 3D Model"
-                className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.05] transition-colors"
+                className="p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-surface-hover transition-colors cursor-pointer"
               >
-                {copiedLink ? <Check className="w-4 h-4 text-[#00ffa3]" /> : <Share2 className="w-4 h-4" />}
+                {copiedLink ? <Check className="w-4 h-4 text-emerald-500" /> : <Share2 className="w-4 h-4" />}
               </button>
 
               {/* Settings2 (post-processing) */}
               <button
                 title="Post-processing"
-                className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.05] transition-colors"
+                className="p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-surface-hover transition-colors cursor-pointer"
               >
                 <Settings2 className="w-4 h-4" />
               </button>
 
               {/* Separator */}
-              <div className="w-[1px] h-4 bg-white/[0.08] mx-1" />
+              <div className="w-[1px] h-4 bg-border-subtle mx-1" />
 
               {/* Download green pill button with format selector popover */}
               <div className="relative">
                 <button
                   onClick={() => setShowDownloadPopover(!showDownloadPopover)}
-                  className="btn-primary text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(0,255,163,0.25)]"
+                  className="btn-primary text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(0,255,163,0.25)] cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5 text-[#050508]" />
                   <span>Download</span>
                 </button>
 
-                {/* Popover above the button: bg-#1a1a1a rounded-xl border border-#2a2a2a p-3 w-48 */}
+                {/* Popover above the button */}
                 {showDownloadPopover && (
-                  <div className="absolute bottom-[44px] left-1/2 -translate-x-1/2 w-48 bg-[#1a1a1a] rounded-xl border border-[#2a2a2a] p-3 shadow-2xl z-50 flex flex-col gap-1.5 animate-fadeIn">
-                    <span className="text-[11px] uppercase tracking-wider text-[#888888] font-medium px-1 mb-1">
+                  <div className="absolute bottom-[44px] left-1/2 -translate-x-1/2 w-48 bg-bg-surface rounded-xl border border-border-subtle p-3 shadow-2xl z-50 flex flex-col gap-1.5 animate-fadeIn">
+                    <span className="text-[11px] uppercase tracking-wider text-text-muted font-medium px-1 mb-1">
                       Export Formats
                     </span>
                     {["GLB", "OBJ", "FBX", "STL", "USDZ"].map((format) => {
@@ -460,10 +461,10 @@ export function CenterViewer({
                               handleDownloadFile(downloadUrl, `model.${format.toLowerCase()}`);
                             }
                           }}
-                          className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg hover:bg-[#252525] text-left transition-colors group"
+                          className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg hover:bg-bg-surface-hover text-left transition-colors group cursor-pointer"
                         >
-                          <span className="text-sm text-white font-medium">{format}</span>
-                          <Download className="w-3.5 h-3.5 text-[#888888] group-hover:text-white transition-colors" />
+                          <span className="text-sm text-text-primary font-medium">{format}</span>
+                          <Download className="w-3.5 h-3.5 text-text-muted group-hover:text-text-primary transition-colors" />
                         </button>
                       );
                     })}

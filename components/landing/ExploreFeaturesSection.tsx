@@ -59,7 +59,7 @@ export function ExploreFeaturesSection() {
   ];
 
   return (
-    <section id="explore-features" className="relative bg-[#050508] py-24 border-y border-white/[0.06] overflow-hidden">
+    <section id="explore-features" className="relative bg-bg-base py-24 border-y border-border-subtle overflow-hidden">
       {/* Ambient background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-to-r from-[#00ffa3]/10 to-[#00c3ff]/10 blur-[150px] rounded-full pointer-events-none" />
 
@@ -74,7 +74,7 @@ export function ExploreFeaturesSection() {
           <div className="section-label mb-3">
             Ecosystem
           </div>
-          <h2 className="text-3xl font-bold text-white tracking-tight mt-2">
+          <h2 className="text-3xl font-bold text-text-primary tracking-tight mt-2">
             Explore More Features
           </h2>
         </motion.div>
@@ -101,15 +101,15 @@ export function ExploreFeaturesSection() {
                       <Icon className="w-4 h-4" />
                     </div>
 
-                    <h3 className="card-title text-base font-semibold group-hover:text-white transition-colors">
+                    <h3 className="card-title text-base font-semibold group-hover:text-neon-green dark:group-hover:text-white transition-colors">
                       {item.title}
                     </h3>
-                    <p className="text-sm text-white/60 mt-1.5 leading-relaxed">
+                    <p className="text-sm text-text-muted mt-1.5 leading-relaxed">
                       {item.desc}
                     </p>
                   </div>
 
-                  <div className="mt-5 flex items-center gap-1.5 text-xs text-[#00c3ff] group-hover:text-[#00ffa3] font-medium transition-colors">
+                  <div className="mt-5 flex items-center gap-1.5 text-xs text-neon-blue group-hover:text-neon-green font-medium transition-colors">
                     <span>Explore</span>
                     <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                   </div>

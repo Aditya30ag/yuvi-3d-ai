@@ -23,15 +23,15 @@ export default function WorkspacePage() {
 
   if (!isLoaded || !userId) {
     return (
-      <div className="w-screen h-screen bg-[#050508] flex flex-col items-center justify-center gap-3">
-        <div className="w-9 h-9 rounded-full border-2 border-[#00ffa3] border-t-transparent animate-spin" />
-        <span className="text-xs text-white/50 font-medium">Checking authorization...</span>
+      <div className="w-screen h-screen bg-bg-base flex flex-col items-center justify-center gap-3 transition-colors">
+        <div className="w-9 h-9 rounded-full border-2 border-neon-green border-t-transparent animate-spin" />
+        <span className="text-xs text-text-muted font-medium">Checking authorization...</span>
       </div>
     );
   }
 
   return (
-    <div className="w-screen h-screen overflow-hidden bg-[#050508] text-white flex flex-col font-sans select-none">
+    <div className="w-screen h-screen overflow-hidden bg-bg-base text-text-primary flex flex-col font-sans select-none transition-colors">
       {/* TOP NAVIGATION BAR (Fixed top-0, height 48px) */}
       <TopNav
         coins={workspace.coins}
@@ -41,7 +41,7 @@ export default function WorkspacePage() {
       />
 
       {/* 4 COLUMNS FULL-SCREEN CONTAINER (Below 48px TopNav) */}
-      <div className="relative w-full h-[calc(100vh-48px)] mt-[48px] bg-[#050508] flex overflow-hidden">
+      <div className="relative w-full h-[calc(100vh-48px)] mt-[48px] bg-bg-base flex overflow-hidden transition-colors">
         {/* PANEL 1: ICON SIDEBAR (56px) */}
         <IconSidebar
           activeFeature={workspace.activeFeature}

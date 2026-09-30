@@ -7,7 +7,7 @@ export function SharpEdgesSection() {
     {
       title: "Smart Topology",
       renderShape: () => (
-        <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#00ffa3] drop-shadow-[0_0_12px_rgba(0,255,163,0.35)]">
+        <svg viewBox="0 0 100 100" className="w-24 h-24 text-neon-green drop-shadow-md">
           <polygon
             points="50,15 85,35 85,75 50,95 15,75 15,35"
             fill="rgba(0,255,163,0.12)"
@@ -25,7 +25,7 @@ export function SharpEdgesSection() {
     {
       title: "Auto Split",
       renderShape: () => (
-        <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#00c3ff] drop-shadow-[0_0_12px_rgba(0,195,255,0.35)]">
+        <svg viewBox="0 0 100 100" className="w-24 h-24 text-neon-blue drop-shadow-md">
           {/* Top segment */}
           <path d="M25 35 L50 20 L75 35 L50 45 Z" fill="rgba(0,195,255,0.7)" opacity="0.9" stroke="#00c3ff" strokeWidth="1.5" />
           {/* Middle segment floating */}
@@ -38,8 +38,8 @@ export function SharpEdgesSection() {
     {
       title: "Clean Geometry",
       renderShape: () => (
-        <svg viewBox="0 0 100 100" className="w-24 h-24 text-zinc-200 drop-shadow-[0_0_12px_rgba(255,255,255,0.15)]">
-          <circle cx="50" cy="50" r="35" fill="rgba(255,255,255,0.04)" stroke="#00c3ff" strokeWidth="1.5" />
+        <svg viewBox="0 0 100 100" className="w-24 h-24 text-text-primary drop-shadow-sm">
+          <circle cx="50" cy="50" r="35" fill="rgba(0,195,255,0.05)" stroke="#00c3ff" strokeWidth="1.5" />
           <ellipse cx="50" cy="50" rx="35" ry="14" fill="none" stroke="#00ffa3" strokeWidth="1" />
           <ellipse cx="50" cy="50" rx="14" ry="35" fill="none" stroke="#00ffa3" strokeWidth="1" />
           <line x1="15" y1="50" x2="85" y2="50" stroke="#00c3ff" strokeWidth="1" />
@@ -50,7 +50,7 @@ export function SharpEdgesSection() {
     {
       title: "Sharp Details",
       renderShape: () => (
-        <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#00ffa3] drop-shadow-[0_0_12px_rgba(0,255,163,0.35)]">
+        <svg viewBox="0 0 100 100" className="w-24 h-24 text-neon-green drop-shadow-md">
           {/* Angular faceted crystal / creature silhouette */}
           <polygon
             points="50,12 70,35 85,60 68,85 50,92 32,85 15,60 30,35"
@@ -59,7 +59,7 @@ export function SharpEdgesSection() {
             strokeWidth="1.5"
           />
           <polygon points="50,12 60,45 50,75 40,45" fill="rgba(0,195,255,0.25)" stroke="#00c3ff" strokeWidth="1" />
-          <polygon points="50,75 68,85 50,92 32,85" fill="#050508" stroke="#00ffa3" strokeWidth="1" />
+          <polygon points="50,75 68,85 50,92 32,85" fill="var(--bg-base)" stroke="#00ffa3" strokeWidth="1" />
           <circle cx="50" cy="45" r="3" fill="#00ffa3" />
         </svg>
       ),
@@ -67,7 +67,7 @@ export function SharpEdgesSection() {
     {
       title: "Precise Topology",
       renderShape: () => (
-        <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#00c3ff] drop-shadow-[0_0_12px_rgba(0,195,255,0.3)]">
+        <svg viewBox="0 0 100 100" className="w-24 h-24 text-neon-blue drop-shadow-md">
           {/* Cylinder trunk topology with cross contours */}
           <ellipse cx="50" cy="25" rx="30" ry="10" fill="rgba(99,0,255,0.15)" stroke="#a78bfa" strokeWidth="1.5" />
           <ellipse cx="50" cy="50" rx="27" ry="9" fill="none" stroke="#00c3ff" strokeWidth="1" strokeDasharray="3 3" />
@@ -81,9 +81,9 @@ export function SharpEdgesSection() {
   ];
 
   return (
-    <section id="sharp-edges" className="relative bg-[#050508] py-24 lg:py-32 overflow-hidden border-y border-white/[0.06]">
+    <section id="sharp-edges" className="relative bg-bg-base py-24 lg:py-32 overflow-hidden border-y border-border-subtle transition-colors">
       {/* Ambient background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-[#00ffa3]/10 to-[#00c3ff]/10 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-neon-green/10 to-neon-blue/10 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div
@@ -96,10 +96,10 @@ export function SharpEdgesSection() {
           <div className="section-label mb-3">
             High Definition
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mt-2">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary tracking-tight mt-2">
             Sharp and Well-Defined Edges
           </h2>
-          <p className="text-base sm:text-lg text-white/60 max-w-xl mx-auto mt-4 leading-relaxed">
+          <p className="text-base sm:text-lg text-text-secondary max-w-xl mx-auto mt-4 leading-relaxed">
             Bring your creations to life with sharp, clear edges that add depth and
             realism.
           </p>
@@ -115,20 +115,20 @@ export function SharpEdgesSection() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="group relative glass-card aspect-square w-56 flex-shrink-0 flex flex-col justify-between overflow-hidden transition-all duration-300"
+                className="group relative glass-card aspect-square w-56 flex-shrink-0 flex flex-col justify-between overflow-hidden transition-all duration-300 shadow-sm"
               >
                 {/* Decorative Grid Dot Pattern Background */}
                 <div
-                  className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity"
+                  className="absolute inset-0 opacity-10 group-hover:opacity-25 transition-opacity"
                   style={{
                     backgroundImage:
-                      "radial-gradient(#ffffff 1px, transparent 1px)",
+                      "radial-gradient(currentColor 1px, transparent 1px)",
                     backgroundSize: "12px 12px",
                   }}
                 />
 
                 {/* Top Subtle Status Badge */}
-                <div className="relative z-10 p-3 flex justify-between items-center text-[10px] text-white/40">
+                <div className="relative z-10 p-3 flex justify-between items-center text-[10px] text-text-muted">
                   <span className="font-mono">M7-EDGE</span>
                   <div className="status-dot" />
                 </div>
@@ -140,7 +140,7 @@ export function SharpEdgesSection() {
 
                 {/* Bottom Label */}
                 <div className="relative z-10 pb-4 text-center">
-                  <span className="card-title text-xs font-semibold block">
+                  <span className="card-title text-xs font-semibold block text-text-primary">
                     {card.title}
                   </span>
                 </div>

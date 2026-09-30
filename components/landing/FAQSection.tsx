@@ -53,7 +53,7 @@ const FAQS = [
 
 export function FAQSection() {
   return (
-    <section id="faq" className="relative bg-[#050508] py-24 lg:py-32 overflow-hidden">
+    <section id="faq" className="relative bg-bg-base py-24 lg:py-32 overflow-hidden">
       {/* Ambient background glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gradient-to-r from-[#00ffa3]/10 to-[#00c3ff]/10 blur-[140px] rounded-full pointer-events-none" />
 
@@ -68,7 +68,7 @@ export function FAQSection() {
           <div className="section-label mb-3">
             Got Questions?
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mt-2">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary tracking-tight mt-2">
             Frequently Asked Questions
           </h2>
         </motion.div>
@@ -87,10 +87,10 @@ export function FAQSection() {
                 value={`item-${index}`}
                 className="glass-card px-6 transition-all duration-300 overflow-hidden"
               >
-                <AccordionTrigger className="text-left font-medium text-white hover:text-[#00ffa3] py-5">
+                <AccordionTrigger className="text-left font-medium text-text-primary hover:text-neon-green py-5">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-sm text-white/70 leading-relaxed pb-5">
+                <AccordionContent className="text-sm text-text-secondary leading-relaxed pb-5">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>
