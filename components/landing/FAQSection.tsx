@@ -10,50 +10,34 @@ import {
 
 const FAQS = [
   {
-    q: "Why use Studio3D's Image to 3D AI converter?",
-    a: "Studio3D converts any 2D photo into a detailed 3D model in about one minute — no 3D modeling experience required. Features include Image Enhancement, AI Multi-view, and export in 8 formats including GLB, OBJ, FBX, USDZ, STL.",
+    q: "What file formats do I get?",
+    a: "Every completed design can be downloaded as an STL, ready for slicers like Cura, PrusaSlicer or Bambu Studio. Engines that build a full 3D object (TRELLIS, Tripo) also produce a GLB, which powers the in-browser 3D preview.",
   },
   {
-    q: "How long does it take to generate a 3D model from an image?",
-    a: "Most conversions complete in about one minute. The exact time depends on image complexity and settings — enabling Multi-view may add a few seconds.",
+    q: "How long does a conversion take?",
+    a: "Hyperbolic usually finishes in a few seconds. The full-3D engines typically take one to a few minutes, and the shared Hugging Face space can queue when it's busy. The workspace updates on its own, so you can leave it open or come back later.",
   },
   {
-    q: "What image formats can I upload?",
-    a: "Supported formats: PNG, JPG, WEBP. Max file size: 20MB. For best results, use a clean background and single centered subject.",
+    q: "What kind of photo works best?",
+    a: "A single object, well lit, on a plain background, photographed from a slight angle so its depth is visible. Avoid busy scenes, heavy reflections and cropped edges. Images can be JPG, PNG, WebP or GIF up to 10 MB.",
   },
   {
-    q: "What 3D formats can I export?",
-    a: "FBX, OBJ, GLB, USDZ, STL, BLEND, 3MF, DXF — ready for Blender, Unity, Unreal, Maya, and 3D printing slicers.",
+    q: "Which engine should I choose?",
+    a: "Use Hyperbolic for fast relief-style prints such as signs, logos and embossed shapes. Use TRELLIS or Tripo when you need a complete object you can view from every side.",
   },
   {
-    q: "Do I need to download any software?",
-    a: "No — everything runs in your browser. No installation or plugins needed.",
+    q: "How do I sign in?",
+    a: "Enter your email and we send you a 6-digit code. There's no password, and your account is created the first time you sign in.",
   },
   {
-    q: "Can I use my own images as a reference?",
-    a: "Yes — you can upload any image. You can also browse example references for inspiration in the gallery.",
-  },
-  {
-    q: "Who owns the rights to the generated 3D models?",
-    a: "Models on the free tier are licensed CC BY 4.0 (commercial use with attribution). Paid plans offer Private licensing with full ownership.",
-  },
-  {
-    q: "What is Multi-view mode?",
-    a: "Multi-view combines up to 4 photos of the same object into one model, reading geometry and texture from every angle for more accurate back/side reconstruction.",
-  },
-  {
-    q: "Are the models compatible with Blender, Unity, Unreal?",
-    a: "Yes. GLB/glTF for Blender and web; FBX for Unity/Unreal/Maya; OBJ for most 3D editors; STL/3MF for 3D printing; USDZ for Apple AR.",
-  },
-  {
-    q: "Is there a free plan?",
-    a: "Yes — free tier includes credits every month, no credit card required. Free models are licensed CC BY 4.0 for commercial use with attribution.",
+    q: "Who can see my designs?",
+    a: "Only you. Designs are tied to your account, and you can delete any of them from the workspace at any time.",
   },
 ];
 
 export function FAQSection() {
   return (
-    <section id="faq" className="relative bg-bg-base py-24 lg:py-32 overflow-hidden">
+    <section id="faq" className="relative scroll-mt-20 py-24 lg:py-28 overflow-hidden">
       {/* Ambient background glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gradient-to-r from-[#00ffa3]/10 to-[#00c3ff]/10 blur-[140px] rounded-full pointer-events-none" />
 
@@ -66,10 +50,10 @@ export function FAQSection() {
           className="text-center"
         >
           <div className="section-label mb-3">
-            Got Questions?
+            FAQ
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary tracking-tight mt-2">
-            Frequently Asked Questions
+            Questions, answered
           </h2>
         </motion.div>
 

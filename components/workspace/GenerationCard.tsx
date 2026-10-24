@@ -275,6 +275,18 @@ export function GenerationCard({ item, isSelected, onSelect }: GenerationCardPro
         )}
       </div>
 
+      {/* Backend job status */}
+      {(item.status === "PENDING" || item.status === "PROCESSING") && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/45">
+          <div className="w-6 h-6 rounded-full border-2 border-neon-green border-t-transparent animate-spin" />
+        </div>
+      )}
+      {item.status === "FAILED" && (
+        <div className="absolute bottom-1.5 right-1.5 z-10">
+          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-red-500/90 text-white">FAILED</span>
+        </div>
+      )}
+
       {/* Bottom subtle shadow/vignette */}
       <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
     </div>

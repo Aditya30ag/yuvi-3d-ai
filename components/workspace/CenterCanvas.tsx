@@ -1,16 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import {
   ArrowUp,
   Sparkles,
   Loader2,
   Download,
-  Share2,
   X,
   Wand2,
   ArrowRight,
+  Trash2,
+  AlertTriangle,
 } from "lucide-react";
 import { WorkspaceState } from "@/hooks/useWorkspace";
 
@@ -42,9 +43,18 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
     galleryItems,
     convertImageTo3D,
     generatedImageUrl,
+    downloadStl,
+    deleteGalleryItem,
   } = workspace;
 
   const currentItem = galleryItems.find((item) => item.id === selectedCard);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  // Reset the two-step delete confirmation when the selection changes
+  useEffect(() => {
+    setConfirmDeleteId(null);
+  }, [selectedCard]);
 
   return (
     <main
@@ -186,41 +196,132 @@ export function CenterCanvas({ workspace }: CenterCanvasProps) {
                   </button>
                 </div>
 
-                {/* Interactive 3D Model Viewer */}
+                {/* Interactive 3D Model Viewer (or job status for backend designs) */}
                 <div className="flex-1 rounded-xl overflow-hidden relative border border-border-subtle bg-bg-surface-secondary/40">
-                  <ModelViewer
-                    src={currentItem.modelUrl || "https://modelviewer.dev/shared-assets/models/Astronaut.glb"}
-                    alt={currentItem.title}
-                    className="w-full h-full min-h-[360px]"
-                  />
+                  {currentItem.modelUrl ? (
+                    <ModelViewer
+                      src={currentItem.modelUrl}
+                      alt={currentItem.title}
+                      className="w-full h-full min-h-[360px]"
+                    />
+                  ) : currentItem.status === "FAILED" ? (
+                    <div className="w-full h-full min-h-[360px] flex flex-col items-center justify-center gap-3 text-center px-6">
+                      <AlertTriangle className="w-8 h-8 text-red-500" />
+                      <p className="text-sm font-semibold text-text-primary">Generation failed</p>
+                      <p className="text-xs text-text-muted max-w-md break-words">
+                        {currentItem.errorMessage || "The 3D provider reported an error."}
+                      </p>
+                    </div>
+                  ) : currentItem.status === "PENDING" || currentItem.status === "PROCESSING" ? (
+                    <div className="w-full h-full min-h-[360px] flex flex-col items-center justify-center gap-3 text-center px-6">
+                      <Loader2 className="w-8 h-8 text-neon-green animate-spin" />
+                      <p className="text-sm font-semibold text-text-primary">Generating your 3D model...</p>
+                      <p className="text-xs text-text-muted">This view updates automatically when it is ready.</p>
+                    </div>
+                  ) : currentItem.stlUrl ? (
+                    <div className="w-full h-full min-h-[360px] flex flex-col items-center justify-center gap-3 text-center px-6">
+                      <p className="text-sm font-semibold text-text-primary">STL ready</p>
+                      <p className="text-xs text-text-muted">No GLB preview is available for this design. Download the STL below.</p>
+                    </div>
+                  ) : (
+                    <ModelViewer
+                      src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+                      alt={currentItem.title}
+                      className="w-full h-full min-h-[360px]"
+                    />
+                  )}
                 </div>
 
                 {/* 3D Action Footer */}
                 <div className="mt-3 flex items-center justify-between pt-2 border-t border-border-subtle flex-shrink-0">
-                  <div className="text-xs text-text-muted">
-                    Faces:{" "}
-                    <span className="text-text-primary font-medium">
-                      {currentItem.statistics?.faces ? `${(currentItem.statistics.faces / 1000).toFixed(1)}k` : "35.2k"}
-                    </span>{" "}
-                    • Vertices:{" "}
-                    <span className="text-text-primary font-medium">
-                      {currentItem.statistics?.vertices ? `${(currentItem.statistics.vertices / 1000).toFixed(1)}k` : "18.4k"}
-                    </span>
+                  <div className="text-xs text-text-muted truncate pr-3">
+                    {currentItem.assetId ? (
+                      <>
+                        Engine:{" "}
+                        <span className="text-text-primary font-medium">
+                          {currentItem.category}
+                          {currentItem.meshModel ? ` · ${currentItem.meshModel}` : ""}
+                        </span>
+                        {currentItem.status && (
+                          <>
+                            {" "}• Status:{" "}
+                            <span className="text-text-primary font-medium">{currentItem.status}</span>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        Faces:{" "}
+                        <span className="text-text-primary font-medium">
+                          {currentItem.statistics?.faces ? `${(currentItem.statistics.faces / 1000).toFixed(1)}k` : "—"}
+                        </span>{" "}
+                        • Vertices:{" "}
+                        <span className="text-text-primary font-medium">
+                          {currentItem.statistics?.vertices ? `${(currentItem.statistics.vertices / 1000).toFixed(1)}k` : "—"}
+                        </span>
+                      </>
+                    )}
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <button className="btn-secondary text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer">
-                      <Share2 className="w-3.5 h-3.5" />
-                      Share
-                    </button>
-                    <a
-                      href={currentItem.modelUrl || "https://modelviewer.dev/shared-assets/models/Astronaut.glb"}
-                      download="model.glb"
-                      className="btn-primary text-xs font-bold px-4 py-1.5 rounded-lg flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(0,255,163,0.3)] cursor-pointer"
-                    >
-                      <Download className="w-3.5 h-3.5 stroke-[2.5] text-[#050508]" />
-                      <span>Download GLB</span>
-                    </a>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {currentItem.assetId && (
+                      <button
+                        onClick={() => {
+                          if (confirmDeleteId === currentItem.id) {
+                            deleteGalleryItem(currentItem);
+                          } else {
+                            setConfirmDeleteId(currentItem.id);
+                          }
+                        }}
+                        className={`btn-secondary text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer ${
+                          confirmDeleteId === currentItem.id ? "text-red-500" : ""
+                        }`}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        {confirmDeleteId === currentItem.id ? "Confirm delete" : "Delete"}
+                      </button>
+                    )}
+                    {currentItem.modelUrl && (
+                      <a
+                        href={currentItem.modelUrl}
+                        download="model.glb"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn-secondary text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        GLB
+                      </a>
+                    )}
+                    {currentItem.assetId ? (
+                      <button
+                        disabled={!currentItem.stlUrl || isDownloading}
+                        onClick={async () => {
+                          setIsDownloading(true);
+                          await downloadStl(currentItem);
+                          setIsDownloading(false);
+                        }}
+                        className={`btn-primary text-xs font-bold px-4 py-1.5 rounded-lg flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(0,255,163,0.3)] ${
+                          !currentItem.stlUrl || isDownloading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                        }`}
+                      >
+                        {isDownloading ? (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin text-[#050508]" />
+                        ) : (
+                          <Download className="w-3.5 h-3.5 stroke-[2.5] text-[#050508]" />
+                        )}
+                        <span>Download STL</span>
+                      </button>
+                    ) : (
+                      <a
+                        href={currentItem.modelUrl || "https://modelviewer.dev/shared-assets/models/Astronaut.glb"}
+                        download="model.glb"
+                        className="btn-primary text-xs font-bold px-4 py-1.5 rounded-lg flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(0,255,163,0.3)] cursor-pointer"
+                      >
+                        <Download className="w-3.5 h-3.5 stroke-[2.5] text-[#050508]" />
+                        <span>Download GLB</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>

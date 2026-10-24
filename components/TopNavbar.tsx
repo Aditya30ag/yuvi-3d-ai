@@ -1,6 +1,6 @@
 "use client";
 
-import { UserButton } from "@clerk/nextjs";
+import { UserMenu } from "@/components/auth/UserMenu";
 import { Sparkles, Sun, Moon, Circle, Compass, Sparkle, Orbit, Aperture, Disc, Settings as SettingsIcon } from "lucide-react";
 import { useState } from "react";
 import { useTheme } from "@/components/theme/ThemeProvider";
@@ -54,7 +54,7 @@ export function TopNavbar({ onBgColorChange }: TopNavbarProps) {
         })}
       </div>
 
-      {/* Right: Color swatches, sun/moon, settings, Clerk UserButton */}
+      {/* Right: Color swatches, sun/moon, settings, account menu */}
       <div className="flex items-center gap-2.5">
         {/* Color swatches */}
         <div className="flex items-center gap-1 bg-bg-surface-secondary p-0.5 rounded-md border border-border-subtle">
@@ -95,24 +95,9 @@ export function TopNavbar({ onBgColorChange }: TopNavbarProps) {
           <SettingsIcon className="w-3.5 h-3.5" />
         </button>
 
-        {/* Clerk UserButton */}
+        {/* Account menu */}
         <div className="flex items-center">
-          <UserButton
-            afterSignOutUrl="/sign-in"
-            appearance={{
-              elements: {
-                avatarBox: "w-6 h-6 border border-border-subtle",
-              },
-            }}
-          >
-            <UserButton.MenuItems>
-              <UserButton.Action
-                label="Theme & Settings"
-                labelIcon={<SettingsIcon className="w-3.5 h-3.5" />}
-                onClick={openSettings}
-              />
-            </UserButton.MenuItems>
-          </UserButton>
+          <UserMenu afterSignOutUrl="/sign-in" avatarClassName="w-6 h-6" />
         </div>
       </div>
     </header>

@@ -1,17 +1,6 @@
-import { Workspace } from "@/components/Workspace";
-import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-export const metadata = {
-  title: "Studio3D - Image to 3D",
-  description: "Convert images to full 3D models with Meshy AI",
-};
-
+// The image-to-3D studio now lives in /workspace, backed by the Django API
 export default function ImageTo3DPage() {
-  const { userId } = auth();
-  if (!userId) {
-    redirect("/sign-in");
-  }
-
-  return <Workspace initialFeature="image-to-3d" />;
+  redirect("/workspace");
 }

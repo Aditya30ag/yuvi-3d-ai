@@ -66,7 +66,7 @@ export default function SettingsPage() {
           </div>
 
           <div className="px-6 py-4 border-t border-border-subtle bg-bg-surface-secondary/20 text-xs text-text-muted">
-            Preferences are saved automatically in your browser and user account.
+            Preferences are saved automatically in your browser.
           </div>
         </div>
       </div>

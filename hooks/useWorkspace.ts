@@ -1,13 +1,26 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { toast } from "sonner";
+import { createGenerateImageTask, pollImageTask } from "@/lib/meshy";
 import {
-  createGenerateImageTask,
-  pollImageTask,
-  createImageTo3DTask,
-  poll3DTask,
-  uploadImageFile,
-} from "@/lib/meshy";
+  ApiError,
+  BackendProvider,
+  Design,
+  DesignStatus,
+  HealthResponse,
+  MeshModelsResponse,
+  MeshProvider,
+  deleteDesign,
+  downloadDesignStl,
+  getDesign,
+  getHealth,
+  imageUrlToFile,
+  listDesigns,
+  listMeshModels,
+  make3DDesign,
+  validateImageFile,
+} from "@/lib/api";
 
 export type FeatureType =
   | "assets"
@@ -36,6 +49,110 @@ export interface GalleryItem {
     faces: number;
     vertices: number;
   };
+  // Set for designs stored in the Django backend
+  assetId?: string;
+  status?: DesignStatus;
+  errorMessage?: string;
+  stlUrl?: string;
+  meshModel?: string;
+  createdAt?: string;
+}
+
+/** One selectable entry in the "AI model" dropdown: a provider, plus a model for Fal. */
+export interface MeshEngineOption {
+  id: string;
+  provider: MeshProvider;
+  model?: string;
+  label: string;
+  description: string;
+  configured: boolean;
+}
+
+const DESIGN_POLL_INTERVAL_MS = 3000;
+
+const PROVIDER_LABELS: Record<BackendProvider, string> = {
+  HYPERBOLIC: "Hyperbolic",
+  HUGGINGFACE: "Hugging Face",
+  FALAI: "Fal.ai",
+};
+
+// Used until /health/ and /models/ respond (or if they fail)
+const FALLBACK_ENGINES: MeshEngineOption[] = [
+  {
+    id: "hyperbolic",
+    provider: "hyperbolic",
+    label: "Hyperbolic (local STL)",
+    description: "Fast relief-style mesh from your photo",
+    configured: true,
+  },
+];
+
+function buildEngineOptions(
+  health: HealthResponse | null,
+  models: MeshModelsResponse | null
+): MeshEngineOption[] {
+  const providers = health?.providers;
+  const engines: MeshEngineOption[] = [];
+
+  if (providers) {
+    (["hyperbolic", "huggingface"] as const).forEach((provider) => {
+      const info = providers[provider];
+      if (!info) return;
+      engines.push({
+        id: provider,
+        provider,
+        label: info.label,
+        description: info.description,
+        configured: info.configured,
+      });
+    });
+  } else {
+    engines.push(...FALLBACK_ENGINES);
+  }
+
+  const falConfigured = providers?.falai?.configured ?? true;
+  (models?.models || []).forEach((m) => {
+    engines.push({
+      id: `falai:${m.key}`,
+      provider: "falai",
+      model: m.key,
+      label: `Fal.ai · ${m.label}`,
+      description: m.description,
+      configured: falConfigured,
+    });
+  });
+
+  return engines.length > 0 ? engines : FALLBACK_ENGINES;
+}
+
+function designToGalleryItem(design: Design): GalleryItem {
+  const prompt = design.prompt || "";
+  return {
+    id: design.id,
+    assetId: design.id,
+    type: "3d",
+    badge: "GENERATED",
+    title: prompt ? (prompt.length > 32 ? `${prompt.slice(0, 32)}...` : prompt) : "3D Design",
+    category: PROVIDER_LABELS[design.provider] || design.provider,
+    gradientFrom: "#064e3b",
+    gradientTo: "#022c22",
+    imageUrl: design.input_image_url || undefined,
+    // Hyperbolic reports its STL as output_glb_url; model-viewer can only render GLB/GLTF
+    modelUrl: design.output_glb_url && /\.(glb|gltf)(\?|$)/i.test(design.output_glb_url)
+      ? design.output_glb_url
+      : undefined,
+    stlUrl: design.output_stl_url || undefined,
+    prompt,
+    status: design.status,
+    errorMessage: design.error_message || undefined,
+    meshModel: design.mesh_model,
+    createdAt: design.created_at,
+  };
+}
+
+function errorMessage(err: unknown, fallback: string) {
+  if (err instanceof ApiError || err instanceof Error) return err.message || fallback;
+  return fallback;
 }
 
 export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
@@ -126,12 +243,18 @@ export function useWorkspace() {
   // Image to 3D States
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [isPreparingImage, setIsPreparingImage] = useState<boolean>(false);
   const [modelTopology, setModelTopology] = useState<"high-detail" | "smart-topology">("high-detail");
   const [resolution, setResolution] = useState<"standard" | "ultra-2k" | "ultra-4k">("standard");
   const [multiView, setMultiView] = useState<boolean>(false);
   const [split, setSplit] = useState<boolean>(false);
   const [selectedPose, setSelectedPose] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<number>(0);
+
+  // Backend mesh engines (providers + Fal models)
+  const [meshEngines, setMeshEngines] = useState<MeshEngineOption[]>(FALLBACK_ENGINES);
+  const [selectedEngineId, setSelectedEngineId] = useState<string>(FALLBACK_ENGINES[0].id);
 
   // Generation execution & progress
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -141,6 +264,7 @@ export function useWorkspace() {
 
   // Gallery and Selection
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(INITIAL_GALLERY_ITEMS);
+  const [isLoadingDesigns, setIsLoadingDesigns] = useState<boolean>(true);
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filterType, setFilterType] = useState<string>("all");
@@ -149,6 +273,8 @@ export function useWorkspace() {
 
   const activePollingRef = useRef<boolean>(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  // Backend asset id of the 3D job the progress overlay is tracking
+  const activeAssetIdRef = useRef<string | null>(null);
 
   // Clean timers on unmount
   useEffect(() => {
@@ -158,12 +284,55 @@ export function useWorkspace() {
     };
   }, []);
 
-  // Upload handler with base64 / server endpoint
-  const handleFileUpload = useCallback(async (file: File) => {
+  // Load the user's saved designs, keeping local-only items (examples, 2D generations)
+  const refreshDesigns = useCallback(async () => {
+    try {
+      const designs = await listDesigns();
+      const designItems = designs.map(designToGalleryItem);
+      setGalleryItems((prev) => [...designItems, ...prev.filter((item) => !item.assetId)]);
+    } catch (err) {
+      toast.error(errorMessage(err, "Could not load your designs"));
+    } finally {
+      setIsLoadingDesigns(false);
+    }
+  }, []);
+
+  // Initial load: designs + available mesh engines
+  useEffect(() => {
+    refreshDesigns();
+
+    Promise.allSettled([getHealth(), listMeshModels()]).then(([healthRes, modelsRes]) => {
+      const health = healthRes.status === "fulfilled" ? healthRes.value : null;
+      const models = modelsRes.status === "fulfilled" ? modelsRes.value : null;
+      if (!health && !models) return;
+
+      const engines = buildEngineOptions(health, models);
+      setMeshEngines(engines);
+
+      const defaultProvider = health?.default_provider || "hyperbolic";
+      const preferred =
+        engines.find((e) => e.provider === defaultProvider && e.configured) ||
+        engines.find((e) => e.configured) ||
+        engines[0];
+      if (preferred) setSelectedEngineId(preferred.id);
+    });
+  }, [refreshDesigns]);
+
+  const selectedEngine = meshEngines.find((e) => e.id === selectedEngineId) || meshEngines[0];
+
+  // Upload handler: keep the File for the multipart request, preview via FileReader
+  const handleFileUpload = useCallback((file: File) => {
     if (!file) return;
+
+    const validationError = validateImageFile(file);
+    if (validationError) {
+      toast.error(validationError);
+      return;
+    }
+
+    setUploadedFile(file);
     setUploadedFileName(file.name);
 
-    // Fast local preview via FileReader
     const reader = new FileReader();
     reader.onload = (e) => {
       if (e.target?.result) {
@@ -171,26 +340,18 @@ export function useWorkspace() {
       }
     };
     reader.readAsDataURL(file);
-
-    // Also attempt server upload
-    try {
-      const serverUrl = await uploadImageFile(file);
-      if (serverUrl) {
-        setUploadedImage(serverUrl);
-      }
-    } catch {
-      // Fallback already loaded via FileReader
-    }
   }, []);
 
   const handleRemoveUpload = useCallback(() => {
     setUploadedImage(null);
     setUploadedFileName(null);
+    setUploadedFile(null);
   }, []);
 
-  // Cancel any in-flight task
+  // Cancel any in-flight task. A backend 3D job keeps running and stays in the gallery.
   const cancelGeneration = useCallback(() => {
     activePollingRef.current = false;
+    activeAssetIdRef.current = null;
     if (timerRef.current) clearInterval(timerRef.current);
     setIsGenerating(false);
     setGenerationType(null);
@@ -325,133 +486,183 @@ export function useWorkspace() {
   }, [promptText, artStyle, aspectRatio]);
 
   // SYNC BRIDGE: Send 2D Generated Image directly into Image-to-3D
-  const convertImageTo3D = useCallback((imgUrl?: string) => {
-    const targetUrl = imgUrl || generatedImageUrl || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80";
-    setUploadedImage(targetUrl);
-    setUploadedFileName("Generated_Artwork_Source.png");
+  const convertImageTo3D = useCallback(async (imgUrl?: string) => {
+    const targetUrl = imgUrl || generatedImageUrl;
     setSubMode("image-to-3d");
     setActiveFeature("image");
     setSelectedCard(null);
+    if (!targetUrl) return;
+
+    setUploadedImage(targetUrl);
+    setUploadedFileName("Generated_Artwork_Source.png");
+    setUploadedFile(null);
+    setIsPreparingImage(true);
+    try {
+      const file = await imageUrlToFile(targetUrl, "Generated_Artwork_Source");
+      const validationError = validateImageFile(file);
+      if (validationError) throw new Error(validationError);
+      setUploadedFile(file);
+      setUploadedFileName(file.name);
+    } catch (err) {
+      toast.error(errorMessage(err, "Could not load the generated image. Please download and upload it manually."));
+    } finally {
+      setIsPreparingImage(false);
+    }
   }, [generatedImageUrl]);
 
-  // 2) IMAGE-TO-3D WORKFLOW
+  // Merge a fresh backend design into the gallery and settle the progress overlay if it's the tracked job
+  const applyDesignUpdate = useCallback((design: Design) => {
+    const updated = designToGalleryItem(design);
+    setGalleryItems((prev) => prev.map((item) => (item.assetId === design.id ? updated : item)));
+
+    if (activeAssetIdRef.current !== design.id) return;
+    if (design.status === "COMPLETED") {
+      activeAssetIdRef.current = null;
+      setIsGenerating(false);
+      setGenerationProgress(100);
+      setGenerationStage("Complete! 3D Mesh Ready");
+      setSelectedCard(updated.id);
+      toast.success("Your 3D model is ready");
+    } else if (design.status === "FAILED") {
+      activeAssetIdRef.current = null;
+      setIsGenerating(false);
+      setGenerationProgress(0);
+      setGenerationStage("Generation failed");
+      setSelectedCard(updated.id);
+      toast.error(design.error_message || "3D generation failed");
+    }
+  }, []);
+
+  // Poll every pending backend design until it completes or fails
+  const pendingAssetIds = galleryItems
+    .filter((item) => item.assetId && (item.status === "PENDING" || item.status === "PROCESSING"))
+    .map((item) => item.assetId as string)
+    .join(",");
+
+  useEffect(() => {
+    if (!pendingAssetIds) return;
+    const ids = pendingAssetIds.split(",");
+    let inFlight = false;
+
+    const interval = setInterval(async () => {
+      if (inFlight) return;
+      inFlight = true;
+      const results = await Promise.allSettled(ids.map((id) => getDesign(id)));
+      inFlight = false;
+      results.forEach((result) => {
+        if (result.status === "fulfilled") applyDesignUpdate(result.value);
+      });
+    }, DESIGN_POLL_INTERVAL_MS);
+
+    return () => clearInterval(interval);
+  }, [pendingAssetIds, applyDesignUpdate]);
+
+  // The backend reports no percentage, so ease the bar toward 90% while the job runs
+  useEffect(() => {
+    if (!isGenerating || generationType !== "3d") return;
+    const interval = setInterval(() => {
+      if (!activeAssetIdRef.current) return;
+      setGenerationProgress((prev) => {
+        const next = Math.min(90, prev + Math.max(1, Math.round((90 - prev) / 12)));
+        if (next > 70) setGenerationStage("Converting mesh to GLB & STL...");
+        else if (next > 40) setGenerationStage("Reconstructing 3D geometry...");
+        else setGenerationStage("Analyzing image silhouettes & contours...");
+        return next;
+      });
+    }, 1500);
+    return () => clearInterval(interval);
+  }, [isGenerating, generationType]);
+
+  // 2) IMAGE-TO-3D WORKFLOW (Django: POST /api/v1/3d/make_3d_design/)
   const start3DGeneration = useCallback(async () => {
     if (isGenerating) return;
-    const sourceImage = uploadedImage || generatedImageUrl || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80";
+    if (isPreparingImage) {
+      toast.info("Still preparing the image, try again in a moment");
+      return;
+    }
+    if (!uploadedFile) {
+      toast.error("Upload an image first");
+      setSubMode("image-to-3d");
+      return;
+    }
+    if (selectedEngine && !selectedEngine.configured) {
+      toast.error(`${selectedEngine.label} is not configured on the backend`);
+      return;
+    }
+
+    const baseName = uploadedFile.name.replace(/\.[^/.]+$/, "");
+    const prompt = promptText.trim() || `3D model of ${baseName}`;
 
     setIsGenerating(true);
     setGenerationType("3d");
-    setGenerationProgress(12);
-    setGenerationStage("Analyzing 2D inputs, silhouettes & contours...");
+    setGenerationProgress(5);
+    setGenerationStage("Uploading image...");
     setSelectedCard(null);
-    setCoins((prev) => Math.max(0, prev - 20));
-
-    activePollingRef.current = true;
 
     try {
-      const taskId = await createImageTo3DTask({
-        image_url: sourceImage,
-        ai_model: "meshy-7",
-        topology: modelTopology === "smart-topology" ? "quad" : "triangle",
-        enable_image_enhancement: true,
+      const res = await make3DDesign({
+        image: uploadedFile,
+        prompt,
+        provider: selectedEngine?.provider || "hyperbolic",
+        model: selectedEngine?.model,
       });
 
-      let current = 12;
-      timerRef.current = setInterval(async () => {
-        if (!activePollingRef.current) return;
+      activeAssetIdRef.current = res.id;
+      setCoins((prev) => Math.max(0, prev - 20));
+      setGenerationProgress(12);
+      setGenerationStage("Analyzing image silhouettes & contours...");
 
-        try {
-          const res = await poll3DTask(taskId);
-          if (res.status === "SUCCEEDED" && res.model_urls?.glb) {
-            if (timerRef.current) clearInterval(timerRef.current);
-            setIsGenerating(false);
-            setGenerationProgress(100);
-            setGenerationStage("Complete! High-precision 3D Mesh Ready");
-
-            const new3DItem: GalleryItem = {
-              id: `gen_3d_${Date.now()}`,
-              type: "3d",
-              badge: "GENERATED",
-              title: uploadedFileName ? uploadedFileName.replace(/\.[^/.]+$/, "") : "Generated 3D Mesh",
-              category: "Model",
-              gradientFrom: "#064e3b",
-              gradientTo: "#022c22",
-              modelUrl: res.model_urls.glb,
-              statistics: res.statistics || { faces: 32000, vertices: 16500 },
-            };
-
-            setGalleryItems((prev) => [new3DItem, ...prev]);
-            setSelectedCard(new3DItem.id);
-            return;
-          }
-        } catch {
-          // simulation mode fallback
-        }
-
-        current += Math.floor(Math.random() * 8) + 5;
-        if (current >= 95) current = 95;
-        setGenerationProgress(current);
-
-        if (current > 75) {
-          setGenerationStage("Baking PBR material maps & textures...");
-        } else if (current > 45) {
-          setGenerationStage("Synthesizing multi-view geometric normals...");
-        } else if (current > 25) {
-          setGenerationStage("Generating high-precision 3D voxels...");
-        }
-
-        if (current >= 95) {
-          if (timerRef.current) clearInterval(timerRef.current);
-          setIsGenerating(false);
-          setGenerationProgress(100);
-          setGenerationStage("Complete! High-precision 3D Mesh Ready");
-
-          const new3DItem: GalleryItem = {
-            id: `gen_3d_${Date.now()}`,
-            type: "3d",
-            badge: "GENERATED",
-            title: uploadedFileName ? uploadedFileName.replace(/\.[^/.]+$/, "") : "Generated 3D Asset",
-            category: "Model",
-            gradientFrom: "#064e3b",
-            gradientTo: "#022c22",
-            modelUrl: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-            statistics: { faces: 34500, vertices: 18200 },
-          };
-
-          setGalleryItems((prev) => [new3DItem, ...prev]);
-          setSelectedCard(new3DItem.id);
-        }
-      }, 700);
-    } catch {
-      // Local simulated fallback
-      let curr = 15;
-      timerRef.current = setInterval(() => {
-        curr += 12;
-        if (curr >= 100) {
-          if (timerRef.current) clearInterval(timerRef.current);
-          setIsGenerating(false);
-          setGenerationProgress(100);
-          setGenerationStage("Complete! High-precision 3D Mesh Ready");
-
-          const new3DItem: GalleryItem = {
-            id: `gen_3d_${Date.now()}`,
-            type: "3d",
-            badge: "GENERATED",
-            title: uploadedFileName ? uploadedFileName.replace(/\.[^/.]+$/, "") : "Custom 3D Mesh",
-            category: "Model",
-            gradientFrom: "#064e3b",
-            gradientTo: "#022c22",
-            modelUrl: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-            statistics: { faces: 34500, vertices: 18200 },
-          };
-          setGalleryItems((prev) => [new3DItem, ...prev]);
-          setSelectedCard(new3DItem.id);
-        } else {
-          setGenerationProgress(curr);
-        }
-      }, 500);
+      const now = new Date().toISOString();
+      const placeholder = designToGalleryItem({
+        id: res.id,
+        user_id: "",
+        provider: res.provider,
+        mesh_model: res.model,
+        prompt,
+        provider_task_id: null,
+        status: "PROCESSING",
+        input_image_url: uploadedImage || "",
+        output_glb_url: null,
+        output_stl_url: null,
+        error_message: null,
+        created_at: now,
+        updated_at: now,
+      });
+      setGalleryItems((prev) => [placeholder, ...prev.filter((item) => item.assetId !== res.id)]);
+    } catch (err) {
+      activeAssetIdRef.current = null;
+      setIsGenerating(false);
+      setGenerationType(null);
+      setGenerationProgress(0);
+      setGenerationStage("Generation failed");
+      toast.error(errorMessage(err, "Could not start 3D generation"));
+      // A provider failure may still have created a FAILED record
+      refreshDesigns();
     }
-  }, [isGenerating, uploadedImage, generatedImageUrl, modelTopology, uploadedFileName]);
+  }, [isGenerating, isPreparingImage, uploadedFile, uploadedImage, selectedEngine, promptText, refreshDesigns]);
+
+  const downloadStl = useCallback(async (item: GalleryItem) => {
+    if (!item.assetId) return;
+    try {
+      const slug = item.title.replace(/[^a-z0-9]+/gi, "_").replace(/^_+|_+$/g, "").slice(0, 40) || "model";
+      await downloadDesignStl(item.assetId, `${slug}.stl`);
+    } catch (err) {
+      toast.error(errorMessage(err, "STL download failed"));
+    }
+  }, []);
+
+  const deleteGalleryItem = useCallback(async (item: GalleryItem) => {
+    if (!item.assetId) return;
+    try {
+      await deleteDesign(item.assetId);
+      if (activeAssetIdRef.current === item.assetId) cancelGeneration();
+      setGalleryItems((prev) => prev.filter((g) => g.id !== item.id));
+      setSelectedCard((prev) => (prev === item.id ? null : prev));
+      toast.success("Design deleted");
+    } catch (err) {
+      toast.error(errorMessage(err, "Could not delete design"));
+    }
+  }, [cancelGeneration]);
 
   return {
     // Nav & sub-modes
@@ -474,6 +685,8 @@ export function useWorkspace() {
     // Image to 3D states
     uploadedImage,
     uploadedFileName,
+    uploadedFile,
+    isPreparingImage,
     setUploadedImage,
     handleFileUpload,
     handleRemoveUpload,
@@ -489,6 +702,9 @@ export function useWorkspace() {
     setSelectedPose,
     activeTab,
     setActiveTab,
+    meshEngines,
+    selectedEngine,
+    setSelectedEngineId,
     start3DGeneration,
 
     // Shared execution & progress
@@ -500,6 +716,10 @@ export function useWorkspace() {
 
     // Gallery & filtering
     galleryItems,
+    isLoadingDesigns,
+    refreshDesigns,
+    downloadStl,
+    deleteGalleryItem,
     selectedCard,
     setSelectedCard,
     searchQuery,

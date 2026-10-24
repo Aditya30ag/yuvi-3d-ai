@@ -12,7 +12,7 @@ import {
   Bot,
   Settings as SettingsIcon,
 } from "lucide-react";
-import { UserButton } from "@clerk/nextjs";
+import { UserMenu } from "@/components/auth/UserMenu";
 import { useTheme } from "@/components/theme/ThemeProvider";
 
 interface TopNavProps {
@@ -227,24 +227,9 @@ export function TopNav({ coins = 100, onUpgradeClick }: TopNavProps) {
           <SettingsIcon className="w-4 h-4" />
         </button>
 
-        {/* Clerk UserButton with Settings Menu Item */}
+        {/* Account menu */}
         <div className="w-[32px] h-[32px] flex items-center justify-center">
-          <UserButton
-            afterSignOutUrl="/"
-            appearance={{
-              elements: {
-                userButtonAvatarBox: "w-7 h-7 ring-1 ring-border-subtle",
-              },
-            }}
-          >
-            <UserButton.MenuItems>
-              <UserButton.Action
-                label="Theme & Settings"
-                labelIcon={<SettingsIcon className="w-4 h-4" />}
-                onClick={openSettings}
-              />
-            </UserButton.MenuItems>
-          </UserButton>
+          <UserMenu afterSignOutUrl="/" />
         </div>
       </div>
     </header>

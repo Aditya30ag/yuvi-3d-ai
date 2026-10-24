@@ -1,238 +1,85 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Upload, Zap, Download, Clock } from "lucide-react";
-import { useState } from "react";
+import { Download, Upload, Wand2 } from "lucide-react";
+
+const STEPS = [
+  {
+    icon: Upload,
+    title: "Upload a photo",
+    body: "Drop in a single JPG, PNG, WebP or GIF up to 10 MB. A clear shot of one object on a plain background works best.",
+    chips: [".jpg", ".png", ".webp", ".gif"],
+  },
+  {
+    icon: Wand2,
+    title: "Pick an engine",
+    body: "Choose the AI engine that fits the job and add a short description so you can find the design later.",
+    chips: ["Hyperbolic", "TRELLIS", "Tripo"],
+  },
+  {
+    icon: Download,
+    title: "Preview & download",
+    body: "Watch the status update live, spin the model in 3D, then download an STL that's ready for your slicer.",
+    chips: [".stl", ".glb preview"],
+  },
+];
 
 export function HowItWorksSection() {
-  const [selectedFormat, setSelectedFormat] = useState(".glb");
-  const formats = [".fbx", ".obj", ".glb", ".usdz", ".stl", ".blend"];
-
-  const steps = [
-    {
-      num: "01",
-      icon: Upload,
-      chipClass: "icon-chip blue",
-      title: "Upload Your Image",
-      desc: "Drag and drop a PNG, JPG, or WebP image (up to 20MB) into Studio3D's Image to 3D tool.",
-      renderVisual: () => (
-        <div className="mt-6 flex flex-col gap-3">
-          <div className="rounded-[16px] border-2 border-dashed border-border-subtle bg-bg-surface-secondary/50 backdrop-blur-[16px] p-6 text-center transition-colors hover:border-neon-green/50">
-            <Upload className="mx-auto h-6 w-6 text-neon-blue mb-2" />
-            <p className="text-xs text-text-secondary">
-              Drag and drop image here to upload
-            </p>
-            <p className="text-[10px] text-text-muted mt-1">
-              Supported: .png / .jpg / .webp · Max 20MB
-            </p>
-          </div>
-
-          <div className="rounded-[16px] border border-border-subtle bg-bg-surface backdrop-blur-[16px] p-2.5 flex items-center justify-between gap-2 shadow-sm">
-            <div className="flex items-center gap-2 min-w-0">
-              <div className="w-6 h-6 rounded-md bg-gradient-to-r from-[#00ffa3] to-[#00c3ff] flex items-center justify-center text-[10px] text-[#050508] font-bold shrink-0">
-                2D
-              </div>
-              <span className="text-xs text-text-primary truncate font-medium">
-                Adventurer&apos;s Backpack
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5 shrink-0">
-              <span className="text-[10px] bg-bg-surface-secondary text-text-secondary px-2 py-0.5 rounded border border-border-subtle">
-                Meshy 7
-              </span>
-              <span className="btn-primary text-[11px] px-2.5 py-1">
-                Generate
-              </span>
-            </div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      num: "02",
-      icon: Zap,
-      chipClass: "icon-chip green",
-      title: "Generate Your 3D Model",
-      desc: "Click Generate and Studio3D turns your image into a fully textured 3D model in about a minute.",
-      renderVisual: () => (
-        <div className="mt-6 rounded-[16px] border border-border-subtle bg-bg-surface-secondary/40 backdrop-blur-[16px] p-3.5 flex flex-col gap-2.5 shadow-sm">
-          {/* Active Generation Card with Shimmering Progress Bar */}
-          <div className="rounded-[12px] border border-neon-green/30 bg-bg-surface p-3 shadow-sm">
-            <div className="flex items-center justify-between text-xs mb-2">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-neon-green animate-ping" />
-                <span className="font-medium text-text-primary text-xs">
-                  Adventurer&apos;s Backpack
-                </span>
-              </div>
-              <span className="text-neon-green font-mono text-xs font-semibold">23%</span>
-            </div>
-            {/* Shimmer progress bar */}
-            <div className="relative w-full h-1.5 rounded-full bg-bg-surface-secondary overflow-hidden border border-border-subtle">
-              <div
-                className="h-full bg-gradient-to-r from-[#00ffa3] to-[#00c3ff] rounded-full"
-                style={{ width: "23%" }}
-              />
-              <div className="absolute inset-0 bg-white/20 animate-shimmer" />
-            </div>
-            <p className="text-[10px] text-text-muted mt-2 flex items-center gap-1">
-              <Clock className="w-3 h-3 text-neon-blue" />
-              Estimated time remaining: 42s
-            </p>
-          </div>
-
-          {/* Previous finished cards */}
-          <div className="space-y-1.5 pt-1">
-            {[
-              { name: "Wooden Tankard", time: "2m ago", badge: "GLB" },
-              { name: "Potion Flask", time: "15m ago", badge: "OBJ" },
-              { name: "Large Stone Axe", time: "1h ago", badge: "FBX" },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-between rounded-lg bg-bg-surface border border-border-subtle px-2.5 py-1.5 text-xs shadow-xs"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded bg-bg-surface-secondary flex items-center justify-center text-[10px] text-neon-blue font-bold">
-                    3D
-                  </div>
-                  <span className="text-text-secondary">{item.name}</span>
-                </div>
-                <div className="flex items-center gap-2 text-[10px] text-text-muted">
-                  <span>{item.time}</span>
-                  <span className="text-text-primary bg-bg-surface-secondary border border-border-subtle px-1.5 py-0.5 rounded font-mono">
-                    {item.badge}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ),
-    },
-    {
-      num: "03",
-      icon: Download,
-      chipClass: "icon-chip purple",
-      title: "Download & Use",
-      desc: "Download your 3D model in FBX, OBJ, GLB, USDZ, STL for any 3D workflow.",
-      renderVisual: () => (
-        <div className="mt-6 rounded-[16px] border border-border-subtle bg-bg-surface-secondary/40 backdrop-blur-[16px] p-4 flex flex-col justify-between shadow-sm">
-          <div>
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-medium text-text-secondary">
-                Export Format
-              </span>
-              <span className="badge-cyan">
-                Mesh Verified
-              </span>
-            </div>
-
-            {/* Format Pills Grid */}
-            <div className="grid grid-cols-3 gap-2">
-              {formats.map((fmt) => {
-                const isActive = selectedFormat === fmt;
-                return (
-                  <button
-                    key={fmt}
-                    onClick={() => setSelectedFormat(fmt)}
-                    className={`rounded-[16px] px-3 py-2 text-xs font-mono font-medium transition-all cursor-pointer ${
-                      isActive
-                        ? "border border-neon-green text-neon-green bg-neon-green/10 shadow-sm"
-                        : "bg-bg-surface border border-border-subtle text-text-secondary hover:border-border-secondary hover:text-text-primary shadow-xs"
-                    }`}
-                  >
-                    {fmt}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="mt-4 flex items-center justify-between text-[11px] text-text-muted">
-              <span>Geometry: Quad/Triangle</span>
-              <span>Textures: PBR Maps 4K</span>
-            </div>
-          </div>
-
-          <button
-            className="btn-primary mt-5 w-full py-2.5 text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"
-          >
-            <Download className="w-3.5 h-3.5 text-[#050508]" />
-            Download {selectedFormat.toUpperCase()} Model
-          </button>
-        </div>
-      ),
-    },
-  ];
-
   return (
-    <section id="how-it-works" className="relative bg-bg-base py-24 lg:py-32 overflow-hidden transition-colors">
-      {/* Subtle ambient radial glow behind section */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-to-r from-neon-green/10 to-neon-blue/10 blur-[140px] rounded-full pointer-events-none" />
+    <section id="how-it-works" className="relative scroll-mt-20 px-6 py-24 lg:py-28">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading
+          label="How it works"
+          title="From photo to printable file in three steps"
+          subtitle="Everything runs in the browser. Your designs are saved to your account so you can come back to them anytime."
+        />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center"
-        >
-          <div className="section-label mb-3">
-            Simple Process
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary mt-2 tracking-tight">
-            How to Convert an Image to a 3D Model
-          </h2>
-        </motion.div>
-
-        {/* 3 Step Cards Container with connecting line */}
-        <div className="relative mt-16">
-          {/* Subtle neon line connecting steps on large screens */}
-          <div className="hidden lg:block absolute top-[52px] left-[15%] right-[15%] h-[2px] bg-gradient-to-r from-neon-green/40 via-neon-blue/40 to-neon-purple/30 z-0 pointer-events-none" />
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
-            {steps.map((step, idx) => {
-              const Icon = step.icon;
-              return (
-                <motion.div
-                  key={step.num}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  className="glass-card relative p-8 flex flex-col justify-between overflow-hidden group transition-all duration-300"
-                >
-                  {/* Top Bar with Icon & Glowing Numbered Badge (Gradient Circle) */}
-                  <div className="flex items-center justify-between mb-2">
-                    <div className={`${step.chipClass} group-hover:scale-105 transition-transform`}>
-                      <Icon className="w-4 h-4" />
-                    </div>
-
-                    {/* Glowing numbered badge (gradient circle) */}
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#00ffa3] to-[#00c3ff] flex items-center justify-center text-[#050508] font-bold text-sm shadow-[0_0_20px_rgba(0,255,163,0.45)]">
-                      {step.num}
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="card-title text-xl font-semibold mt-4">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm text-text-secondary mt-2 leading-relaxed">
-                      {step.desc}
-                    </p>
-                  </div>
-
-                  {/* Card Mockup Visual */}
-                  {step.renderVisual()}
-                </motion.div>
-              );
-            })}
-          </div>
+        <div className="relative mt-14 grid gap-5 md:grid-cols-3">
+          <div className="pointer-events-none absolute left-[16%] right-[16%] top-11 hidden h-px bg-gradient-to-r from-transparent via-border-secondary to-transparent md:block" />
+          {STEPS.map((step, i) => (
+            <motion.div
+              key={step.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="glass-card relative p-6"
+            >
+              <div className="flex items-center gap-3">
+                <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-tr from-[#00ffa3] to-[#00c3ff] shadow-[0_0_20px_rgba(0,255,163,0.25)]">
+                  <step.icon className="h-5 w-5 text-[#050508]" />
+                </div>
+                <span className="text-xs font-semibold tracking-wider text-text-muted">STEP {i + 1}</span>
+              </div>
+              <h3 className="mt-5 text-lg font-semibold text-text-primary">{step.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-text-secondary">{step.body}</p>
+              <div className="mt-5 flex flex-wrap gap-1.5">
+                {step.chips.map((chip) => (
+                  <span key={chip} className="meta-pill text-[11px]">
+                    {chip}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
+  );
+}
+
+export function SectionHeading({ label, title, subtitle }: { label: string; title: string; subtitle?: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="mx-auto max-w-2xl text-center"
+    >
+      <div className="section-label mb-3">{label}</div>
+      <h2 className="text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">{title}</h2>
+      {subtitle && <p className="mt-4 text-base leading-relaxed text-text-secondary">{subtitle}</p>}
+    </motion.div>
   );
 }

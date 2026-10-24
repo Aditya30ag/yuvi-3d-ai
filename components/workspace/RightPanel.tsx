@@ -30,6 +30,7 @@ export function RightPanel({ workspace }: RightPanelProps) {
     searchQuery,
     setSearchQuery,
     handleFileUpload,
+    isLoadingDesigns,
   } = workspace;
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -63,7 +64,7 @@ export function RightPanel({ workspace }: RightPanelProps) {
       <input
         ref={fileInputRef}
         type="file"
-        accept=".png,.jpg,.jpeg,.webp"
+        accept=".png,.jpg,.jpeg,.webp,.gif"
         className="hidden"
         onChange={(e) => {
           if (e.target.files && e.target.files[0]) {
@@ -175,6 +176,9 @@ export function RightPanel({ workspace }: RightPanelProps) {
 
       {/* 3. GENERATION GALLERY (Scrollable) */}
       <div className="flex-1 overflow-y-auto no-scrollbar scrollbar-none mt-3 px-3 pb-4">
+        {isLoadingDesigns && (
+          <div className="text-center pb-3 text-text-muted text-xs">Loading your designs...</div>
+        )}
         {filteredItems.length === 0 ? (
           <div className="text-center py-12 text-text-muted text-xs">
             No generations found matching &quot;{searchQuery}&quot;

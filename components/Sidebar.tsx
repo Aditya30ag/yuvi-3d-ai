@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { UserMenu } from "@/components/auth/UserMenu";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { Box, Sparkles, Layers, Settings as SettingsIcon } from "lucide-react";
 import { useTheme } from "@/components/theme/ThemeProvider";
 
@@ -12,7 +13,7 @@ interface SidebarProps {
 
 export function Sidebar({ onCloseMobile }: SidebarProps) {
   const pathname = usePathname();
-  const { user, isLoaded } = useUser();
+  const { email, isLoaded } = useAuth();
   const { openSettings } = useTheme();
 
   const navItems = [
@@ -122,29 +123,14 @@ export function Sidebar({ onCloseMobile }: SidebarProps) {
       <div className="p-4 border-t border-border-subtle bg-bg-surface-secondary/40 backdrop-blur-sm">
         <div className="flex items-center justify-between gap-3 p-2 rounded-xl bg-bg-surface border border-border-subtle shadow-sm">
           <div className="flex items-center gap-3 min-w-0">
-            <UserButton
-              afterSignOutUrl="/sign-in"
-              appearance={{
-                elements: {
-                  avatarBox: "w-9 h-9 ring-1 ring-border-subtle",
-                },
-              }}
-            >
-              <UserButton.MenuItems>
-                <UserButton.Action
-                  label="Theme & Settings"
-                  labelIcon={<SettingsIcon className="w-4 h-4" />}
-                  onClick={openSettings}
-                />
-              </UserButton.MenuItems>
-            </UserButton>
-            {isLoaded && user && (
+            <UserMenu afterSignOutUrl="/sign-in" avatarClassName="w-9 h-9" align="left" direction="up" />
+            {isLoaded && email && (
               <div className="min-w-0 flex-1">
                 <p className="text-xs font-medium text-text-primary truncate">
-                  {user.fullName || user.username || "Creator"}
+                  {email.split("@")[0] || "Creator"}
                 </p>
                 <p className="text-[11px] text-text-muted truncate">
-                  {user.primaryEmailAddress?.emailAddress || "Active"}
+                  {email}
                 </p>
               </div>
             )}

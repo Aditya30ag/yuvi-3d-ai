@@ -1,7 +1,7 @@
 "use client";
 
 import { Sparkles, Box, Settings, Bell, LayoutGrid } from "lucide-react";
-import { UserButton } from "@clerk/nextjs";
+import { UserMenu } from "@/components/auth/UserMenu";
 import { useTheme } from "@/components/theme/ThemeProvider";
 
 interface IconSidebarProps {
@@ -111,22 +111,7 @@ export function IconSidebar({
 
         {/* User avatar circle, 32px */}
         <div className="my-0.5 flex items-center justify-center">
-          <UserButton
-            afterSignOutUrl="/sign-in"
-            appearance={{
-              elements: {
-                avatarBox: "w-8 h-8 rounded-full border border-border-subtle",
-              },
-            }}
-          >
-            <UserButton.MenuItems>
-              <UserButton.Action
-                label="Theme & Settings"
-                labelIcon={<Settings className="w-4 h-4" />}
-                onClick={openSettings}
-              />
-            </UserButton.MenuItems>
-          </UserButton>
+          <UserMenu afterSignOutUrl="/sign-in" avatarClassName="w-8 h-8" align="left" direction="up" />
         </div>
 
         {/* Upgrade button: neon primary pill */}

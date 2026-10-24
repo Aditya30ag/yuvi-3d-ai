@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { useRouter } from "next/navigation";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { TopNav } from "@/components/workspace/TopNav";
@@ -11,17 +11,17 @@ import { CenterCanvas } from "@/components/workspace/CenterCanvas";
 import { RightPanel } from "@/components/workspace/RightPanel";
 
 export default function WorkspacePage() {
-  const { isLoaded, userId } = useAuth();
+  const { isLoaded, isSignedIn } = useAuth();
   const router = useRouter();
   const workspace = useWorkspace();
 
   useEffect(() => {
-    if (isLoaded && !userId) {
-      router.push("/sign-in");
+    if (isLoaded && !isSignedIn) {
+      router.push("/sign-in?redirect_url=/workspace");
     }
-  }, [isLoaded, userId, router]);
+  }, [isLoaded, isSignedIn, router]);
 
-  if (!isLoaded || !userId) {
+  if (!isLoaded || !isSignedIn) {
     return (
       <div className="w-screen h-screen bg-bg-base flex flex-col items-center justify-center gap-3 transition-colors">
         <div className="w-9 h-9 rounded-full border-2 border-neon-green border-t-transparent animate-spin" />

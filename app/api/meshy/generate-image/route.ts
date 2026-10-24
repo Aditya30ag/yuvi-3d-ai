@@ -1,13 +1,6 @@
-import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  try {
-    auth();
-  } catch {
-    // Guest or demo session allowed
-  }
-
   const apiKey = process.env.MESHY_API_KEY;
 
   try {

@@ -1,16 +1,9 @@
-import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: { taskId: string } }
 ) {
-  try {
-    auth();
-  } catch {
-    // Guest or demo session allowed
-  }
-
   const { taskId } = params;
   if (!taskId) {
     return NextResponse.json({ error: "Task ID is required" }, { status: 400 });

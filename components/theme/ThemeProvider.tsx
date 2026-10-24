@@ -1,7 +1,6 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
-import { useUser } from "@clerk/nextjs";
 
 export type ThemeMode = "light" | "dark" | "system";
 export type SidebarBackground = "solid" | "translucent";
@@ -24,13 +23,10 @@ const THEME_STORAGE_KEY = "studio3d_theme";
 const SIDEBAR_STORAGE_KEY = "studio3d_sidebar";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const { user, isLoaded } = useUser();
-
   const [theme, setThemeState] = useState<ThemeMode>("light");
   const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light");
   const [sidebarBackground, setSidebarBackgroundState] = useState<SidebarBackground>("solid");
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   // Helper to determine system preference
   const getSystemTheme = useCallback((): "light" | "dark" => {
@@ -69,7 +65,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Initial read on mount
   useEffect(() => {
-    setMounted(true);
     let initialTheme: ThemeMode = "light";
     let initialSidebar: SidebarBackground = "solid";
 
@@ -105,27 +100,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return () => mediaQuery.removeEventListener("change", handleSystemChange);
   }, [applyTheme, applySidebarBackground]);
 
-  // Sync from Clerk metadata once user is loaded if present
-  useEffect(() => {
-    if (isLoaded && user) {
-      const metadata = user.unsafeMetadata as { theme?: ThemeMode; sidebarBackground?: SidebarBackground } | undefined;
-      if (metadata?.theme && (metadata.theme === "light" || metadata.theme === "dark" || metadata.theme === "system")) {
-        setThemeState(metadata.theme);
-        applyTheme(metadata.theme);
-        try {
-          localStorage.setItem(THEME_STORAGE_KEY, metadata.theme);
-        } catch {}
-      }
-      if (metadata?.sidebarBackground && (metadata.sidebarBackground === "solid" || metadata.sidebarBackground === "translucent")) {
-        setSidebarBackgroundState(metadata.sidebarBackground);
-        applySidebarBackground(metadata.sidebarBackground);
-        try {
-          localStorage.setItem(SIDEBAR_STORAGE_KEY, metadata.sidebarBackground);
-        } catch {}
-      }
-    }
-  }, [isLoaded, user, applyTheme, applySidebarBackground]);
-
   // Update theme
   const setTheme = useCallback(
     (newTheme: ThemeMode) => {
@@ -134,17 +108,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       try {
         localStorage.setItem(THEME_STORAGE_KEY, newTheme);
       } catch {}
-
-      if (user) {
-        user.update({
-          unsafeMetadata: {
-            ...user.unsafeMetadata,
-            theme: newTheme,
-          },
-        }).catch((err) => console.warn("Failed to sync theme preference to Clerk user metadata:", err));
-      }
     },
-    [applyTheme, user]
+    [applyTheme]
   );
 
   // Update sidebar background
@@ -155,17 +120,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       try {
         localStorage.setItem(SIDEBAR_STORAGE_KEY, newBg);
       } catch {}
-
-      if (user) {
-        user.update({
-          unsafeMetadata: {
-            ...user.unsafeMetadata,
-            sidebarBackground: newBg,
-          },
-        }).catch((err) => console.warn("Failed to sync sidebar preference to Clerk user metadata:", err));
-      }
     },
-    [applySidebarBackground, user]
+    [applySidebarBackground]
   );
 
   const toggleTheme = useCallback(() => {

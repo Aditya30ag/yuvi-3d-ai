@@ -1,216 +1,138 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Sparkles, ChevronDown, Menu, X, ArrowRight, Settings as SettingsIcon } from "lucide-react";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { ArrowRight, Menu, Moon, Sparkles, Sun, X } from "lucide-react";
+import { UserMenu } from "@/components/auth/UserMenu";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { useTheme } from "@/components/theme/ThemeProvider";
 
 const NAV_LINKS = [
-  { label: "Features", href: "#features", hasDropdown: true },
-  { label: "Solutions", href: "#workflows", hasDropdown: true },
-  { label: "Community", href: "#testimonials", hasDropdown: false },
-  { label: "Resources", href: "#faq", hasDropdown: true },
-  { label: "Creative Lab", href: "#sharp-edges", hasDropdown: false },
-  { label: "Developers", href: "#explore-features", hasDropdown: true },
-  { label: "Pricing", href: "#final-cta", hasDropdown: false },
+  { label: "How it works", href: "#how-it-works" },
+  { label: "Engines", href: "#engines" },
+  { label: "Use cases", href: "#use-cases" },
+  { label: "FAQ", href: "#faq" },
 ];
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("Features");
-  const { openSettings } = useTheme();
+  const { resolvedTheme, toggleTheme } = useTheme();
+  const { isLoaded, isSignedIn } = useAuth();
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 80) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 16);
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <>
-      <header
-        className={`sticky top-0 z-50 w-full glass-nav transition-all duration-300 ${
-          scrolled ? "h-12 py-1.5" : "h-[60px] py-3"
-        }`}
-      >
-        <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
-          {/* Left: Brand */}
-          <Link
-            href="/features/image-to-3d"
-            className="flex items-center gap-2.5 transition-transform hover:scale-105"
-          >
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-tr from-[#00ffa3] to-[#00c3ff] shadow-md shadow-[#00ffa3]/25">
-              <Sparkles className="h-4 w-4 text-[#050508] stroke-[2.5]" />
-            </div>
-            <span className="text-sm font-bold tracking-tight nav-logo">
-              Studio3D
-            </span>
-          </Link>
-
-          {/* Center: Desktop Nav */}
-          <nav className="hidden items-center gap-7 lg:flex">
-            {NAV_LINKS.map((link) => {
-              const isActive = activeSection === link.label;
-              return (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setActiveSection(link.label)}
-                  className={`group inline-flex items-center gap-1 text-sm font-medium transition-colors ${
-                    isActive ? "text-text-primary" : "text-text-secondary hover:text-text-primary"
-                  }`}
-                >
-                  <span>{link.label}</span>
-                  {link.hasDropdown && (
-                    <ChevronDown className="h-3 w-3 text-text-muted transition-transform duration-200 group-hover:text-text-primary group-hover:rotate-180" />
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Right: Actions */}
-          <div className="flex items-center gap-3">
-            {/* Settings button */}
-            <button
-              onClick={openSettings}
-              title="Settings"
-              aria-label="Settings"
-              className="p-1.5 rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-surface-hover transition-colors cursor-pointer"
-            >
-              <SettingsIcon className="w-4 h-4" />
-            </button>
-
-            <SignedOut>
-              <Link
-                href="/sign-in"
-                className="btn-secondary hidden sm:inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-semibold text-text-primary hover:bg-bg-surface-hover"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/sign-up"
-                className="btn-primary inline-flex items-center justify-center px-4 py-1.5 text-xs font-bold"
-              >
-                Sign Up Free
-              </Link>
-            </SignedOut>
-
-            <SignedIn>
-              <Link
-                href="/workspace"
-                className="btn-primary inline-flex items-center justify-center px-4 py-1.5 text-xs font-bold"
-              >
-                Go to Workspace
-              </Link>
-              <div className="w-[32px] h-[32px] flex items-center justify-center">
-                <UserButton
-                  afterSignOutUrl="/"
-                  appearance={{
-                    elements: {
-                      userButtonAvatarBox: "w-7 h-7 ring-1 ring-border-subtle",
-                    },
-                  }}
-                >
-                  <UserButton.MenuItems>
-                    <UserButton.Action
-                      label="Theme & Settings"
-                      labelIcon={<SettingsIcon className="w-4 h-4" />}
-                      onClick={openSettings}
-                    />
-                  </UserButton.MenuItems>
-                </UserButton>
-              </div>
-            </SignedIn>
-
-            {/* Mobile Hamburger Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border-subtle bg-bg-surface-secondary text-text-primary transition-colors hover:bg-bg-surface-hover lg:hidden cursor-pointer"
-              aria-label="Toggle navigation menu"
-            >
-              {mobileMenuOpen ? (
-                <X className="h-4 w-4" />
-              ) : (
-                <Menu className="h-4 w-4" />
-              )}
-            </button>
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        scrolled || mobileMenuOpen ? "glass-nav border-b border-border-subtle" : "border-b border-transparent"
+      }`}
+    >
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+        <Link href="/" className="flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-[#00ffa3] to-[#00c3ff] shadow-md shadow-[#00ffa3]/25">
+            <Sparkles className="h-4 w-4 stroke-[2.5] text-[#050508]" />
           </div>
-        </div>
-      </header>
+          <span className="nav-logo text-base font-bold tracking-tight">Studio3D</span>
+        </Link>
 
-      {/* Breadcrumb line below navbar */}
-      <div className="border-b border-border-subtle bg-bg-surface-secondary/70 py-1.5 px-6 backdrop-blur-md transition-colors">
-        <div className="mx-auto flex max-w-7xl items-center gap-2 text-xs text-text-muted">
-          <Link href="/" className="hover:text-text-primary transition-colors">
-            Home
-          </Link>
-          <span>&gt;</span>
-          <span className="text-text-secondary">Features</span>
-          <span>&gt;</span>
-          <span className="text-neon-green font-medium">Image to 3D</span>
+        <nav className="hidden items-center gap-8 border-0 bg-transparent backdrop-blur-none md:flex">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle color theme"
+            title="Toggle color theme"
+            className="rounded-lg p-2 text-text-muted transition-colors hover:bg-bg-surface-hover hover:text-text-primary"
+          >
+            {resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
+
+          {/* Avoid flashing signed-out buttons before the session is read */}
+          {isLoaded && (
+            <div className="hidden items-center gap-2 sm:flex">
+              {isSignedIn ? (
+                <>
+                  <Link
+                    href="/workspace"
+                    className="btn-primary inline-flex items-center gap-1.5 px-4 py-2 text-sm font-bold"
+                  >
+                    Open workspace
+                    <ArrowRight className="h-3.5 w-3.5 text-[#050508]" />
+                  </Link>
+                  <UserMenu afterSignOutUrl="/" />
+                </>
+              ) : (
+                <>
+                  <Link href="/sign-in" className="px-3 py-2 text-sm font-semibold text-text-secondary hover:text-text-primary">
+                    Sign in
+                  </Link>
+                  <Link href="/sign-up" className="btn-primary inline-flex items-center px-4 py-2 text-sm font-bold">
+                    Get started
+                  </Link>
+                </>
+              )}
+            </div>
+          )}
+
+          <button
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border-subtle bg-bg-surface-secondary text-text-primary md:hidden"
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-x-0 top-[88px] z-40 border-b border-border-subtle bg-bg-surface/95 p-6 backdrop-blur-2xl lg:hidden shadow-2xl transition-colors">
-          <div className="flex flex-col gap-4">
+        <div className="border-t border-border-subtle px-6 pb-6 pt-2 md:hidden">
+          <nav className="flex flex-col border-0 bg-transparent backdrop-blur-none">
             {NAV_LINKS.map((link) => (
-              <Link
+              <a
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between text-base font-medium text-text-secondary hover:text-text-primary"
+                className="border-b border-border-subtle py-3 text-sm font-medium text-text-secondary hover:text-text-primary"
               >
-                <span>{link.label}</span>
-                <ArrowRight className="h-4 w-4 text-text-muted" />
-              </Link>
+                {link.label}
+              </a>
             ))}
-            <div className="mt-4 pt-4 border-t border-border-subtle">
-              <SignedOut>
-                <div className="flex flex-col gap-2.5">
-                  <Link
-                    href="/sign-in"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="btn-secondary flex w-full items-center justify-center px-4 py-2.5 text-sm font-semibold"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    href="/sign-up"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="btn-primary flex w-full items-center justify-center px-4 py-2.5 text-sm font-bold"
-                  >
-                    Sign Up Free
-                  </Link>
-                </div>
-              </SignedOut>
-              <SignedIn>
-                <div className="flex items-center justify-between">
-                  <Link
-                    href="/workspace"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="btn-primary flex-1 flex items-center justify-center px-4 py-2.5 text-sm font-bold mr-3"
-                  >
-                    Go to Workspace
-                  </Link>
-                  <UserButton afterSignOutUrl="/" />
-                </div>
-              </SignedIn>
-            </div>
+          </nav>
+          <div className="mt-5 flex flex-col gap-2.5">
+            {isSignedIn ? (
+              <Link href="/workspace" className="btn-primary flex justify-center px-4 py-2.5 text-sm font-bold">
+                Open workspace
+              </Link>
+            ) : (
+              <>
+                <Link href="/sign-up" className="btn-primary flex justify-center px-4 py-2.5 text-sm font-bold">
+                  Get started
+                </Link>
+                <Link href="/sign-in" className="btn-secondary flex justify-center px-4 py-2.5 text-sm font-semibold">
+                  Sign in
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
-    </>
+    </header>
   );
 }

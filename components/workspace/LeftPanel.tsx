@@ -58,6 +58,10 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
     handleRemoveUpload,
     isGenerating,
     start3DGeneration,
+    isPreparingImage,
+    meshEngines,
+    selectedEngine,
+    setSelectedEngineId,
     modelTopology,
     setModelTopology,
     resolution,
@@ -77,7 +81,6 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [modelDropdownOpen, setModelDropdownOpen] = useState(false);
-  const [selectedModel, setSelectedModel] = useState("Meshy 7.1 - Flagship");
 
   // Drag and drop handlers
   const handleDragOver = (e: React.DragEvent) => {
@@ -144,7 +147,10 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                     background: `linear-gradient(135deg, ${item.gradientFrom}, ${item.gradientTo})`,
                   }}
                 >
-                  {item.type === "image" ? (
+                  {item.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover rounded-lg" />
+                  ) : item.type === "image" ? (
                     <ImageIcon className="w-8 h-8 text-white/70" />
                   ) : (
                     <Box className="w-8 h-8 text-white/70" />
@@ -155,7 +161,9 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                 </div>
                 <div className="text-[10px] text-text-muted flex items-center justify-between mt-1">
                   <span>{item.category}</span>
-                  <span className="text-neon-green font-semibold">{item.type.toUpperCase()}</span>
+                  <span className="text-neon-green font-semibold">
+                    {item.status && item.status !== "COMPLETED" ? item.status : item.type.toUpperCase()}
+                  </span>
                 </div>
               </div>
             ))}
@@ -457,12 +465,12 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                 onClick={() => setModelDropdownOpen(!modelDropdownOpen)}
                 className="w-full bg-bg-surface-secondary/70 border border-border-subtle rounded-xl px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-bg-surface-hover hover:border-border-secondary transition-colors"
               >
-                <div>
-                  <div className="text-sm font-medium text-text-primary">
-                    {selectedModel}
+                <div className="min-w-0">
+                  <div className="text-sm font-medium text-text-primary truncate">
+                    {selectedEngine?.label || "Select a 3D engine"}
                   </div>
-                  <div className="text-[11px] text-text-muted mt-0.5">
-                    Most detail, highest precision
+                  <div className="text-[11px] text-text-muted mt-0.5 truncate">
+                    {selectedEngine?.description}
                   </div>
                 </div>
                 <ChevronDown
@@ -474,25 +482,29 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
 
               {modelDropdownOpen && (
                 <div className="absolute top-full left-0 right-0 mt-1 bg-bg-surface border border-border-subtle rounded-xl shadow-2xl py-1 z-50 text-xs backdrop-blur-2xl">
-                  {[
-                    { name: "Meshy 7.1 - Flagship", desc: "Most detail, highest precision" },
-                    { name: "Meshy 7.0 - Pro", desc: "Balanced speed and detail" },
-                    { name: "Meshy Fast - Turbo", desc: "Ultra-fast preview generation" },
-                  ].map((m) => (
+                  {meshEngines.map((engine) => (
                     <div
-                      key={m.name}
+                      key={engine.id}
                       onClick={() => {
-                        setSelectedModel(m.name);
+                        if (!engine.configured) return;
+                        setSelectedEngineId(engine.id);
                         setModelDropdownOpen(false);
                       }}
-                      className="px-4 py-2.5 hover:bg-bg-surface-hover cursor-pointer flex items-center justify-between transition-colors"
+                      className={`px-4 py-2.5 flex items-center justify-between gap-2 transition-colors ${
+                        engine.configured
+                          ? "hover:bg-bg-surface-hover cursor-pointer"
+                          : "opacity-50 cursor-not-allowed"
+                      }`}
+                      title={engine.configured ? engine.description : "Not configured on the backend"}
                     >
-                      <div>
-                        <div className="font-medium text-text-primary">{m.name}</div>
-                        <div className="text-[10px] text-text-muted">{m.desc}</div>
+                      <div className="min-w-0">
+                        <div className="font-medium text-text-primary truncate">{engine.label}</div>
+                        <div className="text-[10px] text-text-muted truncate">
+                          {engine.configured ? engine.description : "Not configured on the backend"}
+                        </div>
                       </div>
-                      {selectedModel === m.name && (
-                        <Check className="w-3.5 h-3.5 text-neon-green" />
+                      {selectedEngine?.id === engine.id && (
+                        <Check className="w-3.5 h-3.5 text-neon-green flex-shrink-0" />
                       )}
                     </div>
                   ))}
@@ -538,7 +550,7 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".png,.jpg,.jpeg,.webp"
+                accept=".png,.jpg,.jpeg,.webp,.gif"
                 className="hidden"
                 onChange={(e) => {
                   if (e.target.files && e.target.files[0]) {
@@ -566,7 +578,7 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                     <X className="w-3.5 h-3.5" />
                   </button>
                   <div className="absolute bottom-2 left-2 bg-bg-surface/90 backdrop-blur px-2 py-0.5 rounded text-[10px] text-text-primary max-w-[200px] truncate border border-border-subtle">
-                    {uploadedFileName || "Source Image Ready"}
+                    {isPreparingImage ? "Preparing image..." : uploadedFileName || "Source Image Ready"}
                   </div>
                 </div>
               ) : (
@@ -576,9 +588,9 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                     Click / Drag & Drop / Paste Image
                   </p>
                   <p className="text-[11px] text-text-muted mt-1">
-                    Supported Formats: .png, .jpg, .jpeg, .webp
+                    Supported Formats: .png, .jpg, .jpeg, .webp, .gif
                   </p>
-                  <p className="text-[11px] text-text-faint">Max size: 20MB</p>
+                  <p className="text-[11px] text-text-faint">Max size: 10MB</p>
                 </div>
               )}
             </div>
@@ -644,6 +656,22 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
                 );
               })}
             </div>
+          </div>
+
+          {/* DESIGN PROMPT (stored with the design on the backend) */}
+          <div className="mt-5 mx-3">
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <Wand2 className="w-3.5 h-3.5 text-neon-green" />
+              <span className="text-sm text-text-primary">Prompt</span>
+              <span className="text-[10px] text-text-muted">(optional)</span>
+            </div>
+            <textarea
+              rows={2}
+              value={promptText}
+              onChange={(e) => setPromptText(e.target.value)}
+              placeholder="Describe the model (e.g. A clean product model with smooth edges)"
+              className="w-full bg-bg-surface-secondary/60 border border-border-subtle focus:border-neon-green/60 rounded-xl p-3 text-xs text-text-primary placeholder:text-text-muted outline-none resize-none leading-relaxed transition-colors"
+            />
           </div>
 
           {/* MULTI-VIEW TOGGLE */}
@@ -786,10 +814,10 @@ export function LeftPanel({ workspace }: LeftPanelProps) {
           {/* GENERATE 3D MODEL BUTTON */}
           <div className="mt-4 mx-3 mb-6">
             <button
-              disabled={isGenerating}
+              disabled={isGenerating || isPreparingImage}
               onClick={start3DGeneration}
               className={`btn-primary w-full h-[52px] rounded-xl flex items-center justify-center gap-2 select-none ${
-                isGenerating ? "opacity-60 cursor-not-allowed" : "cursor-pointer"
+                isGenerating || isPreparingImage ? "opacity-60 cursor-not-allowed" : "cursor-pointer"
               }`}
             >
               <Sparkles className="w-4 h-4 text-[#050508] stroke-[2.5]" />

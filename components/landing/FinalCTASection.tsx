@@ -3,68 +3,46 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 export function FinalCTASection() {
+  const { isSignedIn } = useAuth();
+
   return (
-    <section id="final-cta" className="relative bg-bg-base py-28 lg:py-36 overflow-hidden">
-      {/* Radial green and blue ambient glows behind content */}
-      <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[#00ffa3]/10 blur-[160px] rounded-full pointer-events-none" />
-      <div className="absolute top-1/2 right-1/3 translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[#00c3ff]/10 blur-[160px] rounded-full pointer-events-none" />
+    <section id="get-started" className="relative px-6 pb-24 lg:pb-32">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="relative mx-auto max-w-5xl overflow-hidden rounded-[28px] border border-border-subtle bg-bg-surface px-6 py-16 text-center shadow-xl sm:px-12"
+      >
+        <div className="pointer-events-none absolute -top-24 left-1/4 h-72 w-72 rounded-full bg-[#00ffa3]/20 blur-[100px]" />
+        <div className="pointer-events-none absolute -bottom-24 right-1/4 h-72 w-72 rounded-full bg-[#00c3ff]/20 blur-[100px]" />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          {/* Animated live pill */}
-          <div className="live-pill mb-6">
-            <span className="dot" />
-            <span className="text-xs font-semibold">
-              Start Free · No Credit Card Required
-            </span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-text-primary tracking-tight leading-tight">
-            Start Converting Images to <span className="accent">3D — Free</span>
+        <div className="relative">
+          <h2 className="text-3xl font-bold leading-tight tracking-tight text-text-primary sm:text-4xl lg:text-5xl">
+            Your next print starts with <span className="hero-title"><span className="accent">a photo</span></span>
           </h2>
-
-          <p className="text-base sm:text-lg text-text-secondary mt-5 max-w-xl mx-auto leading-relaxed">
-            No credit card required. No software to download. Generate your first
-            3D model in under a minute.
+          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-text-secondary sm:text-lg">
+            Sign in with your email, upload an image and download your first STL in minutes.
           </p>
-
-          <motion.div
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="mt-8 inline-block"
-          >
+          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
-              href="/workspace"
-              className="btn-primary group inline-flex items-center gap-3 font-bold px-10 py-4 text-lg shadow-2xl"
+              href={isSignedIn ? "/workspace" : "/sign-up"}
+              className="btn-primary group inline-flex items-center gap-2 px-8 py-3.5 text-base font-bold shadow-xl"
             >
-              <span>Start Converting to 3D</span>
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 text-[#050508]" />
+              {isSignedIn ? "Open workspace" : "Get started"}
+              <ArrowRight className="h-4 w-4 text-[#050508] transition-transform group-hover:translate-x-1" />
             </Link>
-          </motion.div>
-
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-text-muted">
-            <span className="flex items-center gap-2">
-              <span className="status-dot" />
-              Free monthly credits
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="neon-bullet !mt-0" />
-              Commercial license available
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="status-dot" />
-              Direct GLB / FBX / OBJ export
-            </span>
+            {!isSignedIn && (
+              <Link href="/sign-in" className="btn-secondary inline-flex items-center px-6 py-3.5 text-sm font-semibold">
+                I already have an account
+              </Link>
+            )}
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </section>
   );
 }

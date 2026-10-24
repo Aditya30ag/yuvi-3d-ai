@@ -1,16 +1,9 @@
-import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 
 export async function POST(req: NextRequest) {
-  try {
-    auth();
-  } catch {
-    // Guest or demo session allowed
-  }
-
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File | null;

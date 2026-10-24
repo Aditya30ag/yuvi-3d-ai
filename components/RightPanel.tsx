@@ -114,7 +114,7 @@ export function RightPanel({
           const isSelected = selectedGeneration?.id === item.id;
           const is3D = item.type === "3d" || ("model_urls" in item && Boolean((item as MeshyImage3DTask).model_urls?.glb));
           const thumb =
-            item.thumbnail_url ||
+            (item as MeshyImage3DTask).thumbnail_url ||
             (item as MeshyImageTask).image_urls?.[0] ||
             "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80";
 
