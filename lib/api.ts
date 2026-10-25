@@ -91,6 +91,18 @@ export interface MakeDesignResponse {
   output_format: string;
 }
 
+export interface GenerateImagePayload {
+  prompt: string;
+  style?: string;
+  aspect_ratio?: string;
+}
+
+export interface GenerateImageResponse {
+  image_urls: string[];
+  model: string;
+  seed: number | null;
+}
+
 export interface RequestOtpResponse {
   detail: string;
   dev_code?: string;
@@ -289,6 +301,10 @@ export function make3DDesign({ image, prompt, provider, model, options }: MakeDe
     method: "POST",
     body: formData,
   });
+}
+
+export function generateImage(payload: GenerateImagePayload) {
+  return requestJson<GenerateImageResponse>("/api/v1/3d/generate_image/", jsonBody(payload));
 }
 
 export async function listDesigns(): Promise<Design[]> {

@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { toast } from "sonner";
-import { createGenerateImageTask, pollImageTask } from "@/lib/meshy";
 import {
   ApiError,
   BackendProvider,
@@ -13,6 +12,7 @@ import {
   MeshProvider,
   deleteDesign,
   downloadDesignStl,
+  generateImage,
   getDesign,
   getHealth,
   imageUrlToFile,
@@ -359,7 +359,7 @@ export function useWorkspace() {
     setGenerationStage("Cancelled");
   }, []);
 
-  // 1) IMAGE GENERATION WORKFLOW
+  // 1) IMAGE GENERATION WORKFLOW (backend: Fal FLUX text-to-image)
   const startImageGeneration = useCallback(async () => {
     const finalPrompt = promptText.trim() || "Futuristic mecha guardian with sleek neon highlights, cinematic lighting";
     setIsGenerating(true);
@@ -367,121 +367,62 @@ export function useWorkspace() {
     setGenerationProgress(15);
     setGenerationStage("Interpreting prompt semantics & styles...");
     setSelectedCard(null);
-    setCoins((prev) => Math.max(0, prev - 10));
 
     activePollingRef.current = true;
 
+    // The backend answers in one request; animate progress while we wait
+    let progress = 15;
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      progress = Math.min(progress + Math.floor(Math.random() * 8) + 4, 92);
+      setGenerationProgress(progress);
+      if (progress > 70) {
+        setGenerationStage("Refining high-frequency texture details...");
+      } else if (progress > 40) {
+        setGenerationStage("Synthesizing diffusion latent vectors...");
+      }
+    }, 700);
+
     try {
-      const taskId = await createGenerateImageTask({
+      const { image_urls } = await generateImage({
         prompt: finalPrompt,
         style: artStyle,
         aspect_ratio: aspectRatio,
       });
+      if (timerRef.current) clearInterval(timerRef.current);
+      // Cancelled while the request was in flight
+      if (!activePollingRef.current) return;
+      activePollingRef.current = false;
 
-      // Poll task with fallback simulation
-      let progress = 15;
-      timerRef.current = setInterval(async () => {
-        if (!activePollingRef.current) return;
+      const newImg = image_urls[0];
+      setIsGenerating(false);
+      setGenerationProgress(100);
+      setGenerationStage("Complete! 2D Artwork Synthesized");
+      setGeneratedImageUrl(newImg);
+      setCoins((prev) => Math.max(0, prev - 10));
 
-        try {
-          const res = await pollImageTask(taskId);
-          if (res.status === "SUCCEEDED" && res.image_urls && res.image_urls.length > 0) {
-            if (timerRef.current) clearInterval(timerRef.current);
-            setIsGenerating(false);
-            setGenerationProgress(100);
-            setGenerationStage("Complete! 2D Artwork Synthesized");
-
-            const newImg = res.image_urls[0];
-            setGeneratedImageUrl(newImg);
-
-            // Add to gallery
-            const newItem: GalleryItem = {
-              id: `gen_img_${Date.now()}`,
-              type: "image",
-              badge: "GENERATED",
-              title: finalPrompt.slice(0, 24) + "...",
-              category: artStyle.toUpperCase(),
-              gradientFrom: "#1e1b4b",
-              gradientTo: "#312e81",
-              imageUrl: newImg,
-              prompt: finalPrompt,
-            };
-
-            setGalleryItems((prev) => [newItem, ...prev]);
-            setSelectedCard(newItem.id);
-            return;
-          }
-        } catch {
-          // If polling fails or mock timer needed
-        }
-
-        progress += Math.floor(Math.random() * 12) + 8;
-        if (progress >= 95) progress = 95;
-        setGenerationProgress(progress);
-
-        if (progress > 70) {
-          setGenerationStage("Refining high-frequency texture details...");
-        } else if (progress > 40) {
-          setGenerationStage("Synthesizing diffusion latent vectors...");
-        }
-
-        // If taking more than 5 seconds in mock mode
-        if (progress >= 95) {
-          if (timerRef.current) clearInterval(timerRef.current);
-          setIsGenerating(false);
-          setGenerationProgress(100);
-          setGenerationStage("Complete! 2D Artwork Synthesized");
-
-          const fallbackImg = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80";
-          setGeneratedImageUrl(fallbackImg);
-
-          const newItem: GalleryItem = {
-            id: `gen_img_${Date.now()}`,
-            type: "image",
-            badge: "GENERATED",
-            title: finalPrompt.slice(0, 24) + "...",
-            category: artStyle.toUpperCase(),
-            gradientFrom: "#1e1b4b",
-            gradientTo: "#312e81",
-            imageUrl: fallbackImg,
-            prompt: finalPrompt,
-          };
-
-          setGalleryItems((prev) => [newItem, ...prev]);
-          setSelectedCard(newItem.id);
-        }
-      }, 700);
-    } catch {
-      // Local fallback simulation if offline or error
-      let p = 20;
-      timerRef.current = setInterval(() => {
-        p += 15;
-        if (p >= 100) {
-          if (timerRef.current) clearInterval(timerRef.current);
-          setIsGenerating(false);
-          setGenerationProgress(100);
-          setGenerationStage("Complete! 2D Artwork Synthesized");
-
-          const fallbackImg = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80";
-          setGeneratedImageUrl(fallbackImg);
-
-          const newItem: GalleryItem = {
-            id: `gen_img_${Date.now()}`,
-            type: "image",
-            badge: "GENERATED",
-            title: finalPrompt.slice(0, 24) + "...",
-            category: artStyle.toUpperCase(),
-            gradientFrom: "#1e1b4b",
-            gradientTo: "#312e81",
-            imageUrl: fallbackImg,
-            prompt: finalPrompt,
-          };
-          setGalleryItems((prev) => [newItem, ...prev]);
-          setSelectedCard(newItem.id);
-        } else {
-          setGenerationProgress(p);
-        }
-      }, 500);
+      const newItem: GalleryItem = {
+        id: `gen_img_${Date.now()}`,
+        type: "image",
+        badge: "GENERATED",
+        title: finalPrompt.slice(0, 24) + "...",
+        category: artStyle.toUpperCase(),
+        gradientFrom: "#1e1b4b",
+        gradientTo: "#312e81",
+        imageUrl: newImg,
+        prompt: finalPrompt,
+      };
+      setGalleryItems((prev) => [newItem, ...prev]);
+      setSelectedCard(newItem.id);
+    } catch (err) {
+      if (timerRef.current) clearInterval(timerRef.current);
+      if (!activePollingRef.current) return;
+      activePollingRef.current = false;
+      setIsGenerating(false);
+      setGenerationType(null);
+      setGenerationProgress(0);
+      setGenerationStage("Failed");
+      toast.error(errorMessage(err, "Image generation failed"));
     }
   }, [promptText, artStyle, aspectRatio]);
 
