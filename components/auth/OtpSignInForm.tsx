@@ -10,13 +10,14 @@ import { useAuth } from "@/components/auth/AuthProvider";
 
 interface OtpSignInFormProps {
   mode: "sign-in" | "sign-up";
+  onUsePassword?: () => void;
 }
 
 const CODE_LENGTH = 6;
 // Matches the backend's OTP_RESEND_COOLDOWN_SECONDS
 const RESEND_COOLDOWN_SECONDS = 60;
 
-export function OtpSignInForm({ mode }: OtpSignInFormProps) {
+export function OtpSignInForm({ mode, onUsePassword }: OtpSignInFormProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { isLoaded, isSignedIn, signIn } = useAuth();
@@ -248,6 +249,16 @@ export function OtpSignInForm({ mode }: OtpSignInFormProps) {
               </button>
             )}
           </p>
+        )}
+
+        {onUsePassword && (
+          <button
+            type="button"
+            onClick={onUsePassword}
+            className="text-center text-xs font-semibold text-text-muted hover:text-neon-green"
+          >
+            Use a password instead
+          </button>
         )}
       </form>
 

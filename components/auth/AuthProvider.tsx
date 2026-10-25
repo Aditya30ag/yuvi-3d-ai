@@ -6,8 +6,10 @@ import {
   clearSession,
   getStoredEmail,
   getStoredToken,
+  loginWithPassword,
   logout,
   setUnauthorizedHandler,
+  signupWithPassword,
   storeSession,
   verifyOtp,
 } from "@/lib/api";
@@ -17,6 +19,8 @@ interface AuthContextType {
   isSignedIn: boolean;
   email: string | null;
   signIn: (email: string, code: string) => Promise<void>;
+  signInWithPassword: (identifier: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string) => Promise<void>;
   signOut: (redirectTo?: string) => Promise<void>;
 }
 
@@ -36,12 +40,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoaded(true);
   }, []);
 
-  const signIn = useCallback(async (rawEmail: string, code: string) => {
-    const data = await verifyOtp(rawEmail, code);
-    storeSession(data.access_token, data.email);
-    setToken(data.access_token);
-    setEmail(data.email);
+  const startSession = useCallback((accessToken: string, sessionEmail: string) => {
+    storeSession(accessToken, sessionEmail);
+    setToken(accessToken);
+    setEmail(sessionEmail);
   }, []);
+
+  const signIn = useCallback(
+    async (rawEmail: string, code: string) => {
+      const data = await verifyOtp(rawEmail, code);
+      startSession(data.access_token, data.email);
+    },
+    [startSession]
+  );
+
+  const signInWithPassword = useCallback(
+    async (identifier: string, password: string) => {
+      const data = await loginWithPassword(identifier, password);
+      startSession(data.access_token, data.email || data.username);
+    },
+    [startSession]
+  );
+
+  const signUp = useCallback(
+    async (rawEmail: string, password: string) => {
+      const data = await signupWithPassword(rawEmail, password);
+      startSession(data.access_token, data.email);
+    },
+    [startSession]
+  );
 
   const signOut = useCallback(
     async (redirectTo = "/") => {
@@ -67,8 +94,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [router, pathname]);
 
   const value = useMemo(
-    () => ({ isLoaded, isSignedIn: Boolean(token), email, signIn, signOut }),
-    [isLoaded, token, email, signIn, signOut]
+    () => ({
+      isLoaded,
+      isSignedIn: Boolean(token),
+      email,
+      signIn,
+      signInWithPassword,
+      signUp,
+      signOut,
+    }),
+    [isLoaded, token, email, signIn, signInWithPassword, signUp, signOut]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

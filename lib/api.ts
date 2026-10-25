@@ -8,7 +8,7 @@
  */
 
 export const API_BASE_URL = (
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000"
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://yono3dui.onrender.com"
 ).replace(/\/$/, "");
 
 export const TOKEN_STORAGE_KEY = "yuvi_access_token";
@@ -101,6 +101,13 @@ export interface VerifyOtpResponse {
   email: string;
 }
 
+export interface PasswordAuthResponse {
+  access_token: string;
+  user_id: number;
+  username: string;
+  email: string;
+}
+
 export class ApiError extends Error {
   status: number;
 
@@ -181,7 +188,7 @@ async function request(path: string, { auth = true, headers, ...init }: RequestO
     response = await fetch(`${API_BASE_URL}${path}`, { ...init, headers: finalHeaders });
   } catch {
     throw new ApiError(
-      `Cannot reach the backend at ${API_BASE_URL}. Is the Django server running?`,
+      `Cannot reach the backend at ${API_BASE_URL}. Check your connection or try again in a minute.`,
       0
     );
   }
@@ -217,6 +224,21 @@ function jsonBody(body: unknown): RequestInit {
 // ---------------------------------------------------------------------------
 // Accounts: /accounts/*
 // ---------------------------------------------------------------------------
+
+export function signupWithPassword(email: string, password: string) {
+  return requestJson<PasswordAuthResponse>("/accounts/signup/", {
+    auth: false,
+    ...jsonBody({ email, password }),
+  });
+}
+
+/** `identifier` is an email or username; the backend matches either, case-insensitively. */
+export function loginWithPassword(identifier: string, password: string) {
+  return requestJson<PasswordAuthResponse>("/accounts/login/", {
+    auth: false,
+    ...jsonBody({ identifier, password }),
+  });
+}
 
 export function requestOtp(email: string) {
   return requestJson<RequestOtpResponse>("/accounts/request-otp/", {
