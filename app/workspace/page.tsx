@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useRouter } from "next/navigation";
 import { useWorkspace } from "@/hooks/useWorkspace";
@@ -9,11 +9,13 @@ import { IconSidebar } from "@/components/workspace/IconSidebar";
 import { LeftPanel } from "@/components/workspace/LeftPanel";
 import { CenterCanvas } from "@/components/workspace/CenterCanvas";
 import { RightPanel } from "@/components/workspace/RightPanel";
+import { PricingModal } from "@/components/workspace/PricingModal";
 
 export default function WorkspacePage() {
   const { isLoaded, isSignedIn } = useAuth();
   const router = useRouter();
   const workspace = useWorkspace();
+  const [isPricingOpen, setIsPricingOpen] = useState(false);
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
@@ -35,10 +37,12 @@ export default function WorkspacePage() {
       {/* TOP NAVIGATION BAR (Fixed top-0, height 48px) */}
       <TopNav
         coins={workspace.coins}
-        onUpgradeClick={() => {
-          // Trigger upgrade or banner focus
-        }}
+        onUpgradeClick={() => setIsPricingOpen(true)}
+        activeFeature={workspace.activeFeature}
+        onSelectFeature={workspace.setActiveFeature}
       />
+
+      <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} />
 
       {/* 4 COLUMNS FULL-SCREEN CONTAINER (Below 48px TopNav) */}
       <div className="relative w-full h-[calc(100vh-48px)] mt-[48px] bg-bg-base flex overflow-hidden transition-colors">
